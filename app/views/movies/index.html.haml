@@ -1,15 +1,10 @@
-%h1 Listing movies
+%script{:type => 'text/template', :id => 'movie-details'}
+  = render partial: 'movie_details'
 
-.row
-  .span12
-    %ul.thumbnails
-      - @movies.each do |movie|
-        %li.span4
-          = link_to movie, :class => 'thumbnail' do
-            = image_tag movie.poster
-            %h5
-              = movie.title
-          = link_to 'poster', movie.poster
+%script{:type => 'text/template', :id => 'movie-list'}
+  = render partial: 'movie_list'
 
+- content_for :footer do
+  :javascript
+    Movies.reset(#{@movies.to_json});
 
-= link_to 'New Movie', new_movie_path

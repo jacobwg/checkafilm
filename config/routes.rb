@@ -6,7 +6,7 @@ InformedCinema::Application.routes.draw do
 
   match '/search' => 'movies#search'
 
-  resources :movies
+  resources :movies, :only => [:index, :show]
 
   root :to => 'movies#index'
 

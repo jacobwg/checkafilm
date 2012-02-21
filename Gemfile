@@ -60,4 +60,5 @@ gem 'unicorn'
 gem 'fog'
 gem 'carrierwave'
 gem 'mime-types'
+gem 'mini_magick'
 

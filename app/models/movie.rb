@@ -9,6 +9,9 @@ class Movie < ActiveRecord::Base
 
   has_many :subtitles
 
+  mount_uploader :poster, PhotoAssetUploader
+  mount_uploader :backdrop, PhotoAssetUploader
+
   extend FriendlyId
   friendly_id :imdbid, use: :slugged
 
@@ -62,7 +65,7 @@ class Movie < ActiveRecord::Base
     self.year = result['Year']
     self.mpaa_rating = result['Rated']
     self.plot_summary = result['Plot']
-    self.poster = result['Poster']
+    self.remote_poster_url = result['Poster']
     self.runtime = result['Runtime']
     self.rating = result['Rating']
     self.votes = result['Votes']
@@ -82,7 +85,7 @@ class Movie < ActiveRecord::Base
       tmdb_backdrop = i if i['image']['width'] > tmdb_backdrop['image']['width']
     end
 
-    self.backdrop = tmdb_backdrop['image']['url']
+    self.remote_backdrop_url = tmdb_backdrop['image']['url']
     self.plot_details = result['overview']
     self.tmdb_url = result['url']
 

@@ -1,0 +1,75 @@
+{{#if added }}
+<div class="row">
+	<div class="span12">
+		<p><img src="/assets/loading.gif" alt="Loading indicator" /> We've added that movie to the queue - this page will refresh when it has been processed...</p>
+	</div>
+</div>
+{{/if}}
+
+{{#if not_added }}
+
+	<div class='row'>
+		<div class='span4'>
+			<img alt="{{ title }} Poster Image" src="{{ poster.url }}" />
+		</div>
+		<div class='span8 movie-details'>
+			<div class='btn-toolbar pull-right'>
+				<div class='btn-group'>
+					{{#if imdb_url }}<a href="{{ imdb_url }}" class="btn">IMDb</a>{{/if}}
+					{{#if tmdb_url }}<a href="{{ tmdb_url }}" class="btn">TMDb</a>{{/if}}
+					{{#if pluggedin_url }}<a href="{{ pluggedin_url }}" class="btn">PluggedIn</a>{{/if}}
+					{{#if kidsinmind_url }}<a href="{{ kidsinmind_url }}" class="btn">Kids In Mind</a>{{/if}}
+				</div>
+			</div>
+			<h1>{{ title }} ({{ year }})
+				<small><span class='label info'>{{ mpaa_rating }}</span></small>
+			</h1>
+			<h2>About the Movie</h2>
+			<p>{{ plot_summary }}</p>
+			<h3>Plot Summary</h3>
+			<p>{{ plot_details }}</p>
+
+			{{#if kim_sex }}
+			<h2>Kids in Mind Rating</h2>
+			<div class='row'>
+				<div class='span4'>
+					<table class='table table-bordered' style='background-color: #fff;'>
+						<tr>
+							<th>Sexual Content</th>
+							<td>{{ kim_sex }}</td>
+						</tr>
+						<tr>
+							<th>Violence</th>
+							<td>{{ kim_violence }}</td>
+						</tr>
+						<tr>
+							<th>Language/profanity</th>
+							<td>{{ kim_language }}</td>
+						</tr>
+					</table>
+				</div>
+				<div class='span4'>
+					<p>Some description of these numbers here...</p>
+				</div>
+			</div>
+			{{/if}}
+
+			<style>
+			/*<![CDATA[*/
+			html {
+			background: url({{ backdrop.url }}) no-repeat center center fixed;
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+			filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{{ backdrop.url }}', sizingMethod='scale');
+			-ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{{ backdrop.url }}', sizingMethod='scale')";
+			}
+			body {
+			background: none;
+			}
+			/*]]>*/
+			</style>
+		</div>
+	</div>
+{{/if}}
