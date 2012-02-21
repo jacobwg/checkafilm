@@ -1,0 +1,35 @@
+!!! html5
+%html
+  %head
+    %title InformedCinema
+    = stylesheet_link_tag    "application", :media => "all"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+    \<!--[if lt IE 9]>
+    \      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    \    <![endif]-->
+    %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
+  %body
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container
+          %a.btn.btn-navbar{ :'data-toggle' => 'collapse', :'data-target' => '.nav-collapse'}
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          %a.brand{:href => '/'} Informed Cinema
+          .nav-collapse
+            %ul.nav
+              %li
+                = link_to 'Movies', movies_path
+            %form.navbar-search.pull-left#searchform
+              %input{:id => 'moviesearch', :name => 'q', :class => "ui-autocomplete-input", :autocomplete => "off", :role => "textbox", :'aria-autocomplete' => "list", :'aria-haspopup' => "true"}
+    .container
+      = yield
+      %footer.footer
+        %p.pull-right
+          %a{:href => '#'} Back to top
+        %p Built by Jacob Gillespie | Copyright &copy; #{Date.today.year}
+        %p Powered by The Movie DB, IMDb, Plugged In, and Kids in Mind
+
+

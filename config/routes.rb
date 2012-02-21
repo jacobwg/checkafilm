@@ -1,4 +1,15 @@
+require 'resque/server'
+
 InformedCinema::Application.routes.draw do
+
+  mount Resque::Server.new, :at => "/resque"
+
+  match '/search' => 'movies#search'
+
+  resources :movies
+
+  root :to => 'movies#index'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

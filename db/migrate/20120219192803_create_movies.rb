@@ -23,5 +23,7 @@ class CreateMovies < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_index :movies, :imdbid
   end
 end

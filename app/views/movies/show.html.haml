@@ -1,0 +1,89 @@
+%p#notice= notice
+
+- if @movie.added?
+  .row
+    .span4
+    .span8.movie-details
+      %p
+        = image_tag 'loading.gif'
+        We've added that movie to the queue - this page will refresh when it has been processed...
+      :javascript
+        jQuery(function($) {
+          window.checkLoaded = function() {
+            $.getJSON(window.location, function(data, status, xhr) {
+              if (data.status == 'added'){
+                setTimeout('window.checkLoaded()', 1000);
+              } else {
+                window.location = window.location;
+              }
+            });
+          };
+
+          window.checkLoaded();
+        });
+- else
+
+  .row
+    .span4
+      = image_tag @movie.poster, :style => 'float:left; margin-right: 40px'
+    .span8{:style => 'background-color: rgba(255,255,255,0.7); padding: 10px; margin-right: -20px;'}
+      .btn-toolbar.pull-right
+        .btn-group
+          = link_to 'IMDb', @movie.imdb_url, :class => 'btn' if @movie.imdb_url
+          = link_to 'TMDb', @movie.tmdb_url, :class => 'btn' if @movie.tmdb_url
+          = link_to 'PluggedIn', @movie.pluggedin_url, :class => 'btn' if @movie.pluggedin_url
+          = link_to 'Kids In Mind', @movie.kidsinmind_url, :class => 'btn' if @movie.kidsinmind_url
+      %h1
+        = "#{@movie.title} (#{@movie.year})"
+        %small
+          %span.label.info= @movie.mpaa_rating
+
+
+
+
+      %h2 About the Movie
+
+      %p= @movie.plot_summary
+
+      %h3 Plot Summary
+
+      %p= @movie.plot_details
+
+
+
+      - unless @movie.kim_sex.nil?
+
+        %h2 Kids in Mind Rating
+        .row
+          .span4
+            %table.table.table-bordered{:style => 'background-color: #fff;' }
+              %tr
+                %th Sexual Content
+                %td= @movie.kim_sex
+              %tr
+                %th Violence
+                %td= @movie.kim_violence
+              %tr
+                %th Language/profanity
+                %td= @movie.kim_language
+          .span4
+            %p Some description of these numbers here...
+
+      = link_to 'Edit', edit_movie_path(@movie)
+      \|
+      = link_to 'Destroy', @movie, :confirm => 'Are you sure?', :method => :delete
+      \|
+      = link_to 'Back', movies_path
+      :css
+        html {
+          background: url(#{@movie.backdrop}) no-repeat center center fixed;
+          -webkit-background-size: cover;
+          -moz-background-size: cover;
+          -o-background-size: cover;
+          background-size: cover;
+          filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{@movie.backdrop}', sizingMethod='scale');
+          -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{@movie.backdrop}', sizingMethod='scale')";
+        }
+        body {
+          background: none;
+        }

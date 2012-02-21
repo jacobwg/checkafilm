@@ -40,3 +40,24 @@ gem 'jquery-rails'
 gem "haml", ">= 3.0.0"
 gem "haml-rails"
 gem "settingslogic"
+
+gem 'friendly_id', '>= 4.0.0'
+
+gem 'aasm'
+
+gem 'nokogiri'
+
+gem 'curb'
+
+gem 'resque'
+gem 'resque-loner'
+
+gem 'imdb'
+
+gem 'thin'
+gem 'unicorn'
+
+gem 'fog'
+gem 'carrierwave'
+gem 'mime-types'
+

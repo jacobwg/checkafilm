@@ -1,0 +1,15 @@
+%h1 Listing movies
+
+.row
+  .span12
+    %ul.thumbnails
+      - @movies.each do |movie|
+        %li.span4
+          = link_to movie, :class => 'thumbnail' do
+            = image_tag movie.poster
+            %h5
+              = movie.title
+          = link_to 'poster', movie.poster
+
+
+= link_to 'New Movie', new_movie_path
