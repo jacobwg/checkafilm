@@ -20,45 +20,48 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+# Javascript framework
 gem 'jquery-rails'
 
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
-
-# Use unicorn as the web server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger
-# gem 'ruby-debug19', :require => 'ruby-debug'
-
+# HAML markup language support
 gem "haml", ">= 3.0.0"
 gem "haml-rails"
+
+# Settings YAML file
 gem "settingslogic"
 
+# Friendly URLs
 gem 'friendly_id', '>= 4.0.0'
 
+# State machines
 gem 'aasm'
 
+# HTML and XML parser
 gem 'nokogiri'
 
+# Native curl bindings - for downloading stuff
 gem 'curb'
 
+# Background job processing
 gem 'resque'
 gem 'resque-loner'
 
+# IMDb API
 gem 'imdb'
 
+# Servers
 gem 'thin'
 gem 'unicorn'
 
+# Image processing and storage (local cache of covers)
 gem 'fog'
 gem 'carrierwave'
 gem 'mime-types'
 gem 'mini_magick'
+
+# Handlebars tempates for server and client
+group :assets do
+  gem 'handlebars_assets'
+end
+gem 'hbs', :require => 'handlebars'
 
