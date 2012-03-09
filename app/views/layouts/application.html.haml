@@ -17,13 +17,10 @@
             %span.icon-bar
             %span.icon-bar
             %span.icon-bar
-          %a.brand{:href => '/#'} Informed Cinema
+          %a.brand{:href => '/'} Informed Cinema
           .nav-collapse
-            %ul.nav
-              %li
-                = link_to 'Movies', movies_path
-            %form.navbar-search.pull-left#searchform
-              %input{:id => 'moviesearch', :name => 'q', :class => "ui-autocomplete-input", :autocomplete => "off", :role => "textbox", :'aria-autocomplete' => "list", :'aria-haspopup' => "true"}
+            %form.navbar-search.pull-right#searchform
+              %input{:id => 'moviesearch', :name => 'q', :class => "ui-autocomplete-input", :autocomplete => "off", :role => "textbox", :'aria-autocomplete' => "list", :'aria-haspopup' => "true", :placeholder => 'Search for movie'}
     .container
       #content
       = yield

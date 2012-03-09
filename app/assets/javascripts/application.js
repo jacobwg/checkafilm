@@ -80,7 +80,7 @@ window.checkLoaded = function(imdbid) {
     } else {
       if (window.checkTimeout) clearTimeout(window.checkTimeout);
       window.location.reload(true);
-      window.app.navigate('#movies/' + imdbid, {trigger: true});
+      window.app.navigate('movies/' + imdbid, {trigger: true});
     }
   });
 };
@@ -104,8 +104,18 @@ function searchImdb(query, callback) {
 
 $(function() {
 
+
+
   window.app = new AppRouter();
-  Backbone.history.start();
+  Backbone.history.start({pushState: true});
+
+  $(document).on('click', 'a', function (e) {
+      app.navigate($(this).attr('href'), true);
+      return false;
+  });
+  $(window).on('popstate', function(e) {
+      app.navigate(location.pathname.substr(1), true);
+  });
 
   var cache = function($) {
     var my = {};
