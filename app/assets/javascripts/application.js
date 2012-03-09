@@ -1,7 +1,20 @@
 //= require jquery
-//= require jquery_ui
 //= require jquery_ujs
-//= require_tree .
+
+//= require jquery.autocomplete
+
+//= require underscore
+//= require backbone
+//= require handlebars
+//= require box
+
+//= require app
+
+//= require_tree ./models
+//= require_tree ./collections
+//= require_tree ./templates
+//= require_tree ./views
+//= require_tree ./routers
 
 window.Movie = Backbone.Model.extend({
   idAttribute: "imdbid",
@@ -180,7 +193,7 @@ $(function() {
     $('#moviesearch').removeClass('loading');
   });
 
-  $('#moviesearch').autocomplete({
+  /*$('#moviesearch').autocomplete({
     minLength: 2,
     focus: function(event, ui) {
       $('#moviesearch').val(ui.item.name);
@@ -210,5 +223,5 @@ $(function() {
     }
     el = el.append("<a>" + item.name + "<br>" + item.released + "</a>" ).appendTo( ul );
     return el;
-  };
+  };*/
 });
