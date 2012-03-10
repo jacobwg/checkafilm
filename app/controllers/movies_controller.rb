@@ -6,13 +6,28 @@ class MoviesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @movies }
+      format.json { render_for_api :public, :json => @movies}
     end
   end
 
   def search
-    @query = params[:term]
-    render json: Movie.search(@query)
+    query = params[:query]
+    @search = Movie.search(query)
+    if @search.empty?
+      @json = {
+        query: query,
+        suggestions: [],
+        data: []
+      }
+    else
+      @json = {
+        query: query,
+        suggestions: @search.map { |i| i['name'] },
+        data: @search.map { |i| i['imdb_id'] }
+      }
+    end
+
+    render json: @json
   end
 
   # GET /movies/1
@@ -28,7 +43,7 @@ class MoviesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @movie }
+      format.json { render_for_api :public, :json => @movie, :root => :movie }
     end
   end
 

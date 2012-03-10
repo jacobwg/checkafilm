@@ -4,3 +4,5 @@ window.AppRouter = Backbone.Router.extend
   Collection: {}
   Router: {}
   View: {}
+
+window.App = new AppRouter

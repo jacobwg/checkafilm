@@ -1,10 +1,6 @@
-%script{:type => 'text/template', :id => 'movie-details'}
-  = render partial: 'movie_details'
-
-%script{:type => 'text/template', :id => 'movie-list'}
-  = render partial: 'movie_list'
+= render :inline => Handlebars.compile(File.open("app/assets/javascripts/templates/movies/index.jst.hbs").read).call(:movies => @movies.as_api_response(:public))
 
 - content_for :footer do
   :javascript
-    Movies.reset(#{@movies.to_json});
+    App.movies.reset(#{@movies.to_json});
 

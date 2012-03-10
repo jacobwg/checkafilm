@@ -1,0 +1,76 @@
+{{#if movie.added }}
+<div class="row">
+  <div class="span12">
+    <h1>Now Processing That Movie</h1>
+    <p><img src="/assets/loading.gif" alt="Loading indicator" /> We've added that movie to the queue - this page will refresh when it has been processed...</p>
+  </div>
+</div>
+{{/if}}
+
+{{#if movie.not_added }}
+
+  <div class='row'>
+    <div class='span4'>
+      <img alt="{{ movie.title }} Poster Image" class="movie-poster" src="{{ movie.poster_url }}" />
+    </div>
+    <div class='span8 movie-details'>
+      <div class='btn-toolbar pull-right movie-links'>
+        <div class='btn-group'>
+          {{#if movie.imdb_url }}<a href="{{ movie.imdb_url }}" class="btn">IMDb</a>{{/if}}
+          {{#if movie.tmdb_url }}<a href="{{ movie.tmdb_url }}" class="btn">TMDb</a>{{/if}}
+          {{#if movie.pluggedin_url }}<a href="{{ movie.pluggedin_url }}" class="btn">PluggedIn</a>{{/if}}
+          {{#if movie.kidsinmind_url }}<a href="{{ movie.kidsinmind_url }}" class="btn">Kids In Mind</a>{{/if}}
+        </div>
+      </div>
+      <h1>{{ movie.title }} ({{ movie.year }})
+        <small><span class='label info'>{{ movie.mpaa_rating }}</span></small>
+      </h1>
+      <h2>About the Movie</h2>
+      <p>{{ movie.plot_summary }}</p>
+      <h3>Plot Summary</h3>
+      <p>{{ movie.plot_details }}</p>
+
+      {{#if movie.kim_sex }}
+      <h2>Kids in Mind Rating</h2>
+      <div class='row'>
+        <div class='span4'>
+          <table class='table'>
+            <tr>
+              <th>Sexual Content</th>
+              <td>{{ movie.kim_sex }}</td>
+            </tr>
+            <tr>
+              <th>Violence</th>
+              <td>{{ movie.kim_violence }}</td>
+            </tr>
+            <tr>
+              <th>Language/profanity</th>
+              <td>{{ movie.kim_language }}</td>
+            </tr>
+          </table>
+        </div>
+        <div class='span4'>
+          <p>Some description of these numbers here...</p>
+        </div>
+      </div>
+      {{/if}}
+
+      <style>
+      /*<![CDATA[*/
+      html {
+      background: url({{ movie.backdrop_url }}) no-repeat center center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+      filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{{ movie.backdrop_url }}', sizingMethod='scale');
+      -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{{ movie.backdrop_url }}', sizingMethod='scale')";
+      }
+      body {
+      background: none;
+      }
+      /*]]>*/
+      </style>
+    </div>
+  </div>
+{{/if}}

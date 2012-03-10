@@ -65,3 +65,6 @@ group :assets do
 end
 gem 'hbs', :require => 'handlebars'
 
+# JSON API control
+gem 'acts_as_api'
+

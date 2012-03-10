@@ -12,6 +12,48 @@ class Movie < ActiveRecord::Base
   mount_uploader :poster, PhotoAssetUploader
   mount_uploader :backdrop, PhotoAssetUploader
 
+  ## API Control ##
+
+  acts_as_api
+
+  api_accessible :public do |template|
+    template.add :id
+    template.add :imdbid
+    template.add :title
+    template.add :year
+    template.add :mpaa_rating
+    template.add :plot_summary
+    template.add :plot_details
+    template.add :poster_url
+    template.add :backdrop_url
+    template.add :runtime
+    template.add :rating
+    template.add :votes
+    template.add :tmdbid
+    template.add :imdb_url
+    template.add :tmdb_url
+    template.add :pluggedin_url
+    template.add :kidsinmind_url
+    template.add :kim_sex
+    template.add :kim_violence
+    template.add :kim_language
+    template.add :created_at
+    template.add :updated_at
+    template.add :status
+    template.add :slug
+    template.add :subtitles
+    template.add :added
+    template.add :not_added
+  end
+
+  def added
+    added?
+  end
+
+  def not_added
+    not added?
+  end
+
   extend FriendlyId
   friendly_id :imdbid, use: :slugged
 
@@ -155,7 +197,6 @@ class Movie < ActiveRecord::Base
     result = Curl::Easy.perform(uri).body_str
     return [] if !!(result.match(/^<h1>Not Found/)) or !!(result.match(/^\["Nothing found/))
     JSON.parse(result)
-    result
   end
 
 
