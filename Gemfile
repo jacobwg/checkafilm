@@ -43,6 +43,7 @@ gem 'nokogiri'
 gem 'curb'
 
 # Background job processing
+gem 'redis'
 gem 'resque'
 gem 'resque-loner'
 
