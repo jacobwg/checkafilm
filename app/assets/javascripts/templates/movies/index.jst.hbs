@@ -2,8 +2,8 @@
   <div class="span12">
     <ul class="thumbnails">
       {{#each movies}}
-      <li class="span4">
-          <a href="movies/{{slug}}" class="thumbnail">
+      <li class="span2">
+          <a data-navigate="/movies/{{slug}}" href="/movies/{{slug}}" class="thumbnail">
             <img src="{{poster_url}}" />
             <h5>{{title}}</h5>
           </a>

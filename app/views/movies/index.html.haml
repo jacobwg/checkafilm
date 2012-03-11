@@ -1,6 +1,1 @@
 = render :inline => Handlebars.compile(File.open("app/assets/javascripts/templates/movies/index.jst.hbs").read).call(:movies => @movies.as_api_response(:public))
-
-- content_for :footer do
-  :javascript
-    App.movies.reset(#{@movies.to_json});
-

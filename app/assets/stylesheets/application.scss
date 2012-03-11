@@ -1,7 +1,7 @@
 /*
  *= require bootstrap
  *= require bootstrap-responsive
- *= require jquery.autocomplete
+ *= require jquery-ui
  *= require_self
 */
 
@@ -94,6 +94,10 @@ body {
   }
 }
 
+footer a {
+  color: #fff;
+  font-weight: bold;
+}
 
 
 img.autocomplete {

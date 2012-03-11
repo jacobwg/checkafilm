@@ -7,7 +7,8 @@
 </div>
 {{/if}}
 
-{{#if movie.not_added }}
+
+{{#unless movie.added }}
 
   <div class='row'>
     <div class='span4'>
@@ -55,22 +56,24 @@
       </div>
       {{/if}}
 
-      <style>
-      /*<![CDATA[*/
-      html {
-      background: url({{ movie.backdrop_url }}) no-repeat center center fixed;
-      -webkit-background-size: cover;
-      -moz-background-size: cover;
-      -o-background-size: cover;
-      background-size: cover;
-      filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{{ movie.backdrop_url }}', sizingMethod='scale');
-      -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{{ movie.backdrop_url }}', sizingMethod='scale')";
-      }
-      body {
-      background: none;
-      }
-      /*]]>*/
-      </style>
+      {{#if movie.backdrop_url}}
+        <style>
+        /*<![CDATA[*/
+        html {
+        background: url({{ movie.backdrop_url }}) no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{{ movie.backdrop_url }}', sizingMethod='scale');
+        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{{ movie.backdrop_url }}', sizingMethod='scale')";
+        }
+        body {
+        background: none;
+        }
+        /*]]>*/
+        </style>
+      {{/if}}
     </div>
   </div>
-{{/if}}
+{{/unless}}

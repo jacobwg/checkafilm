@@ -43,15 +43,10 @@ class Movie < ActiveRecord::Base
     template.add :slug
     template.add :subtitles
     template.add :added
-    template.add :not_added
   end
 
   def added
     added?
-  end
-
-  def not_added
-    not added?
   end
 
   extend FriendlyId

@@ -1,14 +1,12 @@
-#= require jquery
+# jquery is loaded from Google
+#= require jquery-ui
 #= require jquery_ujs
-
-#= require jquery.autocomplete
-
-#= require bootstrap
-
+#= require json2
 #= require underscore
 #= require backbone
 #= require handlebars
-#= require box
+#= require bootstrap
+#= require webapp
 
 #= require app
 
@@ -18,34 +16,53 @@
 #= require_tree ./views
 #= require_tree ./routers
 
+window.preloadImage = (src) ->
+  $('<img/>')[0].src = src
+
 jQuery ($) ->
-  $('#moviesearch').autocomplete
-    serviceUrl: '/search'
-    minChars: 2
-    onSelect: (value, data) ->
-      window.location = '/movies/' + data
-  $("#moviesearch").ajaxStart ->
-    $("#top-message").addClass "active"
 
-  $("#moviesearch").ajaxStop ->
-    $("#top-message").removeClass "active"
-  #delimiter: /(,|;)\s*/, // regex or character
-  #maxHeight:400,
-  #width:300,
-  #zIndex: 9999,
-  #deferRequestBy: 0, //miliseconds
-  #params: { country:'Yes' }, //aditional parameters
-  #noCache: false, //default is false, set to true to disable caching
-  #// callback function:
-  #onSelect: function(value, data){ alert('You selected: ' + value + ', ' + data); },
-  #// local autosugest options:
-  #lookup: ['January', 'February', 'March', 'April', 'May'] //local lookup values
+  $( "#moviesearch" ).autocomplete
+    minLength: 1,
+    source: (request, response) ->
+      url = "http://api.themoviedb.org/2.1/Movie.search/en-US/json/" + App.tmdb_api_key + "/" + encodeURIComponent(request.term)
+      $.getJSON "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20json%20where%20url%3D'" + encodeURIComponent(url) + "'&format=json&diagnostics=true&callback=?", (data) ->
+        if data.query.results.json.json
+          response data.query.results.json.json.slice(0, 10)
+        else
+          response []
+    focus: (event, ui) ->
+      $( "#moviesearch" ).val( ui.item.label )
+      false
+    select: (event, ui) ->
+      App.navigate('movies/' + ui.item.imdb_id, trigger: true)
+      false
+  .data( "autocomplete" )._renderItem = (ul, item) ->
+    el = $( "<li></li>" ).data( "item.autocomplete", item )
+    link = $('<a></a>').html(item.name + "<br>" + (new Date(Date.parse(item.released))).getFullYear())
+    img = $("<img width='40' class='autocomplete pull-left' />")
+    img.attr('src', item.posters[0].image.url) if item.posters
+    img.prependTo(link)
+    el.append(link)
+    el.appendTo(ul)
+
+  $('#top-message').ajaxStart ->
+    $(this).addClass "active"
+
+  $('#top-message').ajaxStop ->
+    $(this).removeClass "active"
 
 
-searchImdb = (query, callback) ->
+window.searchTmdb = (query, callback) ->
+ url = "http://api.themoviedb.org/2.1/Movie.search/en-US/json/" + App.tmdb_api_key + "/" + encodeURIComponent(query)
+ $.getJSON "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20json%20where%20url%3D'" + encodeURIComponent(url) + "'&format=json&diagnostics=true&callback=?", (data) ->
+   if data.query.results.json.json
+     callback data.query.results.json.json
+   else
+     callback []
+
+window.searchImdb = (query, callback) ->
   url = "http://www.imdb.com/xml/find?json=1&nr=1&tt=on&q=" + encodeURIComponent(query)
   $.getJSON "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20json%20where%20url%3D'" + encodeURIComponent(url) + "'&format=json&diagnostics=true&callback=?", (data) ->
-    console.info data
     if data.query.results
       callback data.query.results.json
     else
@@ -53,25 +70,26 @@ searchImdb = (query, callback) ->
 
 window.checkLoaded = (imdbid) ->
   $.getJSON "/movies/" + imdbid, (data, status, xhr) ->
-    if data.status is "added"
-      window.checkTimeout = setTimeout("window.checkLoaded(\"" + imdbid + "\")", 1000)
+    if data.added
+      window.checkTimeout = setTimeout("window.checkLoaded(\"" + data.imdbid + "\")", 1000)
     else
       clearTimeout window.checkTimeout if window.checkTimeout
       window.location.reload true
-      window.app.navigate "movies/" + imdbid,
-        trigger: true
 
 
+mobileOnly = (func) ->
+  ua = navigator.userAgent
+  func() if /Android/i.test( ua ) or /iP[ao]d|iPhone/i.test( ua ) or /Mobile/i.test( ua )
 
-
-###
 $ ->
   Backbone.history.start pushState: true
-  $(document).on "click", "a", (e) ->
-    App.navigate $(this).attr("href"),
-      trigger: true
+  $(document).on 'click', 'a[data-navigate]', (e) ->
+    window.App.navigate($(this).attr('data-navigate'), trigger: true)
     false
-###
+  mobileOnly ->
+    setTimeout ->
+      window.scrollTo 0, 1
+    , 1
 
 
 ###

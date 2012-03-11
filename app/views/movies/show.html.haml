@@ -1,2 +1,1 @@
-%p#notice= notice
 = render :inline => Handlebars.compile(File.open("app/assets/javascripts/templates/movies/show.jst.hbs").read).call(:movie => @movie.as_api_response(:public))
