@@ -5,8 +5,8 @@ class CreateMovies < ActiveRecord::Migration
       t.string :title
       t.string :year
       t.string :mpaa_rating
-      t.string :plot_summary
-      t.string :plot_details
+      t.text :plot_summary
+      t.text :plot_details
       t.string :poster
       t.string :backdrop
       t.string :runtime
