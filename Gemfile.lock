@@ -200,6 +200,7 @@ DEPENDENCIES
   nokogiri
   pg
   rails (= 3.2.1)
+  redis
   resque
   resque-loner
   sass-rails (~> 3.2.3)
