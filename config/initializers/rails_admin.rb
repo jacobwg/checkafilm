@@ -121,22 +121,23 @@ RailsAdmin.config do |config|
           bindings[:view].tag(:a, { :href => "http://www.imdb.com/title/#{value}/", :target => '_blank' }) << 'IMDb'
         end
       end
+    end
 
-      show do
-        field :title
-        field :year
-        field :runtime
-        field :mpaa_rating do
-          label 'MPAA Rating'
-        end
-        field :rating do
-          label 'IMDb Rating'
-        end
-        field :votes do
-          label 'IMDb Votes'
-        end
+    show do
+      field :title
+      field :year
+      field :runtime
+      field :mpaa_rating do
+        label 'MPAA Rating'
+      end
+      field :rating do
+        label 'IMDb Rating'
+      end
+      field :votes do
+        label 'IMDb Votes'
       end
     end
+
 
   end
 
