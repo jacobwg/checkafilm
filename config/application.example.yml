@@ -1,5 +1,8 @@
 defaults: &defaults
   tmdb_key: secret
+  aws_key: secret
+  aws_secret: secret
+  s3_bucket: bucket_name
 
 development:
   <<: *defaults
