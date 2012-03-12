@@ -10,7 +10,7 @@ class MoviesController < ApplicationController
 
   def show
     imdbid = params[:id]
-    if imdbid == 'undefined'
+    if imdbid == 'undefined' or !!!imdbid
       redirect_to :root
       return
     end

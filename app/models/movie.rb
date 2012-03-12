@@ -49,6 +49,14 @@ class Movie < ActiveRecord::Base
     added?
   end
 
+  def is_server_response
+    true
+  end
+
+  def title_with_year
+    "#{self.title} (#{self.year})"
+  end
+
   extend FriendlyId
   friendly_id :imdbid, use: :slugged
 
@@ -83,7 +91,7 @@ class Movie < ActiveRecord::Base
   end
 
   def async_load_information
-    Resque.enqueue(LoadMovieInformationJob, self.id)
+    MovieWorker.perform_async(self.id)
   end
 
   def load_information!

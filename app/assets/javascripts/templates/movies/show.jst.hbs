@@ -10,24 +10,36 @@
 
 {{#unless movie.added }}
 
-  <div class='row'>
-    <div class='span4'>
+  <div class="row">
+    <div class="span4">
       <img alt="{{ movie.title }} Poster Image" class="movie-poster" src="{{ movie.poster_url }}" />
     </div>
-    <div class='span8 movie-details'>
-      <div class='btn-toolbar pull-right movie-links'>
-        <div class='btn-group'>
-          {{#if movie.imdb_url }}<a href="{{ movie.imdb_url }}" class="btn">IMDb</a>{{/if}}
-          {{#if movie.tmdb_url }}<a href="{{ movie.tmdb_url }}" class="btn">TMDb</a>{{/if}}
-          {{#if movie.pluggedin_url }}<a href="{{ movie.pluggedin_url }}" class="btn">PluggedIn</a>{{/if}}
-          {{#if movie.kidsinmind_url }}<a href="{{ movie.kidsinmind_url }}" class="btn">Kids In Mind</a>{{/if}}
+    <div class="span8 movie-details">
+      <div class="row">
+        <div class="span5">
+          <h1>{{ movie.title }} ({{ movie.year }})
+            <small><span class='label label-rating{{ movie.mpaa_rating }}'>{{ movie.mpaa_rating }}</span></small>
+          </h1>
+          {{#if movie.runtime}}<p><strong>Runtime:</strong> {{movie.runtime}}</p>{{/if}}
+          {{#if movie.rating}}<p><strong>IMDb Rating:</strong> {{movie.rating}} (from {{movie.votes}} votes){{/if}}
+          <p>{{ movie.plot_summary }}</p>
+        </div>
+        <div class="span3 movie-links">
+          <div class='btn-toolbar'>
+            <div class='btn-group'>
+              {{#if movie.imdb_url }}<a href="{{ movie.imdb_url }}" class="btn" target="_blank">IMDb</a>{{/if}}
+              {{#if movie.tmdb_url }}<a href="{{ movie.tmdb_url }}" class="btn" target="_blank">TMDb</a>{{/if}}
+            </div>
+          </div>
+          <div class='btn-toolbar'>
+            <div class='btn-group'>
+              {{#if movie.pluggedin_url }}<a href="{{ movie.pluggedin_url }}" class="btn" target="_blank">PluggedIn</a>{{/if}}
+              {{#if movie.kidsinmind_url }}<a href="{{ movie.kidsinmind_url }}" class="btn" target="_blank">KidsInMind</a>{{/if}}
+            </div>
+          </div>
         </div>
       </div>
-      <h1>{{ movie.title }} ({{ movie.year }})
-        <small><span class='label info'>{{ movie.mpaa_rating }}</span></small>
-      </h1>
-      <h2>About the Movie</h2>
-      <p>{{ movie.plot_summary }}</p>
+
       <h3>Plot Summary</h3>
       <p>{{ movie.plot_details }}</p>
 
@@ -56,20 +68,13 @@
       </div>
       {{/if}}
 
-      {{#if movie.backdrop_url}}
+      {{#if movie.is_server_response }}
         <style>
         /*<![CDATA[*/
         html {
         background: url({{ movie.backdrop_url }}) no-repeat center center fixed;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
         filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{{ movie.backdrop_url }}', sizingMethod='scale');
         -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='{{ movie.backdrop_url }}', sizingMethod='scale')";
-        }
-        body {
-        background: none;
         }
         /*]]>*/
         </style>

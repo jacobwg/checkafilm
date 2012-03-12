@@ -43,9 +43,9 @@ gem 'nokogiri'
 gem 'curb'
 
 # Background job processing
-gem 'redis'
-gem 'resque'
-gem 'resque-loner'
+gem 'slim'
+gem 'sinatra'
+gem 'sidekiq', '~> 0.9.0', :git => "git://github.com/mperham/sidekiq.git"
 
 # IMDb API
 gem 'imdb'
@@ -69,3 +69,8 @@ gem 'hbs', :require => 'handlebars'
 # JSON API control
 gem 'acts_as_api'
 
+# Admin interface
+gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
+
+# Authentication
+gem "devise"

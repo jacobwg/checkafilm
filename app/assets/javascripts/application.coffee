@@ -25,11 +25,15 @@ jQuery ($) ->
     minLength: 1,
     source: (request, response) ->
       url = "http://api.themoviedb.org/2.1/Movie.search/en-US/json/" + App.tmdb_api_key + "/" + encodeURIComponent(request.term)
-      $.getJSON "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20json%20where%20url%3D'" + encodeURIComponent(url) + "'&format=json&diagnostics=true&callback=?", (data) ->
+      try
+        window.searchRequest.abort() if window.searchRequest
+      window.searchRequest = $.getJSON "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20json%20where%20url%3D'" + encodeURIComponent(url) + "'&format=json&diagnostics=true&callback=?", (data) ->
+        $('#top-message').removeClass "active"
         if data.query.results.json.json
           response data.query.results.json.json.slice(0, 10)
         else
           response []
+      $('#top-message').addClass "active"
     focus: (event, ui) ->
       $( "#moviesearch" ).val( ui.item.label )
       false

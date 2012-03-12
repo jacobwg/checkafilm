@@ -5,6 +5,28 @@
  *= require_self
 */
 
+.page h1 {
+  padding-left: 10px;
+  margin-bottom: 1em;
+}
+
+.movies-grid .span3 {
+  height: 160px;
+}
+.movie-card {
+  margin: 4px;
+  padding: 4px;
+  border-left: 1px solid #000;
+  border-top: 1px solid #000;
+  border-right: none;
+  border-bottom: none;
+  box-shadow: 1px 1px 1px rgba(255,255,255,0.2);
+
+  img {
+    margin-right: 4px;
+  }
+}
+
 #top-message {
   position: fixed;
   top: -34px;
@@ -58,7 +80,10 @@ img.movie-poster {
 }
 
 .movie-links {
-  padding-right: 10px;
+  text-align: right;
+  &>div {
+    padding-right: 10px;
+  }
 }
 
 body {
@@ -109,6 +134,29 @@ img.autocomplete {
   padding-right: 4px;
 }
 
-#moviesearch.loading {
-  background: #fff url(/assets/loading.gif) no-repeat center right;
+
+.label-ratingR, .label-ratingNC-17 {
+  background-color: #b94a48;
 }
+.label-ratingR:hover, .label-ratingNC-17:hover {
+  background-color: #953b39;
+}
+.label-ratingPG, .label-ratingPG-13 {
+  background-color: #f89406;
+}
+.label-ratingPG:hover, .label-ratingPG-13:hover {
+  background-color: #c67605;
+}
+.label-ratingG {
+  background-color: #468847;
+}
+.label-ratingG:hover {
+  background-color: #356635;
+}
+.label-rating {
+  background-color: #3a87ad;
+}
+.label-rating:hover {
+  background-color: #2d6987;
+}
+
