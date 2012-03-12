@@ -4,8 +4,9 @@ window.AppRouter = Backbone.Router.extend
   Collection: {}
   Router: {}
   View: {}
+  isMobile: ->
+    this.is_mobile ||= !!(/Android/i.test( navigator.userAgent ) or /iP[ao]d|iPhone/i.test( navigator.userAgent ) or /Mobile/i.test( navigator.userAgent ))
   mobileOnly: (func) ->
-    ua = navigator.userAgent
-    func() if /Android/i.test( ua ) or /iP[ao]d|iPhone/i.test( ua ) or /Mobile/i.test( ua )
+    func() if this.isMobile()
 
 window.App = new AppRouter

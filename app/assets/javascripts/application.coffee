@@ -21,6 +21,7 @@ window.preloadImage = (src) ->
 
 jQuery ($) ->
 
+  ###
   $( "#moviesearch" ).autocomplete
     minLength: 1,
     source: (request, response) ->
@@ -45,7 +46,7 @@ jQuery ($) ->
     img.attr('src', item.posters[0].image.url) if item.posters
     img.prependTo(link)
     el.append(link)
-    el.appendTo(ul)
+    el.appendTo(ul)###
 
   $('#top-message').ajaxStart ->
     $(this).addClass "active"

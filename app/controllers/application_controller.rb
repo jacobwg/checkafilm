@@ -5,4 +5,11 @@ class ApplicationController < ActionController::Base
   def load_movies
     @movies = Movie.order('updated_at DESC').all
   end
+
+  before_filter :remove_heroku
+
+  def remove_heroku
+    redirect_to(request.protocol + 'checkafilm.com' + request.request_uri) if /herokuapp/.match(request.host) and false
+  end
+
 end

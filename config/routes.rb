@@ -6,5 +6,8 @@ InformedCinema::Application.routes.draw do
 
   devise_for :users
   resources :title, :controller => :movies, :only => [:index, :show]
+
+  match 'search' => 'movies#search', :as => :search
+  match 'search/:query' => 'movies#search'
   root :to => 'movies#home'
 end

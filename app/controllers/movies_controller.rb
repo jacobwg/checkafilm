@@ -15,6 +15,10 @@ class MoviesController < ApplicationController
     end
   end
 
+  def search
+    render :text => params[:query]
+  end
+
   def show
     imdbid = params[:id]
     if imdbid == 'undefined' or !!!imdbid

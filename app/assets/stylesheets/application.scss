@@ -6,9 +6,10 @@
  *= require_self
 */
 
-.page h1 {
+.recent-movies h1 {
   padding-left: 10px;
   margin-bottom: 1em;
+  margin-top: 36px;
 }
 
 .movies-grid .span3 {
@@ -17,16 +18,65 @@
 .movie-card {
   margin: 4px;
   padding: 4px;
-  border-left: 1px solid #000;
+  /*border-left: 1px solid #000;
   border-top: 1px solid #000;
   border-right: none;
   border-bottom: none;
-  box-shadow: 1px 1px 1px rgba(255,255,255,0.2);
+  box-shadow: 1px 1px 1px rgba(255,255,255,0.2);*/
 
   img {
     margin-right: 4px;
   }
 }
+
+
+
+
+.jumbotron {
+  position: relative;
+}
+.jumbotron h1 {
+  margin-bottom: 9px;
+  font-size: 81px;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+.jumbotron p {
+  margin-bottom: 18px;
+  font-weight: 300;
+}
+.jumbotron .btn-large {
+  font-size: 20px;
+  font-weight: normal;
+  padding: 14px 24px;
+  margin-right: 10px;
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+}
+
+/* Masthead (docs home) */
+.masthead {
+  padding-top: 36px;
+  margin-bottom: 72px;
+}
+.masthead h1,
+.masthead p {
+  text-align: center;
+}
+.masthead h1 {
+  margin-bottom: 18px;
+}
+.masthead p, .masthead form {
+  margin-left: 5%;
+  margin-right: 5%;
+  font-size: 30px;
+  line-height: 36px;
+}
+
+
+
+
 
 #top-message {
   position: fixed;
@@ -96,6 +146,11 @@ body {
 .movie-details {
   .table tbody tr:hover td, .table tbody tr:hover th {
     background: none;
+  }
+}
+@media (max-width: 767px) {
+  .poster-cell {
+    display:none;
   }
 }
 
