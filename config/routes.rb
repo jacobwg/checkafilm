@@ -5,6 +5,6 @@ InformedCinema::Application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
 
   devise_for :users
-  resources :movies, :only => [:index, :show]
-  root :to => 'movies#index'
+  resources :title, :controller => :movies, :only => [:index, :show]
+  root :to => 'movies#home'
 end

@@ -1,6 +1,6 @@
 App.Router.MoviesRouter = Backbone.Router.extend
   routes:
-    'movies/:id' : 'show'
+    'title/:id' : 'show'
     '': 'index'
   initialize: ->
     App.movies ||= new App.Collection.Movies

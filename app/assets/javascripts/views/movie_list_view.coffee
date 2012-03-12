@@ -6,4 +6,7 @@ App.View.MovieListView = Backbone.View.extend
       'background': 'url(/assets/backdrop.jpg) no-repeat center center fixed'
       '-ms-filter': '"progid:DXImageTransform.Microsoft.AlphaImageLoader(src=\'/assets/backdrop.jpg\', sizingMethod=\'scale\')"'
       'filter': 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src=\'/assets/backdrop.jpg\', sizingMethod=\'scale\')'
+    setTimeout ->
+      window.scrollTo 0, 1
+    , 1
     this

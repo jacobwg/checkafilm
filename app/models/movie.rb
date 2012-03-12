@@ -90,6 +90,10 @@ class Movie < ActiveRecord::Base
     end
   end
 
+  def status_enum
+    %w(added has_information has_subtitles auto_reviewed reviewed has_no_subtitles invalid)
+  end
+
   def async_load_information
     MovieWorker.perform_async(self.id)
   end
@@ -134,14 +138,16 @@ class Movie < ActiveRecord::Base
     self.plot_details = result['overview']
     self.tmdb_url = result['url']
 
-    search_title = "#{title} (#{year})"
+    search_title = "#{title} [#{year}}"
 
     begin
 
       uri = "http://www.google.com/search?ie=UTF-8&q=site%3Awww.kids-in-mind.com+#{CGI::escape(search_title)}"
       result = Curl::Easy.perform(uri).body_str
       doc = Nokogiri::HTML(result)
-      kim_uri = doc.css('h3.r a').first
+      results = doc.css('h3.r a')
+      results = results.to_a.reject { |i| not i.text.match(/[\[]/) }
+      kim_uri = results.first
       unless kim_uri.nil?
         kim_uri = kim_uri['href']
         kim_uri = CGI.parse(URI.parse(kim_uri).query)['q'].first
@@ -170,19 +176,22 @@ class Movie < ActiveRecord::Base
       end
 
       unless kim_uri.nil?
-        result = Curl::Easy.perform(kim_uri).body_str
-        doc = Nokogiri::HTML(result)
-        sex = doc.css('img').reject { |i| i['src'].match(/ratings\/s&n/).nil? }
-        violence = doc.css('img').reject { |i| i['src'].match(/ratings\/v&g/).nil? }
-        profanity = doc.css('img').reject { |i| i['src'].match(/ratings\/prof/).nil? }
+        begin
+          result = Curl::Easy.perform(kim_uri).body_str
+          doc = Nokogiri::HTML(result)
+          sex = doc.css('img').reject { |i| i['src'].match(/ratings\/s&n/).nil? }
+          violence = doc.css('img').reject { |i| i['src'].match(/ratings\/v&g/).nil? }
+          profanity = doc.css('img').reject { |i| i['src'].match(/ratings\/prof/).nil? }
 
-        sex = sex.first['src'].match(/images\/ratings\/s&n(\d+).jpg$/)[1]
-        violence = violence.first['src'].match(/images\/ratings\/v&g(\d+).jpg$/)[1]
-        profanity = profanity.first['src'].match(/images\/ratings\/prof(\d+).jpg$/)[1]
+          sex = sex.first['src'].match(/images\/ratings\/s&n(\d+).jpg$/)[1]
+          violence = violence.first['src'].match(/images\/ratings\/v&g(\d+).jpg$/)[1]
+          profanity = profanity.first['src'].match(/images\/ratings\/prof(\d+).jpg$/)[1]
 
-        self.kim_sex = sex
-        self.kim_violence = violence
-        self.kim_language = profanity
+          self.kim_sex = sex
+          self.kim_violence = violence
+          self.kim_language = profanity
+        rescue nil
+        end
       end
 
       self.pluggedin_url = pi_uri

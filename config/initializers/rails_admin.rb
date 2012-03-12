@@ -16,7 +16,7 @@ RailsAdmin.config do |config|
   # config.audit_with :paper_trail, User
 
   # Set the admin name here (optional second array element will appear in a beautiful RailsAdmin red ©)
-  config.main_app_name = ['Informed Cinema', 'Admin']
+  config.main_app_name = ['Check a Flick', 'Admin']
   # or for a dynamic name:
   # config.main_app_name = Proc.new { |controller| [Rails.application.engine_name.titleize, controller.params['action'].titleize] }
 
@@ -34,7 +34,7 @@ RailsAdmin.config do |config|
   # config.excluded_models = [Movie, Subtitle]
 
   # Add models here if you want to go 'whitelist mode':
-  config.included_models = [Movie]
+  config.included_models = [Movie, Subtitle]
 
   # Application wide tried label methods for models' instances
   # config.label_methods << :description # Default is [:name, :title]
@@ -118,7 +118,7 @@ RailsAdmin.config do |config|
         label 'IMDb'
         pretty_value do
           #bindings[:view].tag(:a, { :href => bindings[:object].logo_url }) << value
-          bindings[:view].tag(:a, { :href => "http://www.imdb.com/title/#{value}/", :target => '_blank' }) << 'IMDb'
+          bindings[:view].link_to 'IMDb', "http://www.imdb.com/title/#{value}/", :target => '_blank'
         end
       end
     end
@@ -136,9 +136,135 @@ RailsAdmin.config do |config|
       field :votes do
         label 'IMDb Votes'
       end
+
+      field :plot_summary
+      field :plot_details
+
+      field :imdb_url do
+        label 'IMDb Entry'
+        formatted_value do
+          bindings[:view].link_to value, value, :target => '_blank'
+        end
+      end
+      field :tmdb_url do
+        label 'TMDb Entry'
+        formatted_value do
+          bindings[:view].link_to value, value, :target => '_blank'
+        end
+      end
+      field :pluggedin_url do
+        label 'Plugged In Review'
+        formatted_value do
+          bindings[:view].link_to value, value, :target => '_blank'
+        end
+      end
+      field :kidsinmind_url do
+        label 'Kids In Mind Review'
+        formatted_value do
+          bindings[:view].link_to value, value, :target => '_blank'
+        end
+      end
+
+      field :poster
+      field :backdrop
+
+      field :status
+    end
+
+    edit do
+
+      group :basic_information
+      group :details do
+        active false
+      end
+      group :external_links do
+        active false
+      end
+      group :media do
+        active false
+      end
+      group :subtitles do
+        active false
+      end
+
+      field :title do
+        group :basic_information
+      end
+      field :year do
+        group :basic_information
+      end
+      field :runtime do
+        group :basic_information
+      end
+      field :mpaa_rating do
+        label 'MPAA Rating'
+        group :basic_information
+      end
+      field :rating do
+        label 'IMDb Rating'
+        group :basic_information
+      end
+      field :votes do
+        label 'IMDb Votes'
+        group :basic_information
+      end
+
+      field :plot_summary do
+        group :details
+      end
+      field :plot_details do
+        group :details
+      end
+
+      field :imdb_url do
+        label 'IMDb Entry'
+        group :external_links
+      end
+      field :tmdb_url do
+        label 'TMDb Entry'
+        group :external_links
+      end
+      field :pluggedin_url do
+        label 'Plugged In Review'
+        group :external_links
+      end
+      field :kidsinmind_url do
+        label 'Kids In Mind Review'
+        group :external_links
+      end
+
+      field :poster do
+        group :media
+      end
+      field :backdrop do
+        group :media
+      end
+
+      field :status do
+        group :basic_information
+      end
+
+      field :subtitles do
+        group :subtitles
+      end
+
     end
 
 
+  end
+
+  config.model Subtitle do
+    configure :movie, :belongs_to_association
+    configure :id, :integer
+    configure :start_time, :integer
+    configure :end_time, :integer
+    configure :text, :text
+    configure :cleaned_text, :text
+    configure :movie_id, :integer do
+      hidden true
+    end
+    configure :created_at, :datetime
+    configure :updated_at, :datetime
   end
 
 

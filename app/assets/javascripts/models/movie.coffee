@@ -8,4 +8,4 @@ App.Model.Movie = Backbone.Model.extend
   defaults:
     status: 'added'
   url: ->
-    return '/movies/' + this.get('imdbid')
+    return '/title/' + this.get('imdbid')

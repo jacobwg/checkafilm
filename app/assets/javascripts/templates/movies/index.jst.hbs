@@ -6,8 +6,8 @@
     {{#each movies}}
       <div class="span3">
         <div class='movie-card clearfix'>
-        <a data-navigate="/movies/{{slug}}" href="/movies/{{slug}}" class="pull-left"><img src="{{poster_url}}" width="70" height="100" /></a>
-        <p><a data-navigate="/movies/{{slug}}" href="/movies/{{slug}}"><h4>{{title}}{{#if year}} ({{year}}){{/if}}{{#if mpaa_rating}} <small><span class='label label-rating{{ mpaa_rating }}'>{{ mpaa_rating }}</span></small>{{/if}}</h4></a></p>
+        <a data-navigate="/title/{{slug}}" href="/title/{{slug}}" class="pull-left"><img src="{{poster_url}}" width="70" height="100" /></a>
+        <p><a data-navigate="/title/{{slug}}" href="/title/{{slug}}"><h4>{{title}}{{#if year}} ({{year}}){{/if}}{{#if mpaa_rating}} <small><span class='label label-rating{{ mpaa_rating }}'>{{ mpaa_rating }}</span></small>{{/if}}</h4></a></p>
         {{#if runtime}}<p><strong>Runtime:</strong> {{runtime}}</p>{{/if}}
         {{#if rating}}<p><strong>Rating:</strong> {{rating}}/10{{/if}}
         </div>

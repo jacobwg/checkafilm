@@ -25,9 +25,7 @@ jQuery ($) ->
     minLength: 1,
     source: (request, response) ->
       url = "http://api.themoviedb.org/2.1/Movie.search/en-US/json/" + App.tmdb_api_key + "/" + encodeURIComponent(request.term)
-      try
-        window.searchRequest.abort() if window.searchRequest
-      window.searchRequest = $.getJSON "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20json%20where%20url%3D'" + encodeURIComponent(url) + "'&format=json&diagnostics=true&callback=?", (data) ->
+      $.getJSON "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20json%20where%20url%3D'" + encodeURIComponent(url) + "'&format=json&callback=?", (data) ->
         $('#top-message').removeClass "active"
         if data.query.results.json.json
           response data.query.results.json.json.slice(0, 10)
@@ -38,7 +36,7 @@ jQuery ($) ->
       $( "#moviesearch" ).val( ui.item.label )
       false
     select: (event, ui) ->
-      App.navigate('movies/' + ui.item.imdb_id, trigger: true)
+      App.navigate('title/' + ui.item.imdb_id, trigger: true)
       false
   .data( "autocomplete" )._renderItem = (ul, item) ->
     el = $( "<li></li>" ).data( "item.autocomplete", item )
@@ -58,7 +56,7 @@ jQuery ($) ->
 
 window.searchTmdb = (query, callback) ->
  url = "http://api.themoviedb.org/2.1/Movie.search/en-US/json/" + App.tmdb_api_key + "/" + encodeURIComponent(query)
- $.getJSON "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20json%20where%20url%3D'" + encodeURIComponent(url) + "'&format=json&diagnostics=true&callback=?", (data) ->
+ $.getJSON "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20json%20where%20url%3D'" + encodeURIComponent(url) + "'&format=json&callback=?", (data) ->
    if data.query.results.json.json
      callback data.query.results.json.json
    else
@@ -66,31 +64,26 @@ window.searchTmdb = (query, callback) ->
 
 window.searchImdb = (query, callback) ->
   url = "http://www.imdb.com/xml/find?json=1&nr=1&tt=on&q=" + encodeURIComponent(query)
-  $.getJSON "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20json%20where%20url%3D'" + encodeURIComponent(url) + "'&format=json&diagnostics=true&callback=?", (data) ->
+  $.getJSON "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20json%20where%20url%3D'" + encodeURIComponent(url) + "'&format=json&callback=?", (data) ->
     if data.query.results
       callback data.query.results.json
     else
       callback []
 
 window.checkLoaded = (imdbid) ->
-  $.getJSON "/movies/" + imdbid, (data, status, xhr) ->
+  $.getJSON "/title/" + imdbid, (data, status, xhr) ->
     if data.added
       window.checkTimeout = setTimeout("window.checkLoaded(\"" + data.imdbid + "\")", 1000)
     else
       clearTimeout window.checkTimeout if window.checkTimeout
       window.location.reload true
 
-
-mobileOnly = (func) ->
-  ua = navigator.userAgent
-  func() if /Android/i.test( ua ) or /iP[ao]d|iPhone/i.test( ua ) or /Mobile/i.test( ua )
-
 $ ->
   Backbone.history.start pushState: true
   $(document).on 'click', 'a[data-navigate]', (e) ->
     window.App.navigate($(this).attr('data-navigate'), trigger: true)
     false
-  mobileOnly ->
+  App.mobileOnly ->
     setTimeout ->
       window.scrollTo 0, 1
     , 1
@@ -127,14 +120,14 @@ $ ->
     if cache.has(query)
       data = cache.get(query)
       if data.length > 0
-        window.app.navigate "movies/" + data.imdb_id,
+        window.app.navigate "title/" + data.imdb_id,
           trigger: true
     else
       $.getJSON "/search",
         term: query
       , (data, status, xhr) ->
         if data.length > 0
-          window.app.navigate "movies/" + data[0].imdb_id,
+          window.app.navigate "title/" + data[0].imdb_id,
             trigger: true
     false
 
@@ -154,7 +147,7 @@ $('#moviesearch').autocomplete({
       return false;
     },
     select: function(event, ui) {
-      window.app.navigate('movies/' + ui.item.imdb_id, {trigger: true});
+      window.app.navigate('title/' + ui.item.imdb_id, {trigger: true});
     },
     source: function(request, response) {
       var query = request.term;

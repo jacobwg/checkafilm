@@ -7,4 +7,7 @@ App.View.MovieDetailView = Backbone.View.extend
         'background': 'url(' + this.model.get('backdrop_url') + ') no-repeat center center fixed'
         '-ms-filter': '"progid:DXImageTransform.Microsoft.AlphaImageLoader(src=\'' + this.model.get('backdrop_url') + '\', sizingMethod=\'scale\')"'
         'filter': 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src=\'' + this.model.get('backdrop_url') + '\', sizingMethod=\'scale\')'
+    setTimeout ->
+      window.scrollTo 0, 1
+    , 1
     this

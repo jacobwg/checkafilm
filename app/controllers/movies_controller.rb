@@ -2,8 +2,15 @@ class MoviesController < ApplicationController
 
   respond_to :html, :json
 
+  def home
+    respond_with do |format|
+      format.json { render_for_api :public, :json => @movies}
+    end
+  end
+
   def index
     respond_with do |format|
+      format.html { redirect_to :root }
       format.json { render_for_api :public, :json => @movies}
     end
   end
