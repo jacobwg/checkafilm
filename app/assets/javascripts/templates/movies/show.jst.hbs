@@ -11,18 +11,20 @@
 {{#unless movie.added }}
 
   <div class="row">
-    <div class="span4 poster-cell">
+    <div class="span4">
       <img alt="{{ movie.title }} Poster Image" class="movie-poster" src="{{ movie.poster_url }}" />
     </div>
     <div class="span8 movie-details">
       <div class="row">
         <div class="span5">
-          <h1>{{ movie.title }} ({{ movie.year }})
-            <small><span class='label label-rating{{ movie.mpaa_rating }}'>{{ movie.mpaa_rating }}</span></small>
-          </h1>
-          {{#if movie.runtime}}<p><strong>Runtime:</strong> {{movie.runtime}}</p>{{/if}}
-          {{#if movie.rating}}<p><strong>IMDb Rating:</strong> {{movie.rating}} (from {{movie.votes}} votes){{/if}}
-          <p>{{ movie.plot_summary }}</p>
+          <div class="padme">
+            <h1>{{ movie.title }} ({{ movie.year }})
+              <small><span class='label label-rating{{ movie.mpaa_rating }}'>{{ movie.mpaa_rating }}</span></small>
+            </h1>
+            {{#if movie.runtime}}<p><strong>Runtime:</strong> {{movie.runtime}}</p>{{/if}}
+            {{#if movie.rating}}<p><strong>IMDb Rating:</strong> {{movie.rating}} (from {{movie.votes}} votes){{/if}}
+            <p>{{ movie.plot_summary }}</p>
+          </div>
         </div>
         <div class="span3 movie-links">
           <div class='btn-toolbar'>
@@ -40,11 +42,13 @@
         </div>
       </div>
 
-      <h3>Plot Summary</h3>
-      <p>{{ movie.plot_details }}</p>
+      <div class="padme">
+        <h3>Plot Summary</h3>
+        <p>{{ movie.plot_details }}</p>
 
-      {{#if movie.kim_violence }}
-      <h2>Kids in Mind Rating</h2>
+        {{#if movie.kim_violence }}
+        <h2>Kids in Mind Rating</h2>
+      </div>
       <div class='row'>
         <div class='span4'>
           <table class='table'>

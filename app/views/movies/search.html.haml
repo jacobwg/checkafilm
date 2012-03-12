@@ -1,0 +1,1 @@
+= render :inline => Handlebars.compile(File.open("app/assets/javascripts/templates/movies/search.jst.hbs").read).call(:movies => @movies, :query => @query)

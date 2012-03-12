@@ -37,7 +37,7 @@
 }
 .jumbotron h1 {
   margin-bottom: 9px;
-  font-size: 81px;
+  font-size: 54px;
   letter-spacing: -1px;
   line-height: 1;
 }
@@ -148,11 +148,17 @@ body {
     background: none;
   }
 }
+
 @media (max-width: 767px) {
-  .poster-cell {
-    display:none;
+  .movie-poster {
+    display: none;
   }
 }
+
+div.padme {
+  padding:6px;
+}
+
 
 html {
   background: url(/assets/backdrop.jpg) no-repeat center center fixed;

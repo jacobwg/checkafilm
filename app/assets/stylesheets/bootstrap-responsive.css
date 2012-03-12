@@ -94,7 +94,9 @@
     position: static;
   }
 }
+
 @media (max-width: 767px) {
+
   .container {
     width: auto;
     padding: 0 20px;
@@ -288,7 +290,7 @@
     width: 714px;
   }
 }
-/*
+
 @media (max-width: 979px) {
   body {
     padding-top: 0;
@@ -309,7 +311,8 @@
     padding-right: 10px;
     margin: 0 0 0 -5px;
   }
-  .navbar .nav-collapse {
+}
+  /*.navbar .nav-collapse {
     clear: left;
   }
   .navbar .nav {
