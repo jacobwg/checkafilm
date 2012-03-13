@@ -122,6 +122,13 @@ body {
   }
 }
 
+.jumbosearch .navbar-search {
+  float: none;
+  left: 50%;
+  margin-left: -148px;
+  margin-bottom: 30px;
+}
+
 #content {
   background-color: rgba(0,0,0,0.75);
   -webkit-border-radius: 14px;
