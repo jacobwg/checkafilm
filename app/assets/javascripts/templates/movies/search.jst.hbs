@@ -1,7 +1,7 @@
 <div class="row">
   <div class="span6">
     <div class="jumbotron masthead">
-      <h1>Search Results</h1>
+      <h1 class="hide-mobile">Search Results</h1>
       <form action="/search" class="navbar-search">
         <input aria-autocomplete="list" aria-haspopup="true" class="search-query" id="movie-search" name="query" method="get" placeholder="Search by movie title" role="textbox" value="{{query}}">
         <button class="btn" type="submit">Search</button>
@@ -10,7 +10,7 @@
   </div>
   <div class="span6">
     {{#if query}}
-    <div class="jumbotron masthead">
+    <div class="jumbotron masthead hide-mobile">
       <h1>"{{query}}"</h1>
     </div>
     <div class="row movies-grid">
