@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   before_filter :remove_heroku
 
   def remove_heroku
-    redirect_to(request.protocol + 'checkafilm.com' + request.request_uri) if /herokuapp/.match(request.host) and false
+    redirect_to(request.protocol + 'checkafilm.com' + request.request_uri) if /herokuapp/.match(request.host)
   end
 
 end
