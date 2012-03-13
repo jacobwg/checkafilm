@@ -11,7 +11,7 @@
   <!-- Mobile viewport optimization h5bp.com/ad -->
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <%= csrf_meta_tags %>
 
   <!-- Home screen icon  Mathias Bynens mathiasbynens.be/notes/touch-icons -->
@@ -64,7 +64,7 @@
             <li><a href="/search">Search</a></li>
           </ul>
 
-          <div class="nav-collapse">
+          <div class="hide-mobile">
             <form action="/search" class="navbar-search pull-right">
               <input aria-autocomplete="list" aria-haspopup="true" class="search-query" id="movie-search" name="query" method="get" placeholder="Search by movie title" role="textbox">
             </form>
