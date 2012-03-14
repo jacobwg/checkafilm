@@ -47,6 +47,26 @@
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
 
+  <!-- Start of Woopra Code -->
+  <script type="text/javascript">
+  function woopraReady(tracker) {
+      tracker.setDomain('checkafilm.com');
+      tracker.setIdleTimeout(300000);
+      tracker.track();
+      return false;
+  }
+  (function() {
+      var wsc = document.createElement('script');
+      wsc.src = document.location.protocol+'//static.woopra.com/js/woopra.js';
+      wsc.type = 'text/javascript';
+      wsc.async = true;
+      var ssc = document.getElementsByTagName('script')[0];
+      ssc.parentNode.insertBefore(wsc, ssc);
+  })();
+  </script>
+  <!-- End of Woopra Code -->
+
+
 </head>
   <body>
     <div id="top-message">
@@ -95,6 +115,19 @@
     <script type="text/javascript">
       App.tmdb_api_key = "<%= raw Settings.tmdb_key %>";
       App.movies.reset(<%= raw @movies.as_api_response(:public).to_json %>);
+    </script>
+    <script type="text/javascript">
+      var _gauges = _gauges || [];
+      (function() {
+        var t   = document.createElement('script');
+        t.type  = 'text/javascript';
+        t.async = true;
+        t.id    = 'gauges-tracker';
+        t.setAttribute('data-site-id', '4f5ff594613f5d4c94000043');
+        t.src = '//secure.gaug.es/track.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(t, s);
+      })();
     </script>
   </body>
 </html>
