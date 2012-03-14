@@ -147,8 +147,13 @@ class Movie < ActiveRecord::Base
       result = Curl::Easy.perform(uri).body_str
       doc = Nokogiri::HTML(result)
       results = doc.css('h3.r a')
-      results = results.to_a.reject { |i| not i.text.match(/[\[]/) }
-      kim_uri = results.first
+      filtered_results = results.to_a.reject { |i| not i.text.match(/[\[]/) }
+      kim_uri = filtered_results.first
+
+      if kim_uri.nil?
+        kim_uri = results.first
+      end
+
       unless kim_uri.nil?
         kim_uri = kim_uri['href']
         kim_uri = CGI.parse(URI.parse(kim_uri).query)['q'].first
