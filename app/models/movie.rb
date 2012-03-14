@@ -189,13 +189,13 @@ class Movie < ActiveRecord::Base
           violence = doc.css('img').reject { |i| i['src'].match(/ratings\/v&g/).nil? }
           profanity = doc.css('img').reject { |i| i['src'].match(/ratings\/prof/).nil? }
 
-          sex = sex.first['src'].match(/images\/ratings\/s&n(\d+).jpg$/)[1]
-          violence = violence.first['src'].match(/images\/ratings\/v&g(\d+).jpg$/)[1]
-          profanity = profanity.first['src'].match(/images\/ratings\/prof(\d+).jpg$/)[1]
+          sex = sex.first['src'].match(/images\/ratings\/s&n(\d+).jpg$/)[1] if sex.first
+          violence = violence.first['src'].match(/images\/ratings\/v&g(\d+).jpg$/)[1] if violence.first
+          profanity = profanity.first['src'].match(/images\/ratings\/prof(\d+).jpg$/)[1] if profanity.first
 
-          self.kim_sex = sex
-          self.kim_violence = violence
-          self.kim_language = profanity
+          self.kim_sex = sex || nil
+          self.kim_violence = violence || nil
+          self.kim_language = profanity || nil
         rescue nil
         end
       end
