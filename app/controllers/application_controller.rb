@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :load_movies
   def load_movies
-    @movies = Movie.order('updated_at DESC').all
+    @movies = Movie.order('updated_at DESC').limit(12).includes(:subtitles)
   end
 
   before_filter :remove_heroku

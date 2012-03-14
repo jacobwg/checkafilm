@@ -5,6 +5,7 @@ class Movie < ActiveRecord::Base
   require 'iconv'
 
   validates :imdbid, :presence => true
+  validates :imdbid, :uniqueness => true
   #validates :kim_sex, :kim_violence, :kim_language, :inclusion => { :in => 0..10 }
 
   has_many :subtitles
