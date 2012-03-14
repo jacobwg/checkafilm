@@ -115,7 +115,7 @@ class Movie < ActiveRecord::Base
     self.year = result['Year']
     self.mpaa_rating = result['Rated']
     self.plot_summary = result['Plot']
-    self.remote_poster_url = result['Poster']
+    self.remote_poster_url = result['Poster'] unless result['Poster'] == 'N/A'
     self.runtime = result['Runtime']
     self.rating = result['Rating']
     self.votes = result['Votes']
