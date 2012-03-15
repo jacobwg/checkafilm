@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120312160041) do
+ActiveRecord::Schema.define(:version => 20120315185443) do
 
   create_table "movies", :force => true do |t|
     t.string   "imdbid"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(:version => 20120312160041) do
     t.datetime "updated_at",                          :null => false
     t.string   "status",         :default => "added"
     t.string   "slug"
+    t.string   "amazon_url"
   end
 
   add_index "movies", ["imdbid"], :name => "index_movies_on_imdbid"

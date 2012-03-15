@@ -164,6 +164,12 @@ RailsAdmin.config do |config|
           bindings[:view].link_to value, value, :target => '_blank'
         end
       end
+      field :amazon_url do
+        label 'Amazon Entry'
+        formatted_value do
+          bindings[:view].link_to value, value, :target => '_blank'
+        end
+      end
 
       field :poster
       field :backdrop
@@ -222,6 +228,10 @@ RailsAdmin.config do |config|
       end
       field :tmdb_url do
         label 'TMDb Entry'
+        group :external_links
+      end
+      field :amazon_url do
+        label 'Amazon Product Page'
         group :external_links
       end
       field :pluggedin_url do
