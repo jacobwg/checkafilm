@@ -210,7 +210,7 @@ class Movie < ActiveRecord::Base
       request = Vacuum.new  key: Settings.aws_key,
                             secret: Settings.aws_secret,
                             tag: Settings.amazon_affiliate,
-                            locale: 'en'
+                            locale: 'us'
 
       request.build 'Operation'   => 'ItemSearch',
                     'SearchIndex' => 'All',
