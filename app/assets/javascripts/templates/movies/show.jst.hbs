@@ -41,10 +41,10 @@
               {{#if movie.kidsinmind_url }}<a href="{{ movie.kidsinmind_url }}" class="btn" target="_blank">KidsInMind</a>{{/if}}
             </div>
           </div>
+          {{#if movie.amazon_url}}<div>
+            <a href="{{ movie.amazon_url }}" target="_blank"><img src="https://images-na.ssl-images-amazon.com/images/G/01/buttons/buy-from-tan.gif" /></a>
+          </div>{{/if}}
         </div>
-        {{#if movie.amazon_url}}<div>
-          <a href="{{ movie.amazon_url }}" target="_blank"><img src="https://images-na.ssl-images-amazon.com/images/G/01/buttons/buy-from-tan.gif" /></a>
-        </div>{{/if}}
       </div>
 
       <div class="padme">
