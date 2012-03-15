@@ -206,7 +206,7 @@ class Movie < ActiveRecord::Base
     rescue nil
     end
 
-    unless self.title.nil?
+    if self.title
       request = Vacuum.new  key: Settings.aws_key,
                             secret: Settings.aws_secret,
                             tag: Settings.amazon_affiliate,
