@@ -33,6 +33,7 @@ class Movie < ActiveRecord::Base
     template.add :tmdbid
     template.add :imdb_url
     template.add :tmdb_url
+    template.add :amazon_url
     template.add :pluggedin_url
     template.add :kidsinmind_url
     template.add :kim_sex

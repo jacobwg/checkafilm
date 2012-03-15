@@ -1,6 +1,7 @@
 App.View.MovieListView = Backbone.View.extend
   template: JST['templates/movies/index']
   render: (eventName) ->
+    document.title = "Check a Film - informed movie information"
     $(this.el).html(this.template(movies: this.collection.toJSON()))
     $('html').css
       'background': 'url(/assets/backdrop.jpg) no-repeat center center fixed'
