@@ -74,3 +74,6 @@ gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
 
 # Authentication
 gem "devise"
+
+# Amazon Product Search
+gem 'vacuum'

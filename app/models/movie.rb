@@ -206,6 +206,21 @@ class Movie < ActiveRecord::Base
     rescue nil
     end
 
+    unless self.title.nil?
+      request = Vacuum.new  key: Settings.aws_key,
+                            secret: Settings.aws_secret,
+                            tag: Settings.amazon_affiliate,
+                            locale: 'en'
+
+      request.build 'Operation'   => 'ItemSearch',
+                    'SearchIndex' => 'All',
+                    'Keywords'    => "#{self.title} #{self.year}"
+      response = request.get
+      if response.valid?
+        self.amazon_url = response.find('Item').first['DetailPageURL'] if response.find('Item').first
+      end
+    end
+
     self.make_it_have_information if self.added?
   end
 

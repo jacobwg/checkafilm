@@ -3,6 +3,7 @@ defaults: &defaults
   aws_secret: <%= ENV['AWS_SECRET'] %>
   tmdb_key: <%= ENV['TMDB_KEY'] %>
   s3_bucket: <%= ENV['S3_BUCKET'] %>
+  amazon_affiliate: <%= ENV['AMAZON_AFFILIATE'] %>
 
 development:
   <<: *defaults
