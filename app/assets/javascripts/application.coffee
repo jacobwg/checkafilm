@@ -80,7 +80,7 @@ window.checkLoaded = (imdbid) ->
       window.location.reload true
 
 $ ->
-  Backbone.history.start() #pushState: true
+  Backbone.history.start pushState: true
   #$(document).on 'click', 'a[data-navigate]', (e) ->
   #  window.App.navigate($(this).attr('data-navigate'), trigger: true)
   #  false
