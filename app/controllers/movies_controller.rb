@@ -50,7 +50,7 @@ class MoviesController < ApplicationController
       return
     end
     @movie = Movie.find_or_create_by_imdbid(imdbid)
-    @movie.async_load_information if @movie.added?
+    @movie.async_load_information #if @movie.added?
 
     respond_with do |format|
       format.json { render_for_api :public, :json => @movie, :root => :movie }
