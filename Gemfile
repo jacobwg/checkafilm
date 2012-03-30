@@ -53,6 +53,7 @@ gem 'imdb'
 # Servers
 gem 'thin'
 gem 'unicorn'
+gem 'puma'
 
 # Image processing and storage (local cache of covers)
 gem 'fog'
