@@ -77,7 +77,7 @@ gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
 gem "devise"
 
 # Amazon Product Search
-gem 'vacuum'
+gem 'amazon-ecs'
 
 # Capistrano deployment
 gem 'capistrano'

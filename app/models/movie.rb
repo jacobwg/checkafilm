@@ -208,18 +208,15 @@ class Movie < ActiveRecord::Base
     end
 
     if self.title
-      request = Vacuum.new  key: Settings.aws_key,
-                            secret: Settings.aws_secret,
-                            tag: Settings.amazon_affiliate,
-                            locale: 'us'
+      Amazon::Ecs.options = {
+        :associate_tag => Settings.amazon_affiliate,
+        :AWS_access_key_id => Settings.aws_key,
+        :AWS_secret_key => Settings.aws_secret
+      }
 
-      request.build 'Operation'   => 'ItemSearch',
-                    'SearchIndex' => 'All',
-                    'Keywords'    => "#{self.title} #{self.year}"
-      response = request.get
-      if response.valid?
-        self.amazon_url = response.find('Item').first['DetailPageURL'] if response.find('Item').first
-      end
+      res = Amazon::Ecs.item_search("#{self.title} #{self.year}", :search_index => 'All')
+
+      self.amazon_url = res.items.first.get('DetailPageURL') if res.is_valid_request? and not res.has_error? and res.items.first
     end
 
     self.make_it_have_information if self.added?
