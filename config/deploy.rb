@@ -77,7 +77,7 @@ after 'deploy:update', 'foreman:restart'
 namespace :environment do
   desc "Symlink the .env file from shared"
   task :symlink, :roles => :app do
-    run "cd #{current_path} && ln -s #{shared_path}/.env .env"
+    run "cd #{current_path} && ln -sf #{shared_path}/.env .env"
   end
 end
 
