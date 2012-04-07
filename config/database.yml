@@ -52,5 +52,5 @@ production:
   encoding: unicode
   database: <%= ENV['DATABASE_NAME'] %>
   pool: 5
-  username: <%= ENV['DATABASE_NAME'] %>
+  username: <%= ENV['DATABASE_USER'] %>
   password: <%= ENV['DATABASE_PASSWORD'] %>
