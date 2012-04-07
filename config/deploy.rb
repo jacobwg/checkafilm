@@ -63,7 +63,7 @@ namespace :foreman do
   desc "Export the Procfile to upstart scripts"
   task :export, :roles => :app do
     # 5 resque workers, 1 resque scheduler
-    run "cd #{release_path} && rvmsudo bundle exec foreman export upstart /etc/init -a #{application} -u #{user} -l #{shared_path}/log"
+    run "cd #{release_path} && rvmsudo foreman export upstart /etc/init -a #{application} -u #{user} -l #{shared_path}/log"
   end
 end
 
@@ -79,4 +79,4 @@ namespace :environment do
   end
 end
 
-#before 'foreman:restart'
+before 'foreman:export', 'environment:symlink'
