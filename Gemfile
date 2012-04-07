@@ -45,7 +45,7 @@ gem 'curb'
 # Background job processing
 gem 'slim'
 gem 'sinatra'
-gem 'sidekiq', '~> 0.9.0', :git => "git://github.com/mperham/sidekiq.git"
+gem 'sidekiq'  #, '~> 0.9.0', :git => "git://github.com/mperham/sidekiq.git"
 
 # IMDb API
 gem 'imdb'
