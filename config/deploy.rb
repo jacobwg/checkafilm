@@ -1,4 +1,5 @@
 require "bundler/capistrano"  # automatically bundle on deploy
+require 'capistrano_colors'   # colorize output
 
 set :application, "checkafilm"
 set :repository,  "git@github.com:jacobwg/checkafilm.git"
@@ -62,7 +63,7 @@ namespace :foreman do
   desc "Export the Procfile to upstart scripts"
   task :export, :roles => :app do
     # 5 resque workers, 1 resque scheduler
-    sudo "cd #{release_path} && bundle exec foreman export upstart /etc/init -a #{application} -u #{user} -l #{shared_path}/log"
+    run "cd #{release_path} && rvmsudo bundle exec foreman export upstart /etc/init -a #{application} -u #{user} -l #{shared_path}/log"
   end
 end
 
