@@ -78,3 +78,11 @@ gem "devise"
 
 # Amazon Product Search
 gem 'vacuum'
+
+# Capistrano deployment
+gem 'capistrano'
+gem 'rvm-capistrano'
+
+# Process management
+gem 'foreman'
+

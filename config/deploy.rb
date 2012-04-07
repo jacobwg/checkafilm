@@ -1,13 +1,30 @@
-set :application, "set your application name here"
-set :repository,  "set your repository location here"
+require "bundler/capistrano"  # automatically bundle on deploy
 
-set :scm, :subversion
+set :application, "checkafilm"
+set :repository,  "git@github.com:jacobwg/checkafilm.git"
+
+default_run_options[:pty] = true
+set :deploy_via, :remote_cache
+
+set :scm, :git
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
-role :web, "your web-server here"                          # Your HTTP server, Apache/etc
-role :app, "your app-server here"                          # This may be the same as your `Web` server
-role :db,  "your primary db-server here", :primary => true # This is where Rails migrations will run
-role :db,  "your slave db-server here"
+set :deploy_to, '/home/ruby/checkafilm'
+
+role :web, "jacobwg.xen.prgmr.com"                          # Your HTTP server, Apache/etc
+role :app, "jacobwg.xen.prgmr.com"                          # This may be the same as your `Web` server
+role :db,  "jacobwg.xen.prgmr.com", :primary => true # This is where Rails migrations will run
+#role :db,  "your slave db-server here"
+
+set :user, 'ruby' # SSH User
+
+ssh_options[:forward_agent] = true
+
+set :rvm_type, :system
+#set :rvm_ruby_string, 'ree@rails3'                     # Or:
+set :rvm_ruby_string, ENV['GEM_HOME'].gsub(/.*\//,"") # Read from local system
+
+require "rvm/capistrano"                               # Load RVM's capistrano plugin.
 
 # if you're still using the script/reaper helper you will need
 # these http://github.com/rails/irs_process_scripts
@@ -20,3 +37,45 @@ role :db,  "your slave db-server here"
 #     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
 #   end
 # end
+
+namespace :foreman do
+  desc "Start the application services"
+  task :start, :roles => :app do
+    sudo "start #{application}"
+  end
+
+  desc "Stop the application services"
+  task :stop, :roles => :app do
+    sudo "stop #{application}"
+  end
+
+  desc "Restart the application services"
+  task :restart, :roles => :app do
+    run "sudo start #{application} || sudo restart #{application}"
+  end
+
+  desc "Display logs for a certain process - arg example: PROCESS=web-1"
+  task :logs, :roles => :app do
+    run "cd #{current_path}/log && cat #{ENV["PROCESS"]}.log"
+  end
+
+  desc "Export the Procfile to upstart scripts"
+  task :export, :roles => :app do
+    # 5 resque workers, 1 resque scheduler
+    sudo "cd #{release_path} && bundle exec foreman export upstart /etc/init -a #{application} -u #{user} -l #{shared_path}/log"
+  end
+end
+
+after 'deploy:update', 'foreman:export'
+#after 'deploy:update', 'foreman:restart'
+
+# .env files from shared
+
+namespace :environment do
+  desc "Symlink the .env file from shared"
+  task :symlink, :roles => :app do
+    run "cd #{current_path} && ln -s #{shared_path}/.env .env"
+  end
+end
+
+#before 'foreman:restart'

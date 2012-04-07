@@ -16,3 +16,6 @@
 
 config/application.yml
 public/uploads/*
+
+# Ignore foreman environment files
+.env

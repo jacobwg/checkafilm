@@ -50,7 +50,7 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: filminsights_development
+  database: <%= ENV['database_name'] %>
   pool: 5
-  username: filminsights
-  password: pass
+  username: <%= ENV['database_user'] %>
+  password: <%= ENV['database_pass'] %>
