@@ -17,6 +17,8 @@ role :app, "jacobwg.xen.prgmr.com"                          # This may be the sa
 role :db,  "jacobwg.xen.prgmr.com", :primary => true # This is where Rails migrations will run
 #role :db,  "your slave db-server here"
 
+set :base_port, 5000  # should be a multiple of 1000
+
 set :user, 'ruby' # SSH User
 
 ssh_options[:forward_agent] = true
@@ -63,12 +65,12 @@ namespace :foreman do
   desc "Export the Procfile to upstart scripts"
   task :export, :roles => :app do
     # 5 resque workers, 1 resque scheduler
-    run "cd #{release_path} && rvmsudo foreman export upstart /etc/init -a #{application} -u #{user} -l #{shared_path}/log"
+    run "cd #{release_path} && rvmsudo foreman export upstart /etc/init -a #{application} -u #{user} -l #{shared_path}/log -p #{base_port}"
   end
 end
 
 after 'deploy:update', 'foreman:export'
-#after 'deploy:update', 'foreman:restart'
+after 'deploy:update', 'foreman:restart'
 
 # .env files from shared
 
