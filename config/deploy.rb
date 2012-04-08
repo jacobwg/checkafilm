@@ -8,6 +8,7 @@ default_run_options[:pty] = true
 set :deploy_via, :remote_cache
 
 set :scm, :git
+set :branch, "master"
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
 set :deploy_to, '/home/ruby/checkafilm'
