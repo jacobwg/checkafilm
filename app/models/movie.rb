@@ -115,15 +115,15 @@ class Movie < ActiveRecord::Base
     self.title = imdb.title
     self.year = imdb.year
 
-    if imdb.mpaa_rating.scan /\bNC-17\b/
+    if imdb.mpaa_rating.index /\bNC-17\b/
       self.mpaa_rating = 'NC-17'
-    elsif imdb.mpaa_rating.scan /\bPG-13\b/
+    elsif imdb.mpaa_rating.index /\bPG-13\b/
       self.mpaa_rating = 'PG-13'
-    elsif imdb.mpaa_rating.scan /\bPG\b/
+    elsif imdb.mpaa_rating.index /\bPG\b/
       self.mpaa_rating = 'PG'
-    elsif imdb.mpaa_rating.scan /\bR\b/
+    elsif imdb.mpaa_rating.index /\bR\b/
       self.mpaa_rating = 'R'
-    elsif imdb.mpaa_rating.scan /\bG\b/
+    elsif imdb.mpaa_rating.index /\bG\b/
       self.mpaa_rating = 'G'
     else
       self.mpaa_rating = 'N/A'
