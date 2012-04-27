@@ -6,7 +6,7 @@ include Clockwork
 
 handler do |job|
   Movie.find_each do |movie|
-    movie.async_load_information
+    movie.async_refresh_information
   end
 end
 

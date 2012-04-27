@@ -100,6 +100,10 @@ class Movie < ActiveRecord::Base
     MovieWorker.perform_async(self.id)
   end
 
+  def async_refresh_information
+    RefreshWorker.perform_async(self.id)
+  end
+
   def load_information!
     self.load_information
     self.save
