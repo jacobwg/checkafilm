@@ -1,79 +1,78 @@
-- if @movie.added
-  - page_title "Now processing..."
-  :javascript
-    jQuery(function($) {
-      window.checkLoaded("#{@movie.imdbid}");
-    });
-  .row
-    .span12
-      .jumbotron.masthead
-        %h1 Now processing your movie...
-        %p
-          We haven't already looked at that movie, but we're looking at it for you
-          %em right now...
-          this page will refresh once we're done
-- else
-  - page_title "#{@movie.title} (#{@movie.year})"
-  .row
-    .span4
-      %img{:alt => "#{@movie.title} Poster Image", :class => 'movie-poster', :src => @movie.poster_url}
-    .span8.movie-details
-      .row
-        .span5
-          .padme
-            %h1
-              #{@movie.title} (#{@movie.year})
-              %small
-                %span{:class => "label label-rating#{@movie.mpaa_rating}"}= @movie.mpaa_rating
-            - if @movie.runtime
-              %p
-                %strong Runtime:
-                = @movie.runtime
-            - if @movie.rating
-              %p
-                %strong IMDb Rating
-                #{@movie.rating} (from #{@movie.votes} votes)
-            %p= @movie.plot_summary
-        .span3.movie-links
-          .btn-toolbar
-            .btn-group
-              = link_to 'IMDb', @movie.imdb_url, :class => 'btn', :target => '_blank' if @movie.imdb_url
-              = link_to 'TMDb', @movie.tmdb_url, :class => 'btn', :target => '_blank' if @movie.tmdb_url
-          .btn-toolbar
-            .btn-group
-              = link_to 'PluggedIn', @movie.pluggedin_url, :class => 'btn', :target => '_blank' if @movie.pluggedin_url
-              = link_to 'Kids in Mind', @movie.kidsinmind_url, :class => 'btn', :target => '_blank' if @movie.kidsinmind_url
-          - if @movie.amazon_url
-            %a{:href => @movie.amazon_url, :target => '_blank'}
-              %img{:src => 'https://images-na.ssl-images-amazon.com/images/G/01/buttons/buy-from-tan.gif'}
-      .padme
-        %h3 Plot Summary
-        %p= @movie.plot_details
-
-      - unless @movie.kim_violence.nil?
-        %h2 Kids in Mind Rating
+= cache ['v1', @movie] do
+  - if @movie.added
+    - page_title "Now processing..."
+    :javascript
+      jQuery(function($) {
+        window.checkLoaded("#{@movie.imdbid}");
+      });
+    .row
+      .span12
+        .jumbotron.masthead
+          %h1 Now processing your movie...
+          %p
+            We haven't already looked at that movie, but we're looking at it for you
+            %em right now...
+            this page will refresh once we're done
+  - else
+    - page_title "#{@movie.title} (#{@movie.year})"
+    .row
+      .span4
+        %img{:alt => "#{@movie.title} Poster Image", :class => 'movie-poster', :src => @movie.poster_url}
+      .span8.movie-details
         .row
-          .span4
-            %table.table
-              %tr
-                %th Sexual Content
-                %td= @movie.kim_sex
-              %tr
-                %th Violence
-                %td= @movie.kim_violence
-              %tr
-                %th Language / Profanity
-                %td= @movie.kim_language
-          .span4
-            %p= link_to 'See the full review at Kids In Mind', @movie.kidsinmind_url, :target => '_blank'
-            %p These numbers range from 0 to 10 with 10 being the worst.
-            %p View the full review at Kids in Mind for details on why the numbers are the way they are.
+          .span5
+            .padme
+              %h1
+                #{@movie.title} (#{@movie.year})
+                %small
+                  %span{:class => "label label-rating#{@movie.mpaa_rating}"}= @movie.mpaa_rating
+              - if @movie.runtime
+                %p
+                  %strong Runtime:
+                  = @movie.runtime
+              - if @movie.rating
+                %p
+                  %strong IMDb Rating
+                  #{@movie.rating} (from #{@movie.votes} votes)
+              %p= @movie.plot_summary
+          .span3.movie-links
+            .btn-toolbar
+              .btn-group
+                = link_to 'IMDb', @movie.imdb_url, :class => 'btn', :target => '_blank' if @movie.imdb_url
+                = link_to 'TMDb', @movie.tmdb_url, :class => 'btn', :target => '_blank' if @movie.tmdb_url
+            .btn-toolbar
+              .btn-group
+                = link_to 'PluggedIn', @movie.pluggedin_url, :class => 'btn', :target => '_blank' if @movie.pluggedin_url
+                = link_to 'Kids in Mind', @movie.kidsinmind_url, :class => 'btn', :target => '_blank' if @movie.kidsinmind_url
+            - if @movie.amazon_url
+              %a{:href => @movie.amazon_url, :target => '_blank'}
+                %img{:src => 'https://images-na.ssl-images-amazon.com/images/G/01/buttons/buy-from-tan.gif'}
+        .padme
+          %h3 Plot Summary
+          %p= @movie.plot_details
 
-:css
-  html {
-  background: url(#{@movie.backdrop_url}) no-repeat center center fixed;
-  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{@movie.backdrop_url}', sizingMethod='scale');
-  -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{@movie.backdrop_url}', sizingMethod='scale')";
-  }
+        - unless @movie.kim_violence.nil?
+          %h2 Kids in Mind Rating
+          .row
+            .span4
+              %table.table
+                %tr
+                  %th Sexual Content
+                  %td= @movie.kim_sex
+                %tr
+                  %th Violence
+                  %td= @movie.kim_violence
+                %tr
+                  %th Language / Profanity
+                  %td= @movie.kim_language
+            .span4
+              %p= link_to 'See the full review at Kids In Mind', @movie.kidsinmind_url, :target => '_blank'
+              %p These numbers range from 0 to 10 with 10 being the worst.
+              %p View the full review at Kids in Mind for details on why the numbers are the way they are.
 
-%title= page_title
+  :css
+    html {
+    background: url(#{@movie.backdrop_url}) no-repeat center center fixed;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{@movie.backdrop_url}', sizingMethod='scale');
+    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{@movie.backdrop_url}', sizingMethod='scale')";
+    }

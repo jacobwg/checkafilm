@@ -80,4 +80,4 @@ gem 'foreman'
 gem 'hashie'
 
 # PJAX
-gem 'pjax_rails'
+gem 'rack-pjax'
