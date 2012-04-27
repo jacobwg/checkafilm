@@ -1,4 +1,5 @@
 - if @movie.added
+  - page_title "Now processing..."
   :javascript
     jQuery(function($) {
       window.checkLoaded("#{@movie.imdbid}");
@@ -12,6 +13,7 @@
           %em right now...
           this page will refresh once we're done
 - else
+  - page_title "#{@movie.title} (#{@movie.year})"
   .row
     .span4
       %img{:alt => "#{@movie.title} Poster Image", :class => 'movie-poster', :src => @movie.poster_url}
@@ -73,3 +75,5 @@
   filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{@movie.backdrop_url}', sizingMethod='scale');
   -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{@movie.backdrop_url}', sizingMethod='scale')";
   }
+
+%title= page_title

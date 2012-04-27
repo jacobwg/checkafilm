@@ -1,3 +1,5 @@
+- page_title @query
+
 .row
   .span6
     .jumbotron.masthead
@@ -26,7 +28,7 @@
                     %small
                       %span{:class => "label label-rating#{movie.mpaa_rating}"}= movie.mpaa_rating
 
-
+%title= page_title
 
 
 
