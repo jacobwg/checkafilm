@@ -1,1 +1,40 @@
-= render :inline => Handlebars.compile(File.open("app/assets/javascripts/templates/movies/search.jst.hbs").read).call(:movies => @movies, :query => @query)
+.row
+  .span6
+    .jumbotron.masthead
+      .clearfix.jumbosearch
+        .search
+          = form_tag '/search', :class => 'navbar-search', :method => 'get' do
+            = text_field_tag :query, @query, :'aria-autocomplete' => "list", :'aria-haspopup' => "true", :class => "search-query", :id => "movie-search", :name =>"query", :method => "get", :placeholder => "Search by movie title", :role => "textbox"
+            %button.btn.hide-mobile{:type => 'submit'} Search
+        .title
+          %h1 Check a Film
+        %p Search for any movie by title and get a page with information about the movie.
+  .span6
+    %h1 Recently Added Movies
+    .row.movies-grid
+      - @movies.each do |movie|
+        .span3
+          .movie-card.clearfix
+            = link_to "/title/#{movie.slug}" do
+              = image_tag movie.poster_url, :class => 'pull-left', :width => '70', :height => '100'
+            %p
+              = link_to "/title/#{movie.slug}" do
+                %h4
+                  = movie.title
+                  = "(#{movie.year})" if movie.year
+                  - if movie.mpaa_rating
+                    %small
+                      %span{:class => "label label-rating#{movie.mpaa_rating}"}= movie.mpaa_rating
+
+
+
+
+
+
+
+
+
+
+
+
+

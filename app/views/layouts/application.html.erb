@@ -114,7 +114,6 @@
 
     <script type="text/javascript">
       App.tmdb_api_key = "<%= raw Settings.tmdb_key %>";
-      App.movies.reset(<%= raw @movies.as_api_response(:public).to_json %>);
     </script>
     <script type="text/javascript">
       var _gauges = _gauges || [];

@@ -114,6 +114,7 @@ GEM
       execjs (>= 1.2.9)
       sprockets (>= 2.0.3)
       tilt
+    hashie (1.2.0)
     hbs (0.1.2)
       therubyracer (~> 0.9.4)
     highline (1.6.11)
@@ -260,6 +261,7 @@ DEPENDENCIES
   haml (>= 3.0.0)
   haml-rails
   handlebars_assets
+  hashie
   hbs
   imdb
   jquery-rails

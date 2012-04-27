@@ -3,22 +3,19 @@ class MoviesController < ApplicationController
   respond_to :html, :json
 
   def home
-    respond_with do |format|
-      format.json { render_for_api :public, :json => @movies}
-    end
+    @movies = Movie.order('updated_at DESC').limit(12).includes(:subtitles)
+    respond_with @movies
   end
 
   def index
-    respond_with do |format|
-      format.html { redirect_to :root }
-      format.json { render_for_api :public, :json => @movies}
-    end
+    @movies = Movie.order('updated_at DESC').limit(12).includes(:subtitles)
+    respond_with @movies
   end
 
   def search
     @query = params[:query]
     @movies = []
-    if @query
+    unless @query.nil?
       begin
         uri = "http://api.themoviedb.org/2.1/Movie.search/en-US/json/#{Settings.tmdb_key}/#{CGI::escape(@query)}"
         result = Curl::Easy.perform(uri).body_str
@@ -33,7 +30,7 @@ class MoviesController < ApplicationController
               }
               hash[:poster_url] = i['posters'].first['image']['url'] if i['posters'].first
               hash[:year] = i['released'].split(/-/).first.to_i if i['released']
-              hash
+              Hashie::Mash.new(hash)
             end
           end
         end
@@ -52,9 +49,7 @@ class MoviesController < ApplicationController
     @movie = Movie.find_or_create_by_imdbid(imdbid)
     @movie.async_load_information #if @movie.added?
 
-    respond_with do |format|
-      format.json { render_for_api :public, :json => @movie, :root => :movie }
-    end
+    respond_with @movies
   end
 
 end
