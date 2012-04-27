@@ -4,6 +4,9 @@ preload_app true   # require for New Relic to work
 
 after_fork do |server, worker|
   Rails.cache.reset if Rails.cache.respond_to?(:reset)
-  ObjectSpace.each_object(ActionDispatch::Session::DalliStore) { |obj| obj.reset }
+
+  # if using Session store
+  # ObjectSpace.each_object(ActionDispatch::Session::DalliStore) { |obj| obj.reset }
+
   ActiveRecord::Base.establish_connection
 end
