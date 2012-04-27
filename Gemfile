@@ -48,7 +48,6 @@ gem 'sidekiq'  #, '~> 0.9.0', :git => "git://github.com/mperham/sidekiq.git"
 gem 'imdb'
 
 # Servers
-gem 'thin'
 gem 'unicorn'
 
 # Image processing and storage (local cache of movie covers)
