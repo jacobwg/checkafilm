@@ -84,4 +84,6 @@ gem 'rack-pjax'
 # Memcached
 gem 'dalli'
 
+# Scheduling
+gem 'clockwork'
 
