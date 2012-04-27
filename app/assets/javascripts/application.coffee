@@ -4,6 +4,7 @@
 #= require json2
 #= require bootstrap
 #= require webapp
+#= require pjax
 
 window.preloadImage = (src) ->
   $('<img/>')[0].src = src
