@@ -1,4 +1,4 @@
-# jquery is loaded from Google
+#= require jquery
 #= require jquery-ui
 #= require jquery_ujs
 #= require json2
@@ -16,14 +16,13 @@ jQuery ($) ->
   $('#top-message').ajaxStop ->
     $(this).removeClass "active"
 
-  App.mobileOnly ->
-    setTimeout ->
-      window.scrollTo 0, 1
-    , 1
+  setTimeout ->
+    window.scrollTo 0, 1
+  , 1
 
 
 window.searchTmdb = (query, callback) ->
- url = "http://api.themoviedb.org/2.1/Movie.search/en-US/json/" + App.tmdb_api_key + "/" + encodeURIComponent(query)
+ url = "http://api.themoviedb.org/2.1/Movie.search/en-US/json/" + window.tmdb_api_key + "/" + encodeURIComponent(query)
  $.getJSON "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20json%20where%20url%3D'" + encodeURIComponent(url) + "'&format=json&callback=?", (data) ->
    if data.query.results.json.json
      callback data.query.results.json.json
@@ -40,8 +39,8 @@ window.searchImdb = (query, callback) ->
 
 window.checkLoaded = (imdbid) ->
   $.getJSON "/title/" + imdbid, (data, status, xhr) ->
-    if data.added
-      window.checkTimeout = setTimeout("window.checkLoaded(\"" + data.imdbid + "\")", 1000)
-    else
+    if data.status isnt "added"
       clearTimeout window.checkTimeout if window.checkTimeout
-      window.location.reload true
+      window.location = '/title/' + data.imdbid
+    else
+      window.checkTimeout = setTimeout("window.checkLoaded(\"" + data.imdbid + "\")", 1000)

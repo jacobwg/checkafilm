@@ -24,7 +24,7 @@
                   = "(#{movie.year})" if movie.year
                   - if movie.mpaa_rating
                     %small
-                      %span{:class => "label label-rating#{movie.mpaa_rating}"}= @movie.mpaa_rating
+                      %span{:class => "label label-rating#{movie.mpaa_rating}"}= movie.mpaa_rating
             - if movie.runtime
               %p
                 %strong Runtime:

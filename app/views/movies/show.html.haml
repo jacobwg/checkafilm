@@ -1,4 +1,8 @@
 - if @movie.added
+  :javascript
+    jQuery(function($) {
+      window.checkLoaded("#{@movie.imdbid}");
+    });
   .row
     .span12
       .jumbotron.masthead
@@ -16,7 +20,7 @@
         .span5
           .padme
             %h1
-              #{@movie.title} (@movie.year)
+              #{@movie.title} (#{@movie.year})
               %small
                 %span{:class => "label label-rating#{@movie.mpaa_rating}"}= @movie.mpaa_rating
             - if @movie.runtime
@@ -44,24 +48,24 @@
         %h3 Plot Summary
         %p= @movie.plot_details
 
-        - unless @movie.kim_violence.nil?
-          %h2 Kids in Mind Rating
-          .row
-            .span4
-              %table.table
-                %tr
-                  %th Sexual Content
-                  %td= @kim_sex
-                %tr
-                  %th Violence
-                  %td= @movie.kim_violence
-                %tr
-                  %th Language / Profanity
-                  %td= @movie.kim_language
-            .span4
-              %p= link_to 'See the full review at Kids In Mind', @movie.kidsinmind_url, :target => '_blank'
-              %p These numbers come from Kids in Mind and range from 0 to 10 with 10 being the worst.
-              %p View the full review at Kids in Mind for details on why the numbers are the way they are.
+      - unless @movie.kim_violence.nil?
+        %h2 Kids in Mind Rating
+        .row
+          .span4
+            %table.table
+              %tr
+                %th Sexual Content
+                %td= @movie.kim_sex
+              %tr
+                %th Violence
+                %td= @movie.kim_violence
+              %tr
+                %th Language / Profanity
+                %td= @movie.kim_language
+          .span4
+            %p= link_to 'See the full review at Kids In Mind', @movie.kidsinmind_url, :target => '_blank'
+            %p These numbers range from 0 to 10 with 10 being the worst.
+            %p View the full review at Kids in Mind for details on why the numbers are the way they are.
 
 :css
   html {

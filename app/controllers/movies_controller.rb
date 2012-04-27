@@ -8,8 +8,7 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.order('updated_at DESC').limit(12).includes(:subtitles)
-    respond_with @movies
+    redirect_to :root
   end
 
   def search
@@ -49,7 +48,7 @@ class MoviesController < ApplicationController
     @movie = Movie.find_or_create_by_imdbid(imdbid)
     @movie.async_load_information #if @movie.added?
 
-    respond_with @movies
+    respond_with @movie
   end
 
 end
