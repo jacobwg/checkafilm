@@ -17,7 +17,7 @@
           .span3
             .movie-card.clearfix
               = link_to movie do
-                = image_tag movie.poster_url, :class => 'pull-left', :width => '70', :height => '100'
+                = image_tag movie.poster_url(:thumb), :class => 'pull-left'
               %p
                 = link_to movie do
                   %h4
