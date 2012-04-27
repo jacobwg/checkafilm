@@ -80,3 +80,8 @@ gem 'hashie'
 
 # PJAX
 gem 'rack-pjax'
+
+# Memcached
+gem 'dalli'
+
+
