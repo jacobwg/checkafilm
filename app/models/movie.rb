@@ -106,20 +106,34 @@ class Movie < ActiveRecord::Base
   end
 
   def load_information
-    uri = "http://www.imdbapi.com/?i=#{imdbid}"
-    result = JSON.parse(Curl::Easy.perform(uri).body_str)
-    if result['Response'] != 'True'
+
+    imdb = Imdb::Movie.new(imdbid.gsub(/tt/, ''))
+    if imdb.title.nil?
       self.make_it_invalid
       return
     end
-    self.title = result['Title']
-    self.year = result['Year']
-    self.mpaa_rating = result['Rated']
-    self.plot_summary = result['Plot']
-    self.remote_poster_url = result['Poster'] unless result['Poster'] == 'N/A'
-    self.runtime = result['Runtime']
-    self.rating = result['Rating']
-    self.votes = result['Votes']
+    self.title = imdb.title
+    self.year = imdb.year
+
+    if imdb.mpaa_rating.scan /\bNC-17\b/
+      self.mpaa_rating = 'NC-17'
+    elsif imdb.mpaa_rating.scan /\bPG-13\b/
+      self.mpaa_rating = 'PG-13'
+    elsif imdb.mpaa_rating.scan /\bPG\b/
+      self.mpaa_rating = 'PG'
+    elsif imdb.mpaa_rating.scan /\bR\b/
+      self.mpaa_rating = 'R'
+    elsif imdb.mpaa_rating.scan /\bG\b/
+      self.mpaa_rating = 'G'
+    else
+      self.mpaa_rating = 'N/A'
+    end
+
+    self.plot_summary = imdb.plot
+    self.remote_poster_url = imdb.poster
+    self.runtime = "#{imdb.length.to_i / 60}hrs  #{imdb.length.to_i % 60}min" if imdb.length
+    self.rating = imdb.rating
+    self.votes = imdb.votes
     self.imdb_url = "http://www.imdb.com/title/#{imdbid}/"
 
     uri = "http://api.themoviedb.org/2.1/Movie.imdbLookup/en-US/json/#{Settings.tmdb_key}/#{imdbid}"
