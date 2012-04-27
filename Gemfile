@@ -79,3 +79,5 @@ gem 'foreman'
 # Hash utilities
 gem 'hashie'
 
+# PJAX
+gem 'pjax_rails'
