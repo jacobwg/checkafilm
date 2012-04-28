@@ -96,21 +96,13 @@ class Movie < ActiveRecord::Base
     %w(added has_information has_subtitles auto_reviewed reviewed has_no_subtitles invalid)
   end
 
-  def async_load_information
-    MovieWorker.perform_async(self.id)
-  end
 
-  def async_refresh_information
-    RefreshWorker.perform_async(self.id)
-  end
-
-  def load_information!
-    self.load_information
+  def load_release_information!
+    load_release_information
     self.save
   end
 
-  def load_information
-
+  def load_release_information
     imdb = Imdb::Movie.new(imdbid.gsub(/tt/, ''))
     if imdb.title.nil?
       self.make_it_invalid
@@ -118,9 +110,7 @@ class Movie < ActiveRecord::Base
     end
     self.title = imdb.title
     self.year = imdb.year
-
     self.plot_summary = imdb.plot
-    self.remote_poster_url = imdb.poster
     if imdb.length and imdb.length.to_i > 0
       self.runtime = ""
       self.runtime = "#{imdb.length.to_i / 60}hrs" if imdb.length.to_i / 60 > 0
@@ -138,22 +128,8 @@ class Movie < ActiveRecord::Base
       return
     end
 
-    tmdb_backdrop = {'image' => {'width' => 0, 'url' => ''}}
-    result = result.first
-    result['backdrops'].each do |i|
-      tmdb_backdrop = i if i['image']['width'] > tmdb_backdrop['image']['width']
-    end
-    self.remote_backdrop_url = tmdb_backdrop['image']['url']
-
-    if self.remote_poster_url.nil?
-      posters = result['posters']
-      posters.keep_if { |i| i['image']['size'] == 'mid' }
-      self.remote_poster_url = posters.first['image']['url'] unless posters.empty?
-    end
-
     self.plot_details = result['overview']
     self.tmdb_url = result['url']
-    # TODO: find another source for mpaa rating
     if imdb.mpaa_rating
       if imdb.mpaa_rating.index /\bNC-17\b/
         self.mpaa_rating = 'NC-17'
@@ -173,7 +149,40 @@ class Movie < ActiveRecord::Base
     else
       self.mpaa_rating = 'N/A'
     end
+  end
 
+  def load_posters!
+    load_posters
+    self.save
+  end
+
+  def load_posters
+    imdb = Imdb::Movie.new(imdbid.gsub(/tt/, ''))
+    self.remote_poster_url = imdb.poster
+    uri = "http://api.themoviedb.org/2.1/Movie.imdbLookup/en-US/json/#{Settings.tmdb_key}/#{imdbid}"
+    result = JSON.parse(Curl::Easy.perform(uri).body_str)
+    unless result.first.include? "Nothing found"
+      tmdb_backdrop = {'image' => {'width' => 0, 'url' => ''}}
+      result = result.first
+      result['backdrops'].each do |i|
+        tmdb_backdrop = i if i['image']['width'] > tmdb_backdrop['image']['width']
+      end
+      self.remote_backdrop_url = tmdb_backdrop['image']['url']
+
+      if self.remote_poster_url.nil?
+        posters = result['posters']
+        posters.keep_if { |i| i['image']['size'] == 'mid' }
+        self.remote_poster_url = posters.first['image']['url'] unless posters.empty?
+      end
+    end
+  end
+
+  def load_reviews!
+    load_reviews
+    self.save
+  end
+
+  def load_reviews
     search_title = "#{title} [#{year}}"
 
     begin
@@ -240,7 +249,14 @@ class Movie < ActiveRecord::Base
 
     rescue nil
     end
+  end
 
+  def load_amazon_information!
+    load_amazon_information
+    self.save
+  end
+
+  def load_amazon_information
     if self.title
       Amazon::Ecs.options = {
         :associate_tag => Settings.amazon_affiliate,
@@ -252,18 +268,69 @@ class Movie < ActiveRecord::Base
 
       self.amazon_url = res.items.first.get('DetailPageURL') if res.is_valid_request? and not res.has_error? and res.items.first
     end
-
-    self.make_it_have_information if self.added?
   end
 
-
-  def self.search title
-    uri = "http://api.themoviedb.org/2.1/Movie.search/en-US/json/#{Settings.tmdb_key}/#{CGI::escape(title)}"
-    result = Curl::Easy.perform(uri).body_str
-    return [] if !!(result.match(/^<h1>Not Found/)) or !!(result.match(/^\["Nothing found/))
-    JSON.parse(result)
+  def load_all_information!
+    load_all_information
+    self.save
   end
 
+  def load_all_information
+    load_release_information
+    load_posters
+    load_reviews
+    load_amazon_information
+  end
 
+  def refresh_information!
+    refresh_information
+    self.save
+  end
+
+  def refresh_information
+    load_release_information
+    load_reviews
+    load_amazon_information
+  end
+
+  def async_load_all_information
+    InformationLoader.perform_async(self.id, :all)
+  end
+
+  def async_refresh_information
+    InformationLoader.perform_async(self.id, :refresh)
+  end
+
+  def async_refresh_posters
+    InformationLoader.perform_async(self.id, :posters)
+  end
+
+  def self.search(title)
+    return [] if title.nil? or title.empty?
+    movies = []
+    begin
+      uri = "http://api.themoviedb.org/2.1/Movie.search/en-US/json/#{Settings.tmdb_key}/#{CGI::escape(title)}"
+      result = Curl::Easy.perform(uri).body_str
+      unless !!(result.match(/^<h1>Not Found/)) or !!(result.match(/^\["Nothing found/))
+        movies = JSON.parse(result)
+        unless movies.empty?
+          movies = movies.map do |i|
+            hash = {
+              title: i['name'],
+              slug: i['imdb_id'],
+              mpaa_rating: i['certification']
+            }
+            hash[:poster_url] = i['posters'].first['image']['url'] if i['posters'].first
+            hash[:poster_url] ||= '/assets/defaults/thumb_poster.png'
+            hash[:year] = i['released'].split(/-/).first.to_i if i['released']
+            Hashie::Mash.new(hash)
+          end
+        end
+      end
+    rescue nil
+      return []
+    end
+    movies
+  end
 
 end
