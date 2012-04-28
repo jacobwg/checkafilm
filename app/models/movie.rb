@@ -121,7 +121,12 @@ class Movie < ActiveRecord::Base
 
     self.plot_summary = imdb.plot
     self.remote_poster_url = imdb.poster
-    self.runtime = "#{imdb.length.to_i / 60}hrs  #{imdb.length.to_i % 60}min" if imdb.length
+    if imdb.length and imdb.length.to_i > 0
+      self.runtime = ""
+      self.runtime = "#{imdb.length.to_i / 60}hrs" if imdb.length.to_i / 60 > 0
+      self.runtime = "#{self.runtime} #{imdb.length.to_i % 60}min" if imdb.length.to_i % 60 > 0
+      self.runtime.strip!
+    end
     self.rating = imdb.rating
     self.votes = imdb.votes
     self.imdb_url = "http://www.imdb.com/title/#{imdbid}/"
