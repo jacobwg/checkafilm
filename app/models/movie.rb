@@ -134,13 +134,18 @@ class Movie < ActiveRecord::Base
     end
 
     tmdb_backdrop = {'image' => {'width' => 0, 'url' => ''}}
-
     result = result.first
     result['backdrops'].each do |i|
       tmdb_backdrop = i if i['image']['width'] > tmdb_backdrop['image']['width']
     end
-
     self.remote_backdrop_url = tmdb_backdrop['image']['url']
+
+    if self.remote_poster_url.nil?
+      posters = result['posters']
+      posters.keep_if { |i| i['image']['size'] == 'mid' }
+      self.remote_poster_url = posters.first['image']['url'] unless posters.empty?
+    end
+
     self.plot_details = result['overview']
     self.tmdb_url = result['url']
     # TODO: find another source for mpaa rating
