@@ -122,8 +122,8 @@ class Movie < ActiveRecord::Base
     self.imdb_url = "http://www.imdb.com/title/#{imdbid}/"
 
     uri = "http://api.themoviedb.org/2.1/Movie.imdbLookup/en-US/json/#{Settings.tmdb_key}/#{imdbid}"
-    result = JSON.parse(Curl::Easy.perform(uri).body_str)
-    if result.first.include? "Nothing found"
+    result = JSON.parse(Curl::Easy.perform(uri).body_str).first
+    if result.include? "Nothing found"
       self.make_it_invalid
       return
     end
@@ -160,10 +160,9 @@ class Movie < ActiveRecord::Base
     imdb = Imdb::Movie.new(imdbid.gsub(/tt/, ''))
     self.remote_poster_url = imdb.poster
     uri = "http://api.themoviedb.org/2.1/Movie.imdbLookup/en-US/json/#{Settings.tmdb_key}/#{imdbid}"
-    result = JSON.parse(Curl::Easy.perform(uri).body_str)
-    unless result.first.include? "Nothing found"
+    result = JSON.parse(Curl::Easy.perform(uri).body_str).first
+    unless result.include? "Nothing found"
       tmdb_backdrop = {'image' => {'width' => 0, 'url' => ''}}
-      result = result.first
       result['backdrops'].each do |i|
         tmdb_backdrop = i if i['image']['width'] > tmdb_backdrop['image']['width']
       end
