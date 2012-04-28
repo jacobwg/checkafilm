@@ -294,15 +294,15 @@ class Movie < ActiveRecord::Base
   end
 
   def async_load_all_information
-    InformationLoader.perform_async(self.id, :all)
+    InformationLoader.perform_async(self.id, 'all')
   end
 
   def async_refresh_information
-    InformationLoader.perform_async(self.id, :refresh)
+    InformationLoader.perform_async(self.id, 'refresh')
   end
 
   def async_refresh_posters
-    InformationLoader.perform_async(self.id, :posters)
+    InformationLoader.perform_async(self.id, 'posters')
   end
 
   def self.search(title)
