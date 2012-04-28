@@ -163,7 +163,7 @@ class Movie < ActiveRecord::Base
       else
         self.mpaa_rating = 'N/A'
       end
-    elsif !result['certification'].nil?
+    elsif !result['certification'].nil? and result['certification'] != ''
       self.mpaa_rating = result['certification']
     else
       self.mpaa_rating = 'N/A'

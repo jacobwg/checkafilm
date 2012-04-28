@@ -9,4 +9,11 @@ after_fork do |server, worker|
   # ObjectSpace.each_object(ActionDispatch::Session::DalliStore) { |obj| obj.reset }
 
   ActiveRecord::Base.establish_connection
+
+  Sidekiq.configure_client do |config|
+    require 'sidekiq/middleware/client/unique_jobs'
+    config.client_middleware do |chain|
+      chain.add Sidekiq::Middleware::Client::UniqueJobs
+    end
+  end
 end
