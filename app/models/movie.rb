@@ -118,23 +118,6 @@ class Movie < ActiveRecord::Base
     end
     self.title = imdb.title
     self.year = imdb.year
-
-    if imdb.mpaa_rating
-      if imdb.mpaa_rating.index /\bNC-17\b/
-        self.mpaa_rating = 'NC-17'
-      elsif imdb.mpaa_rating.index /\bPG-13\b/
-        self.mpaa_rating = 'PG-13'
-      elsif imdb.mpaa_rating.index /\bPG\b/
-        self.mpaa_rating = 'PG'
-      elsif imdb.mpaa_rating.index /\bR\b/
-        self.mpaa_rating = 'R'
-      elsif imdb.mpaa_rating.index /\bG\b/
-        self.mpaa_rating = 'G'
-      else
-        self.mpaa_rating = 'N/A'
-      end
-    end
-
     self.plot_summary = imdb.plot
     self.remote_poster_url = imdb.poster
     self.runtime = "#{imdb.length.to_i / 60}hrs  #{imdb.length.to_i % 60}min" if imdb.length
@@ -145,7 +128,7 @@ class Movie < ActiveRecord::Base
     uri = "http://api.themoviedb.org/2.1/Movie.imdbLookup/en-US/json/#{Settings.tmdb_key}/#{imdbid}"
     result = JSON.parse(Curl::Easy.perform(uri).body_str)
     if result.first.include? "Nothing found"
-      self.makd_it_invalid
+      self.make_it_invalid
       return
     end
 
@@ -159,6 +142,7 @@ class Movie < ActiveRecord::Base
     self.remote_backdrop_url = tmdb_backdrop['image']['url']
     self.plot_details = result['overview']
     self.tmdb_url = result['url']
+    self.mpaa_rating = result['certification']
 
     search_title = "#{title} [#{year}}"
 
