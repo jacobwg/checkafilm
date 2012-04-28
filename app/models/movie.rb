@@ -163,8 +163,10 @@ class Movie < ActiveRecord::Base
       else
         self.mpaa_rating = 'N/A'
       end
-    else
+    elsif !result['certification'].nil?
       self.mpaa_rating = result['certification']
+    else
+      self.mpaa_rating = 'N/A'
     end
 
     search_title = "#{title} [#{year}}"
