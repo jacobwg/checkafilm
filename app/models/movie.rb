@@ -271,6 +271,7 @@ class Movie < ActiveRecord::Base
 
   def load_all_information!
     load_all_information
+    self.make_it_have_information
     self.save
   end
 
