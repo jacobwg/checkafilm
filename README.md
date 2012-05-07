@@ -1,8 +1,8 @@
-# Informed Cinema
+# Check a Film
 
-Every time me and my family are considering whether or not a particular movie is worth watching, I manually check IMDb, Plugged In, and Kids in Mind for information about the movie.  In addition, those three websites are hard to check from a mobile phone, which I do often in the store.
+Every time my family and I are considering whether or not a particular movie is worth watching, I manually check IMDb, Plugged In, and Kids in Mind for information about the movie.  Additionally, we are often in the store, and those three websites are hard to check from a mobile phone.
 
-This project automatically loads information from those three sources given any movie and displays it on one page.  The design is responsive, so it works on mobile.
+This project automatically loads information from those three sources given any movie title and conveniently displays that information on a responsive mobile-friendly website.
 
 ## Future Improvements
 
@@ -12,4 +12,4 @@ It could automatically detect newly released movies that I thought might be inte
 
 ## Interested?
 
-If this is something you'd like to use too, email me at [me@jacobwg.com](mailto:me@jacobwg.com) - I'd love to talk to you.
+If this is something you'd like to use too, email me at [me@jacobwg.com](mailto:me@jacobwg.com) - I'd love to talk with you.
