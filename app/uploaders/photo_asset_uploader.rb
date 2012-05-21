@@ -23,11 +23,15 @@ storage :fog
   end
 
   # Process files as they are uploaded:
-  process :resize_to_fit => [400, 600]
+  # process :resize_to_fit => [400, 600]
   #
   # def scale(width, height)
   #   # do something
   # end
+
+  version :poster do
+    process :resize_to_fit => [400, 600]
+  end
 
   # Create different versions of your uploaded files:
   version :thumb do

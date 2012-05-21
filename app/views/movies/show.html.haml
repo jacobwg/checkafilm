@@ -17,7 +17,7 @@
     - page_title "#{@movie.title} (#{@movie.year})"
     .row
       .span4
-        %img{:alt => "#{@movie.title} Poster Image", :class => 'movie-poster', :src => @movie.poster_url}
+        %img{:alt => "#{@movie.title} Poster Image", :class => 'movie-poster', :src => @movie.poster_url(:poster)}
       .span8.movie-details
         .row
           .span5
