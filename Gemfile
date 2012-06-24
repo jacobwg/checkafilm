@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.3'
 
 # Database
-gem 'pg'
+gem 'mysql2'
 
 # Gems used only for assets
 group :assets do
