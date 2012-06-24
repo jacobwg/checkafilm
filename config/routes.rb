@@ -1,3 +1,5 @@
+require 'resque/server'
+
 InformedCinema::Application.routes.draw do
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
   mount Resque::Server.new, :at => '/resque'

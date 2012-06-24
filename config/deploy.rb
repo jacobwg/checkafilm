@@ -48,6 +48,7 @@ namespace :environment do
 end
 
 before 'deploy:restart', 'environment:symlink'
+before 'foreman:export', 'environment:symlink'
 
 # Using foreman for extra processes
 
