@@ -2,16 +2,6 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
-# hacked loader
-if FileTest.exist?(Rails.root.join('.env'))
-  File.open(Rails.root.join('.env'), 'r') do |file|
-    file.each_line do |l|
-      parts = l.split('=')
-      ENV[parts.first] = parts.last
-    end
-  end
-end
-
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
   Bundler.require(*Rails.groups(:assets => %w(development test)))

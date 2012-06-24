@@ -1,4 +1,15 @@
 InformedCinema::Application.configure do
+
+  # hacked loader
+  if FileTest.exist?(Rails.root.join('.env'))
+    File.open(Rails.root.join('.env'), 'r') do |file|
+      file.each_line do |l|
+        parts = l.split('=')
+        ENV[parts.first] = parts.last
+      end
+    end
+  end
+
   # Settings specified here will take precedence over those in config/application.rb
 
   # Code is not reloaded between requests
