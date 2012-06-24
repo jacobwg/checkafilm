@@ -294,15 +294,15 @@ class Movie < ActiveRecord::Base
   end
 
   def async_load_all_information
-    InformationLoader.perform_async(self.id, 'all')
+    Resque.enqueue(InformationLoader, self.id, 'all')
   end
 
   def async_refresh_information
-    InformationLoader.perform_async(self.id, 'refresh')
+    Resque.enqueue(InformationLoader, self.id, 'refresh')
   end
 
   def async_refresh_posters
-    InformationLoader.perform_async(self.id, 'posters')
+    Resque.enqueue(InformationLoader, self.id, 'posters')
   end
 
   def self.search(title)

@@ -40,9 +40,7 @@ gem 'nokogiri'
 gem 'curb'
 
 # Background job processing
-gem 'slim'
-gem 'sinatra'
-gem 'sidekiq'  #, '~> 0.9.0', :git => "git://github.com/mperham/sidekiq.git"
+gem 'resque'
 
 # IMDb API
 gem 'imdb'

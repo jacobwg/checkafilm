@@ -1,6 +1,7 @@
 class InformationLoader
-  include Sidekiq::Worker
-  def perform(movie_id, type)
+  @queue = :movies
+
+  def self.perform(movie_id, type)
     movie = Movie.find(movie_id)
     puts "Type is #{type}"
     case type
