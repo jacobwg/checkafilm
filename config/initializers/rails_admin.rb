@@ -271,7 +271,7 @@ RailsAdmin.config do |config|
     configure :text, :text
     configure :cleaned_text, :text
     configure :movie_id, :integer do
-      hidden true
+      #hidden true
     end
     configure :created_at, :datetime
     configure :updated_at, :datetime
