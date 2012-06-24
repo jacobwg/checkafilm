@@ -43,8 +43,41 @@ end
 namespace :environment do
   desc "Symlink the .env file from shared"
   task :symlink, :roles => :app do
-    run "ln -sf #{shared_path}/env #{current_path}/.env"
+    run "ln -sfv #{shared_path}/env #{current_path}/.env"
   end
 end
 
-before 'deploy:start', 'environment:symlink'
+before 'deploy:restart', 'environment:symlink'
+
+# Using foreman for extra processes
+
+namespace :foreman do
+  desc "Start the application services"
+  task :start, :roles => :app do
+    sudo "start #{application}"
+  end
+
+  desc "Stop the application services"
+  task :stop, :roles => :app do
+    sudo "stop #{application}"
+  end
+
+  desc "Restart the application services"
+  task :restart, :roles => :app do
+    run "#{try_sudo} start #{application} || #{try_sudo} restart #{application}"
+  end
+
+  desc "Display logs for a certain process - arg example: PROCESS=web-1"
+  task :logs, :roles => :app do
+    run "cd #{current_path}/log && cat #{ENV["PROCESS"]}.log"
+  end
+
+  desc "Export the Procfile to upstart scripts"
+  task :export, :roles => :app do
+    run "cd #{release_path} && #{try_sudo} foreman export upstart /etc/init -a #{application} -u #{user} -l #{shared_path}/log -p #{base_port}"
+  end
+end
+
+after 'deploy:update', 'foreman:export'
+after 'deploy:update', 'foreman:restart'
+
