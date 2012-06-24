@@ -39,3 +39,12 @@ namespace :deploy do
     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
   end
 end
+
+namespace :environment do
+  desc "Symlink the .env file from shared"
+  task :symlink, :roles => :app do
+    run "ln -sf #{shared_path}/env #{current_path}/.env"
+  end
+end
+
+before 'deploy:start', 'environment:symlink'
