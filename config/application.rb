@@ -1,3 +1,7 @@
+require File.expand_path('../boot', __FILE__)
+
+require 'rails/all'
+
 # hacked loader
 if FileTest.exist?(Rails.root.join('.env'))
   File.open(Rails.root.join('.env'), 'r') do |file|
@@ -7,10 +11,6 @@ if FileTest.exist?(Rails.root.join('.env'))
     end
   end
 end
-
-require File.expand_path('../boot', __FILE__)
-
-require 'rails/all'
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
