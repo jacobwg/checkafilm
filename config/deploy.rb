@@ -1,6 +1,9 @@
 require "bundler/capistrano"  # automatically bundle on deploy
 require 'capistrano_colors'   # colorize output
 
+# for rbenv
+set :bundle_flags, "--deployment --quiet --binstubs --shebang ruby-local-exec"
+
 set :application, "checkafilm"
 set :repository,  "https://github.com/jacobwg/checkafilm"
 
