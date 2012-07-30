@@ -6,7 +6,7 @@
         %li.span2
           = link_to "/tmdb/#{movie.id}", class: 'thumbnail' do
             - if movie.poster_path.nil?
-              %img{:src => '/assets/poster.png'}
+              %img{:src => asset_path('poster.png')}
             - else
               %img{:src => tmdb_asset_path(:size => 'w185', :path => movie.poster_path.gsub(/\//, ''))}
             %h4
