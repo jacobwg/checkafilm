@@ -11,80 +11,62 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120315185443) do
+ActiveRecord::Schema.define(:version => 20120729231240) do
 
-  create_table "movies", :force => true do |t|
-    t.string   "imdbid"
-    t.string   "title"
-    t.integer  "year"
-    t.string   "mpaa_rating"
-    t.text     "plot_summary"
-    t.text     "plot_details"
-    t.string   "poster"
-    t.string   "backdrop"
-    t.string   "runtime"
-    t.string   "rating"
-    t.string   "votes"
-    t.string   "tmdbid"
-    t.string   "imdb_url"
-    t.string   "tmdb_url"
-    t.string   "pluggedin_url"
-    t.string   "kidsinmind_url"
-    t.integer  "kim_sex"
-    t.integer  "kim_violence"
-    t.integer  "kim_language"
-    t.datetime "created_at",                          :null => false
-    t.datetime "updated_at",                          :null => false
-    t.string   "status",         :default => "added"
-    t.string   "slug"
-    t.string   "amazon_url"
-  end
-
-  add_index "movies", ["imdbid"], :name => "index_movies_on_imdbid"
-  add_index "movies", ["slug"], :name => "index_movies_on_slug", :unique => true
-  add_index "movies", ["status"], :name => "index_movies_on_status"
-
-  create_table "rails_admin_histories", :force => true do |t|
-    t.text     "message"
-    t.string   "username"
-    t.integer  "item"
-    t.string   "table"
-    t.integer  "month",      :limit => 2
-    t.integer  "year",       :limit => 8
-    t.datetime "created_at",              :null => false
-    t.datetime "updated_at",              :null => false
-  end
-
-  add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_rails_admin_histories"
-
-  create_table "subtitles", :force => true do |t|
-    t.integer  "start_time"
-    t.integer  "end_time"
-    t.text     "text"
-    t.text     "cleaned_text"
-    t.integer  "movie_id"
+  create_table "backdrops", :force => true do |t|
+    t.string   "image"
+    t.string   "original_url"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+    t.integer  "title_id"
   end
 
-  add_index "subtitles", ["movie_id"], :name => "index_subtitles_on_movie_id"
-
-  create_table "users", :force => true do |t|
-    t.string   "email",                  :default => "", :null => false
-    t.string   "encrypted_password",     :default => "", :null => false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          :default => 0
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+  create_table "titles", :force => true do |t|
+    t.string   "name"
+    t.text     "plot_summary"
+    t.text     "plot_details"
+    t.string   "mpaa_rating"
+    t.date     "release_date"
+    t.float    "imdb_rating"
+    t.integer  "imdb_votes"
+    t.string   "imdb_id"
+    t.string   "tmdb_id"
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+    t.string   "runtime"
+    t.float    "tmdb_rating"
+    t.integer  "tmdb_votes"
+    t.string   "poster"
+    t.string   "original_poster_url"
+    t.string   "slug"
+    t.date     "release_date_dvd"
+    t.string   "homepage"
+    t.float    "rotten_tomatoes_critics_score"
+    t.float    "rotten_tomatoes_audience_score"
+    t.string   "rotten_tomatoes_audience_rating"
+    t.string   "rotten_tomatoes_critics_rating"
+    t.string   "rotten_tomatoes_critics_consensus"
+    t.string   "rotten_tomatoes_link"
+    t.string   "imdb_link"
+    t.string   "tmdb_link"
+    t.string   "kids_in_mind_link"
+    t.string   "plugged_in_link"
+    t.integer  "kids_in_mind_sex_number"
+    t.integer  "kids_in_mind_language_number"
+    t.integer  "kids_in_mind_violence_number"
+    t.string   "status_state"
   end
 
-  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
-  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+  add_index "titles", ["slug"], :name => "index_titles_on_slug", :unique => true
+
+  create_table "trailers", :force => true do |t|
+    t.string   "url"
+    t.integer  "title_id"
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
+    t.string   "name"
+    t.string   "thumbnail"
+    t.string   "original_thumbnail_url"
+  end
 
 end

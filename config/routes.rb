@@ -1,13 +1,16 @@
 require 'resque/server'
 
-InformedCinema::Application.routes.draw do
-  mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
-  mount Resque::Server.new, :at => '/resque'
+Checkafilm::Application.routes.draw do
 
-  devise_for :users
-  resources :title, :controller => :movies, :only => [:index, :show], :as => :movie
+  match 'assets/tmdb/:size/:path' => 'assets#tmdb', :as => :tmdb_asset
 
-  match 'search' => 'movies#search', :as => :search
-  match 'search/:query' => 'movies#search'
-  root :to => 'movies#home'
+  mount Resque::Server.new, :at => '/jobs'
+
+  match '/title' => 'titles#index', :as => :titles
+  match '/title/:id' => 'titles#show', :as => :title
+  match '/find' => 'titles#search', :as => :search
+
+  match '/tmdb/:id' => 'titles#tmdb', :as => :tmdb_redirect
+
+  root :to => 'titles#index'
 end

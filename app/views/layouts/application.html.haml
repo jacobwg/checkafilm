@@ -1,0 +1,28 @@
+!!! html
+%html{:lang => 'en'}
+  %head
+    %title Check a Film
+    %link{:href => '//fonts.googleapis.com/css?family=PT+Sans:700|Open+Sans:300italic,400italic,400,300,600,700,800', :rel => 'stylesheet', :type => 'text/css'}
+    = stylesheet_link_tag    "application", :media => "all"
+    %link{:href => "/video-js.css", :rel => "stylesheet"}
+    %script{:src => "/video.js"}
+    %script{:src => "/youtube.js"}
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+  %body
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container
+          = link_to 'Check a Film', :root, :class => 'brand'
+          %ul.nav.pull-right
+            %li= link_to 'Home', :root
+            %li= link_to 'About', '/about'
+          = form_tag search_path, :class => 'navbar-search pull-left', :method => 'get' do
+            %input.search-query{type: 'text', placeholder: 'Search by Title...', name: 'q'}
+
+    .container
+      #content
+        %p= notice
+        = yield
+      %footer
+        %p &copy; 2012 Jacob Gillespie - powered by IMDb, The Movie Database, YouTube, Plugged In, and Kids in Mind

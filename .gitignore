@@ -14,8 +14,5 @@
 /log/*.log
 /tmp
 
-config/application.yml
-public/uploads/*
-
-# Ignore foreman environment files
-.env
+/config/application.yml
+/public/uploads

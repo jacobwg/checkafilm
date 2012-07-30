@@ -1,15 +1,4 @@
-InformedCinema::Application.configure do
-
-  # hacked loader
-  if FileTest.exist?(Rails.root.join('.env'))
-    File.open(Rails.root.join('.env'), 'r') do |file|
-      file.each_line do |l|
-        parts = l.split('=')
-        ENV[parts.first] = parts.last
-      end
-    end
-  end
-
+Checkafilm::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
   # Code is not reloaded between requests
@@ -26,12 +15,12 @@ InformedCinema::Application.configure do
   config.assets.compress = true
 
   # Don't fallback to assets pipeline if a precompiled asset is missed
-  config.assets.compile = true
+  config.assets.compile = false
 
   # Generate digests for assets URLs
   config.assets.digest = true
 
-  # Defaults to Rails.root.join("public/assets")
+  # Defaults to nil and saved in location specified by config.assets.prefix
   # config.assets.manifest = YOUR_PATH
 
   # Specifies the header that your server uses for sending files
@@ -51,10 +40,11 @@ InformedCinema::Application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
   # Use a different cache store in production
+  # config.cache_store = :mem_cache_store
   config.cache_store = :dalli_store
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
-  # config.action_controller.asset_host = "http://assets.example.com"
+  config.action_controller.asset_host = 'http://assets.checkafilm.com'
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   # config.assets.precompile += %w( search.js )

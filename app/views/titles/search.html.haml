@@ -1,0 +1,14 @@
+.row
+  .span12
+    %h1 Search Results: #{@query}
+    %ul.thumbnails.titles
+      - @results.each do |movie|
+        %li.span2
+          = link_to "/tmdb/#{movie.id}", class: 'thumbnail' do
+            - if movie.poster_path.nil?
+              %img{:src => '/assets/poster.png'}
+            - else
+              %img{:src => tmdb_asset_path(:size => 'w185', :path => movie.poster_path.gsub(/\//, ''))}
+            %h4
+              #{movie.title}
+              = "(#{Date.parse(movie.release_date).year})" unless movie.release_date.nil?

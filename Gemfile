@@ -1,37 +1,37 @@
 source 'https://rubygems.org'
 
-# Rails
-gem 'rails', '3.2.3'
+gem 'rails', '3.2.6'
 
-# Database
+# Bundle edge Rails instead:
+# gem 'rails', :git => 'git://github.com/rails/rails.git'
+
 gem 'mysql2'
 
-# Gems used only for assets
+
+# Gems used only for assets and not required
+# in production environments by default.
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
+  gem 'compass-rails'
   gem 'coffee-rails', '~> 3.2.1'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  gem 'therubyracer'
+  gem 'therubyracer', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
 end
 
-# Javascript framework
 gem 'jquery-rails'
 
-# HAML markup language support
-gem "haml", ">= 3.0.0"
-gem "haml-rails"
+gem 'haml'
+gem 'haml-rails'
 
-# Settings YAML file
-gem "settingslogic"
+gem 'settingslogic'
 
-# Friendly URLs
-gem 'friendly_id', '>= 4.0.0'
+gem 'imdb'
 
-# State machines
-gem 'aasm'
+#gem 'httparty', '0.8.2'
+#gem 'imdb_party'
 
 # HTML and XML parser
 gem 'nokogiri'
@@ -39,49 +39,35 @@ gem 'nokogiri'
 # Native curl bindings - for downloading stuff
 gem 'curb'
 
-# Background job processing
-gem 'resque'
+gem 'deepopenstruct'
+gem 'yajl-ruby', :require => 'yajl/json_gem'
+gem 'addressable', :require => 'addressable/uri'
 
-# IMDb API
-gem 'imdb'
-
-# Servers
-gem 'unicorn'
-
-# Image processing and storage (local cache of movie covers)
-gem 'fog'
 gem 'carrierwave'
-gem 'mime-types'
-gem 'mini_magick'
 
-# JSON API control
-gem 'acts_as_api'
+gem 'friendly_id'
 
-# Admin interface
-gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
+gem 'thin'
 
-# Authentication
-gem "devise"
+gem 'resque'
+gem 'resque-lock-timeout'
+gem 'resque-pool'
 
-# Amazon Product Search
-gem 'amazon-ecs'
+gem 'aasm'
 
-# Capistrano deployment
-gem 'capistrano'
-gem 'rvm-capistrano'
-
-# Process management
-gem 'foreman'
-
-# Hash utilities
-gem 'hashie'
-
-# PJAX
-gem 'rack-pjax'
-
-# Memcached
 gem 'dalli'
 
-# Scheduling
-gem 'clockwork'
+# To use ActiveModel has_secure_password
+# gem 'bcrypt-ruby', '~> 3.0.0'
 
+# To use Jbuilder templates for JSON
+# gem 'jbuilder'
+
+# Use unicorn as the app server
+# gem 'unicorn'
+
+# Deploy with Capistrano
+# gem 'capistrano'
+
+# To use debugger
+# gem 'debugger'

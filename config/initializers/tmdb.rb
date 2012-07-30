@@ -1,0 +1,1 @@
+Tmdb.api_key = Settings.tmdb_key

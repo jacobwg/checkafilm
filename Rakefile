@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-InformedCinema::Application.load_tasks
+Checkafilm::Application.load_tasks

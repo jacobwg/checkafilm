@@ -1,0 +1,11 @@
+.row
+  .span12
+    %h1 Movies
+    %ul.thumbnails.titles
+      - @titles.each do |title|
+        %li.span2
+          = link_to title, class: 'thumbnail' do
+            %img{:src => title.poster_url}
+            %h4
+              #{title.name}
+              = "(#{title.release_date.year})" unless title.release_date.nil?

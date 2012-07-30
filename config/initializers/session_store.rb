@@ -1,8 +1,8 @@
 # Be sure to restart your server when you modify this file.
 
-InformedCinema::Application.config.session_store :cookie_store, key: '_informed-cinema_session'
+Checkafilm::Application.config.session_store :cookie_store, key: '_checkafilm_session'
 
 # Use the database for sessions instead of the cookie-based default,
 # which shouldn't be used to store highly confidential information
 # (create the session table with "rails generate session_migration")
-# InformedCinema::Application.config.session_store :active_record_store
+# Checkafilm::Application.config.session_store :active_record_store
