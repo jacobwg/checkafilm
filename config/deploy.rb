@@ -17,8 +17,8 @@ set :deploy_to, '/data/apps/checkafilm'
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
-after 'deploy:update_code', 'deploy:symlink_db'
-after 'deploy:update_code', 'deploy:symlink_settings'
+before 'deploy:finalize_update', 'deploy:symlink_db'
+before 'deploy:finalize_update', 'deploy:symlink_settings'
 
 namespace :deploy do
   desc 'Symlinks the database.yml'
@@ -29,6 +29,31 @@ namespace :deploy do
   desc 'Symlinks the application.yml'
   task :symlink_settings, :roles => :app do
     run "ln -nfs #{deploy_to}/shared/config/application.yml #{release_path}/config/application.yml"
+  end
+end
+
+
+set :rails_env, :production
+set :unicorn_binary, "/usr/local/bin/unicorn"
+set :unicorn_config, "#{current_path}/config/unicorn.rb"
+set :unicorn_pid, "/tmp/checkafilm.pid"
+
+namespace :deploy do
+  task :start, :roles => :app, :except => { :no_release => true } do
+    run "cd #{current_path} && #{try_sudo} #{unicorn_binary} -c #{unicorn_config} -E #{rails_env} -D"
+  end
+  task :stop, :roles => :app, :except => { :no_release => true } do
+    run "#{try_sudo} kill `cat #{unicorn_pid}`"
+  end
+  task :graceful_stop, :roles => :app, :except => { :no_release => true } do
+    run "#{try_sudo} kill -s QUIT `cat #{unicorn_pid}`"
+  end
+  task :reload, :roles => :app, :except => { :no_release => true } do
+    run "#{try_sudo} kill -s USR2 `cat #{unicorn_pid}`"
+  end
+  task :restart, :roles => :app, :except => { :no_release => true } do
+    stop
+    start
   end
 end
 
