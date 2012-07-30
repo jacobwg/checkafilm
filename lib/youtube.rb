@@ -76,7 +76,7 @@ class Youtube
     response = self.get_url(oembed_url)
 
     if(response.code.to_i != 200)
-      raise RuntimeError, "Youtube oEmbed request returned status code '#{response.code}' for URL: '#{url}'"
+      raise RuntimeError, "Youtube oEmbed request returned status code '#{response.code}' for URL: '#{oembed_url}'"
     end
 
     body = JSON(response.body)
