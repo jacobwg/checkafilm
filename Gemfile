@@ -45,7 +45,7 @@ gem 'carrierwave'
 gem 'friendly_id'
 
 # Application server
-gem 'thin'
+gem 'unicorn'
 
 # Background job processing
 gem 'resque'
