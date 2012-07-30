@@ -1,6 +1,6 @@
-1..2.to_a.each do |number|
+(1..2).to_a.each do |number|
   God.watch do |w|
-    w.name          = 'checkafilm-resque-#{number}'
+    w.name          = "checkafilm-resque-#{number}"
     w.interval      = 30.seconds
     w.env           = { 'RAILS_ENV' => 'production',
                         'QUEUE'     => '*' }
