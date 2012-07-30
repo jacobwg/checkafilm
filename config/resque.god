@@ -1,20 +1,23 @@
-(1..2).to_a.each do |number|
+rails_env   = ENV['RAILS_ENV']  || "production"
+rails_root  = ENV['RAILS_ROOT'] || "/data/apps/checkafilm/current"
+num_workers = rails_env == 'production' ? 5 : 2
+
+num_workers.times do |num|
   God.watch do |w|
-    w.name          = "checkafilm-resque-#{number}"
-    w.interval      = 30.seconds
-    w.env           = { 'RAILS_ENV' => 'production',
-                        'QUEUE'     => '*' }
-    w.uid           = 'www-user'
-    w.gid           = 'www-user'
-    w.dir           = File.expand_path(File.join(File.dirname(__FILE__),'..'))
-    w.start         = "/usr/local/bin/rake resque:work"
-    w.start_grace   = 10.seconds
-    w.log           = File.expand_path(File.join(File.dirname(__FILE__), '..','log','resque-worker.log'))
+    w.dir      = "#{rails_root}"
+    w.name     = "checkafilm-resque-#{num}"
+    w.group    = 'resque'
+    w.interval = 30.seconds
+    w.env      = {"QUEUE"=>"titles,trailers", "RAILS_ENV"=>rails_env}
+    w.start    = "/usr/local/bin/rake -f #{rails_root}/Rakefile environment resque:work"
+
+    w.uid = 'www-data'
+    w.gid = 'www-data'
 
     # restart if memory gets too high
     w.transition(:up, :restart) do |on|
       on.condition(:memory_usage) do |c|
-        c.above = 200.megabytes
+        c.above = 350.megabytes
         c.times = 2
       end
     end
