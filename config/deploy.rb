@@ -1,4 +1,3 @@
-require 'capistrano-resque'
 require 'bundler/capistrano'
 
 set :application, 'checkafilm'
@@ -11,6 +10,8 @@ set :branch, 'master'
 role :web, 'app.checkafilm.com'
 role :app, 'app.checkafilm.com'
 role :db,  'app.checkafilm.com', :primary => true
+
+role :resque_worker, 'app.checkafilm.com'
 
 set :user, 'www-data'
 set :deploy_to, '/data/apps/checkafilm'
@@ -33,9 +34,7 @@ namespace :deploy do
   end
 end
 
-# Resque
-set :workers, { 'titles, trailers' => 2 }
-after 'deploy:restart', 'resque:restart'
+after :deploy, 'deploy:reload_god_config'
 
 set :rails_env, :production
 set :unicorn_binary, "/usr/local/bin/unicorn"
@@ -58,6 +57,11 @@ namespace :deploy do
   task :restart, :roles => :app, :except => { :no_release => true } do
     stop
     start
+  end
+
+  task :reload_god_config
+    run "#{tru_sudo} god stop #{application}-resque"
+    run "#{tru_sudo} god start #{application}-resque"
   end
 end
 
