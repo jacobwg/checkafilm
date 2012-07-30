@@ -59,6 +59,6 @@ gem 'aasm'
 gem 'dalli'
 
 # Deployment
-group :development
+group :development do
   gem 'capistrano'
 end
