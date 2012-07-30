@@ -5,7 +5,7 @@ class TitlesController < ApplicationController
   caches_action :search, :expires_in => 1.hour, :cache_path => proc { |c| {:query => c.params[:q]} }
 
   def index
-    @titles = Title.all
+    @titles = Title.visible
     respond_with @titles
   end
 
