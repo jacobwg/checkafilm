@@ -34,7 +34,7 @@ namespace :deploy do
   end
 end
 
-after :deploy, 'deploy:reload_god_config'
+after :deploy, 'deploy:reload_god'
 
 set :rails_env, :production
 set :unicorn_binary, "/usr/local/bin/unicorn"
@@ -59,9 +59,14 @@ namespace :deploy do
     start
   end
 
-  task :reload_god_config do
+  task :reload_god do
     stop_god
+    reload_god_config
     start_god
+  end
+
+  task :reload_god_config do
+    run "#{try_sudo} god load #{File.join deploy_to, 'current', 'config', 'resque.god'}"
   end
 
   task :stop_god do
