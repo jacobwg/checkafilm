@@ -59,9 +59,17 @@ namespace :deploy do
     start
   end
 
-  task :reload_god_config
-    run "#{tru_sudo} god stop #{application}-resque"
-    run "#{tru_sudo} god start #{application}-resque"
+  task :reload_god_config do
+    stop_god
+    start_god
+  end
+
+  task :stop_god do
+    run "#{try_sudo} god stop #{application}-resque"
+  end
+
+  task :start_god do
+    run "#{try_sudo} god start #{application}-resque"
   end
 end
 

@@ -61,5 +61,4 @@ gem 'dalli'
 # Deployment
 group :development do
   gem 'capistrano'
-  gem 'capistrano-resque'
 end

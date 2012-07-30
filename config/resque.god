@@ -1,4 +1,4 @@
-%w(1 2).each do |number|
+1..2.to_a.each do |number|
   God.watch do |w|
     w.name          = 'checkafilm-resque-#{number}'
     w.interval      = 30.seconds
