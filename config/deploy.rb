@@ -16,6 +16,15 @@ set :user, 'www-data'
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
+after 'deploy:update_code', 'deploy:symlink_db'
+
+namespace :deploy do
+  desc 'Symlinks the database.yml'
+  task :symlink_db, :roles => :app do
+    run "ln -nfs #{deploy_to}/shared/config/database.yml #{release_path}/config/database.yml"
+  end
+end
+
 # if you want to clean up old releases on each deploy uncomment this:
 # after "deploy:restart", "deploy:cleanup"
 
