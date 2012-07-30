@@ -1,9 +1,9 @@
 require 'bundler/capistrano'
 
-set :application, 'set your application name here'
+set :application, 'checkafilm'
 
 set :scm, :git
-set :repository,  'set your repository location here'
+set :repository,  'git@github.com:jacobwg/checkafilm.git'
 set :deploy_via, :remote_cache
 set :branch, 'master'
 
@@ -12,6 +12,7 @@ role :app, 'app.checkafilm.com'
 role :db,  'db.checkafilm.com', :primary => true
 
 set :user, 'www-data'
+set :deploy_to, '/data/apps/checkafilm'
 
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
