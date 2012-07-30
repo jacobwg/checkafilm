@@ -1,15 +1,15 @@
 rails_env   = ENV['RAILS_ENV']  || "production"
-rails_root  = ENV['RAILS_ROOT'] || "/data/apps/checkafilm/current"
 num_workers = rails_env == 'production' ? 5 : 2
 
 num_workers.times do |num|
   God.watch do |w|
-    w.dir      = "#{rails_root}"
+    w.dir      = '/data/apps/checkafilm/current'
     w.name     = "checkafilm-resque-#{num}"
     w.group    = 'checkafilm-resque'
     w.interval = 30.seconds
-    w.env      = {"QUEUE"=>"titles,trailers", "RAILS_ENV"=>rails_env}
-    w.start    = "/usr/local/bin/rake -f #{rails_root}/Rakefile environment resque:work"
+    w.env      = {'QUEUE'=>'*', 'RAILS_ENV'=>'production', 'RAILS_ROOT' => '/data/apps/checkafilm/current'}
+    w.start    = 'QUEUE=* RAILS_ENV=production bundle exec rake environment resque:work'
+    w.log      = '/data/apps/checkafilm/current/log/resque.log'
 
     w.uid = 'www-data'
     w.gid = 'www-data'
