@@ -1,3 +1,4 @@
+require 'capistrano-resque'
 require 'bundler/capistrano'
 
 set :application, 'checkafilm'
@@ -32,6 +33,9 @@ namespace :deploy do
   end
 end
 
+# Resque
+set :workers, { 'titles, trailers' => 2 }
+after 'deploy:restart', 'resque:restart'
 
 set :rails_env, :production
 set :unicorn_binary, "/usr/local/bin/unicorn"
