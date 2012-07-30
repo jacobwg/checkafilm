@@ -7,7 +7,7 @@
         .bar{style: 'width: 100%'}
   :javascript
     $(function() {
-      poll();
+      window.poll();
     });
 - elsif @title.blocked?
   .row
@@ -20,109 +20,110 @@
       %h1 Title Not Found
       %p Oops, it looks like we cannot find that title...
 - else
-  .row
-    .span2
-      %img.hidden-phone{src: @title.poster_url, alt: "#{@title.name} Poster Image"}
+  = cache @title do
+    .row
+      .span2
+        %img.hidden-phone{src: @title.poster_url, alt: "#{@title.name} Poster Image"}
 
-      %p= link_to 'Homepage', @title.homepage, class: 'btn btn-inverse', target: '_blank' if @title.homepage?
-      %p= link_to 'IMDb', @title.imdb_link, class: 'btn btn-inverse', target: '_blank' if @title.imdb_link?
-      %p= link_to 'TMDb', @title.tmdb_link, class: 'btn btn-inverse', target: '_blank' if @title.tmdb_link?
-      %p= link_to 'Rotten Tomatoes', @title.rotten_tomatoes_link, class: 'btn btn-inverse', target: '_blank' if @title.rotten_tomatoes_link?
-      %p= link_to 'Plugged In', @title.plugged_in_link, class: 'btn btn-inverse', target: '_blank' if @title.plugged_in_link?
-      %p= link_to 'Kids in Mind', @title.kids_in_mind_link, class: 'btn btn-inverse', target: '_blank' if @title.kids_in_mind_link?
-    .span10
-      %h1
-        = @title.name
-        %small
-          = @title.release_date.year
+        %p= link_to 'Homepage', @title.homepage, class: 'btn btn-inverse', target: '_blank' if @title.homepage?
+        %p= link_to 'IMDb', @title.imdb_link, class: 'btn btn-inverse', target: '_blank' if @title.imdb_link?
+        %p= link_to 'TMDb', @title.tmdb_link, class: 'btn btn-inverse', target: '_blank' if @title.tmdb_link?
+        %p= link_to 'Rotten Tomatoes', @title.rotten_tomatoes_link, class: 'btn btn-inverse', target: '_blank' if @title.rotten_tomatoes_link?
+        %p= link_to 'Plugged In', @title.plugged_in_link, class: 'btn btn-inverse', target: '_blank' if @title.plugged_in_link?
+        %p= link_to 'Kids in Mind', @title.kids_in_mind_link, class: 'btn btn-inverse', target: '_blank' if @title.kids_in_mind_link?
+      .span10
+        %h1
+          = @title.name
+          %small
+            = @title.release_date.year
 
-      %p
-        %dl
-          - if @title.imdb_votes
-            %dt IMDb Rating
-            %dd #{@title.imdb_rating} (from #{pluralize(@title.imdb_votes, 'vote', 'votes')})
-          - if @title.tmdb_votes
-            %dt TMDb Rating
-            %dd #{@title.tmdb_rating} (from #{pluralize(@title.tmdb_votes, 'vote', 'votes')})
-          - unless @title.mpaa_rating.nil? or @title.mpaa_rating.empty?
-            %dt MPAA Rating
-            %dd
-              %span.label{class: "label-rating#{@title.mpaa_rating}"}= @title.mpaa_rating
-          - unless @title.release_date.nil?
-            - if @title.release_date < Date.today
-              %dt Released (Theater)
-              %dd= @title.release_date
-            - elsif @title.release_date > Date.today
-              %dt Releasing (Theater)
-              %dd= @title.release_date
-            - else
-              %dt Released (Theater)
-              %dd Today
-          - unless @title.release_date_dvd.nil?
-            - if @title.release_date_dvd < Date.today
-              %dt Released (DVD)
-              %dd= @title.release_date_dvd
-            - elsif @title.release_date_dvd > Date.today
-              %dt Releasing (DVD)
-              %dd= @title.release_date_dvd
-            - else
-              %dt Released (DVD)
-              %dd Today
-          - if @title.runtime?
-            %dt Runtime
-            %dd= @title.runtime_humans
-      %p.summary= @title.plot_summary
+        %p
+          %dl
+            - if @title.imdb_votes
+              %dt IMDb Rating
+              %dd #{@title.imdb_rating} (from #{pluralize(@title.imdb_votes, 'vote', 'votes')})
+            - if @title.tmdb_votes
+              %dt TMDb Rating
+              %dd #{@title.tmdb_rating} (from #{pluralize(@title.tmdb_votes, 'vote', 'votes')})
+            - unless @title.mpaa_rating.nil? or @title.mpaa_rating.empty?
+              %dt MPAA Rating
+              %dd
+                %span.label{class: "label-rating#{@title.mpaa_rating}"}= @title.mpaa_rating
+            - unless @title.release_date.nil?
+              - if @title.release_date < Date.today
+                %dt Released (Theater)
+                %dd= @title.release_date
+              - elsif @title.release_date > Date.today
+                %dt Releasing (Theater)
+                %dd= @title.release_date
+              - else
+                %dt Released (Theater)
+                %dd Today
+            - unless @title.release_date_dvd.nil?
+              - if @title.release_date_dvd < Date.today
+                %dt Released (DVD)
+                %dd= @title.release_date_dvd
+              - elsif @title.release_date_dvd > Date.today
+                %dt Releasing (DVD)
+                %dd= @title.release_date_dvd
+              - else
+                %dt Released (DVD)
+                %dd Today
+            - if @title.runtime?
+              %dt Runtime
+              %dd= runtime(@title)
+        %p.summary= @title.plot_summary
 
-      %h2 Plot Summary
-      .details
-        %p= @title.plot_details
+        %h2 Plot Summary
+        .details
+          %p= @title.plot_details
 
-      .rotten-tomatoes
-        %h2 Rotten Tomatoes
-        - critic_class = (@title.rotten_tomatoes_critics_rating ? @title.rotten_tomatoes_critics_rating.split(/ /).first.downcase : '')
-        - audience_class = (@title.rotten_tomatoes_audience_rating ? @title.rotten_tomatoes_audience_rating.split(/ /).first.downcase : 'wts')
-        .meter_box.clearfix
-          .critics
-            .tomato_numbers
-              .header Critic Score
-              %span.meter.numeric{class: critic_class}= @title.rotten_tomatoes_critics_score.to_i
-          .consensus
-            .tomatometer{class: critic_class}
-              %span{style: "width: #{@title.rotten_tomatoes_critics_score.to_i}%;"}
-            %p.critic_consensus= @title.rotten_tomatoes_critics_consensus
-          .audience
-            .header Audience Score
-            %span.meter.numeric{class: audience_class}= @title.rotten_tomatoes_audience_score.to_i
-            - if audience_class == 'wts'
-              .want-to-see want to see
+        .rotten-tomatoes
+          %h2 Rotten Tomatoes
+          - critic_class = (@title.rotten_tomatoes_critics_rating ? @title.rotten_tomatoes_critics_rating.split(/ /).first.downcase : '')
+          - audience_class = (@title.rotten_tomatoes_audience_rating ? @title.rotten_tomatoes_audience_rating.split(/ /).first.downcase : 'wts')
+          .meter_box.clearfix
+            .critics
+              .tomato_numbers
+                .header Critic Score
+                %span.meter.numeric{class: critic_class}= @title.rotten_tomatoes_critics_score.to_i
+            .consensus
+              .tomatometer{class: critic_class}
+                %span{style: "width: #{@title.rotten_tomatoes_critics_score.to_i}%;"}
+              %p.critic_consensus= @title.rotten_tomatoes_critics_consensus
+            .audience
+              .header Audience Score
+              %span.meter.numeric{class: audience_class}= @title.rotten_tomatoes_audience_score.to_i
+              - if audience_class == 'wts'
+                .want-to-see want to see
 
-      - if @title.kids_in_mind_sex_number?
-        %h2 Kids in Mind Rating
-        .row
-          .span5
-            %table.table.table-bordered
-              %tr
-                %th Sexual Content
-                %td= @title.kids_in_mind_sex_number
-              %tr
-                %th Violence
-                %td= @title.kids_in_mind_violence_number
-              %tr
-                %th Profanity
-                %td= @title.kids_in_mind_language_number
-          .span5
-            %p some explaination should go here...
+        - if @title.kids_in_mind_sex_number?
+          %h2 Kids in Mind Rating
+          .row
+            .span5
+              %table.table.table-bordered
+                %tr
+                  %th Sexual Content
+                  %td= @title.kids_in_mind_sex_number
+                %tr
+                  %th Violence
+                  %td= @title.kids_in_mind_violence_number
+                %tr
+                  %th Profanity
+                  %td= @title.kids_in_mind_language_number
+            .span5
+              %p Kids in Mind numbers range from 0 to 10, with 10 being the highest possible rating.  For example, a movie with a violence number of 10 would be more violent than a movie with a 5.
+
+        .trailers
+          %h2 Trailers
+          %ul.thumbnails
+            - @title.trailers.each do |trailer|
+              = cache trailer do
+                %li.span2
+                  = link_to "http://www.youtube.com/watch?v=#{trailer.url}", class: 'thumbnail fancybox-media' do
+                    %img{src: trailer.thumbnail_url, alt: trailer.name}
 
 
-      .trailers
-        %h2 Trailers
-        %ul.thumbnails
-          - @title.trailers.each do |trailer|
-            %li.span2
-              = link_to "http://www.youtube.com/watch?v=#{trailer.url}", class: 'thumbnail fancybox-media' do
-                %img{src: trailer.thumbnail_url, alt: trailer.name}
-
-
-  :javascript
-    window.images = #{@title.backdrops.map { |b| b.image_url }.to_json};
+    :javascript
+      window.images = #{@title.backdrops.map { |b| b.image_url }.to_json};
 

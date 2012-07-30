@@ -340,13 +340,4 @@ class Title < ActiveRecord::Base
     Resque.enqueue(LoadJob, self.id)
   end
 
-  # TODO: move to helper or decorator
-  def runtime_humans
-    runtime = self.runtime.to_i
-    out = ""
-    out += pluralize(runtime / 60, 'hr', 'hrs') if runtime / 60 > 0
-    out += " #{(runtime % 60).to_s} min" if runtime % 60 > 0
-    out
-  end
-
 end

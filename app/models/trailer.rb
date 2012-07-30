@@ -1,7 +1,8 @@
 class Trailer < ActiveRecord::Base
   attr_accessible :title_id, :url, :title, :name
   attr_accessible :thumbnail, :remote_thumbnail_url
-  belongs_to :title
+
+  belongs_to :title, touch: true
 
   mount_uploader :thumbnail, TrailerThumbnailUploader
 

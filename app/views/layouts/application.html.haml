@@ -1,12 +1,9 @@
 !!! html
 %html{:lang => 'en'}
   %head
-    %title Check a Film
+    %title= page_title
     %link{:href => '//fonts.googleapis.com/css?family=PT+Sans:700|Open+Sans:300italic,400italic,400,300,600,700,800', :rel => 'stylesheet', :type => 'text/css'}
     = stylesheet_link_tag    "application", :media => "all"
-    %link{:href => "/video-js.css", :rel => "stylesheet"}
-    %script{:src => "/video.js"}
-    %script{:src => "/youtube.js"}
     = javascript_include_tag "application"
     = csrf_meta_tags
   %body

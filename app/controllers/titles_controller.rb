@@ -43,10 +43,7 @@ class TitlesController < ApplicationController
     @title = Title.find_by_imdb_id(params[:id])
     @title = Title.create!(imdb_id: params[:id]) unless @title
     @title.async_load! unless @title.blocked?
-
-    if stale?(:last_modified => @title.updated_at.utc, :etag => @title)
-      respond_with @title
-    end
+    respond_with @title
   end
 
 end
