@@ -7,9 +7,9 @@ set :repository,  'git@github.com:jacobwg/checkafilm.git'
 set :deploy_via, :remote_cache
 set :branch, 'master'
 
-role :web, 'web.checkafilm.com'
+role :web, 'app.checkafilm.com'
 role :app, 'app.checkafilm.com'
-role :db,  'db.checkafilm.com', :primary => true
+role :db,  'app.checkafilm.com', :primary => true
 
 set :user, 'www-data'
 set :deploy_to, '/data/apps/checkafilm'
@@ -18,11 +18,17 @@ default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
 after 'deploy:update_code', 'deploy:symlink_db'
+after 'deploy:update_code', 'deploy:symlink_settings'
 
 namespace :deploy do
   desc 'Symlinks the database.yml'
   task :symlink_db, :roles => :app do
     run "ln -nfs #{deploy_to}/shared/config/database.yml #{release_path}/config/database.yml"
+  end
+
+  desc 'Symlinks the application.yml'
+  task :symlink_settings, :roles => :app do
+    run "ln -nfs #{deploy_to}/shared/config/application.yml #{release_path}/config/application.yml"
   end
 end
 
