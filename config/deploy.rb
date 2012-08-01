@@ -10,7 +10,7 @@ require 'mina/git'
 
 set :domain, 'app.checkafilm.com'
 set :deploy_to, '/data/apps/checkafilm'
-set :repository, 'git@github.com:jacobwg/checkafilm.git'
+set :repository, 'https://github.com/jacobwg/checkafilm.git'
 set :user, 'www-data'
 # set :port, '30000'
 
