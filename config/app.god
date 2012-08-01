@@ -11,7 +11,7 @@ num_workers.times do |num|
     w.interval = 30.seconds
     w.env      = {'QUEUE'=>'*', 'RAILS_ENV'=>'production', 'RAILS_ROOT' => '/data/apps/checkafilm/current'}
     w.start    = 'QUEUE=* RAILS_ENV=production bundle exec rake environment resque:work'
-    w.log      = '/data/apps/checkafilm/shared/log/resque.log'
+    #w.log      = '/data/apps/checkafilm/shared/log/resque.log'
 
     w.uid = 'www-data'
     w.gid = 'www-data'
