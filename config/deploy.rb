@@ -34,11 +34,6 @@ namespace :deploy do
   task :symlink_settings, :roles => :app do
     run "ln -nfs #{deploy_to}/shared/config/application.yml #{release_path}/config/application.yml"
   end
-
-  desc 'Symlink uploads dir'
-  task :symlink_uploads, :roles => :app do
-    run "ln -nfs #{deploy_to}/shared/uploads #{release_path}/public/uploads"
-  end
 end
 
 after :deploy, 'deploy:reload_god'
