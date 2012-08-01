@@ -22,6 +22,8 @@ ssh_options[:forward_agent] = true
 before 'deploy:finalize_update', 'deploy:symlink_db'
 before 'deploy:finalize_update', 'deploy:symlink_settings'
 
+before 'deploy:finalize_update', 'deploy:symlink_uploads'
+
 namespace :deploy do
   desc 'Symlinks the database.yml'
   task :symlink_db, :roles => :app do
@@ -31,6 +33,11 @@ namespace :deploy do
   desc 'Symlinks the application.yml'
   task :symlink_settings, :roles => :app do
     run "ln -nfs #{deploy_to}/shared/config/application.yml #{release_path}/config/application.yml"
+  end
+
+  desc 'Symlink uploads dir'
+  task :symlink_uploads, :roles => :app do
+    run "ln -nfs #{deploy_to}/shared/uploads #{release_path}/public/uploads"
   end
 end
 
