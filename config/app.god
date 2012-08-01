@@ -7,7 +7,7 @@ num_workers.times do |num|
   God.watch do |w|
     w.dir      = '/data/apps/checkafilm/current'
     w.name     = "checkafilm-resque-#{num}"
-    w.group    = 'checkafilm-resque'
+    w.group    = 'checkafilm'
     w.interval = 30.seconds
     w.env      = {'QUEUE'=>'*', 'RAILS_ENV'=>'production', 'RAILS_ROOT' => '/data/apps/checkafilm/current'}
     w.start    = 'QUEUE=* RAILS_ENV=production bundle exec rake environment resque:work'

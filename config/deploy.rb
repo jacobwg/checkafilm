@@ -14,20 +14,25 @@ set :repository, 'https://github.com/jacobwg/checkafilm.git'
 set :user, 'www-data'
 # set :port, '30000'
 
+set :bash_options, '-i'
+
+set :shared_paths, ['config/database.yml', 'config/application.yml', 'log']
+
 desc "Deploys the current version to the server."
 task :deploy do
   deploy do
     # Put things that will set up an empty directory into a fully set-up
     # instance of your project.
     invoke :'git:clone'
+    invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
 
     to :launch do
-      queue 'god stop checkafilm'
-      queue "god load #{deploy_to}/current/config/app.god"
-      queue 'god start checkafilm'
+      queue 'sudo god stop checkafilm'
+      queue "sudo god load #{deploy_to}/current/config/app.god"
+      queue 'sudo god start checkafilm'
     end
   end
 end
