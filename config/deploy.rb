@@ -22,8 +22,6 @@ ssh_options[:forward_agent] = true
 before 'deploy:finalize_update', 'deploy:symlink_db'
 before 'deploy:finalize_update', 'deploy:symlink_settings'
 
-before 'deploy:finalize_update', 'deploy:symlink_uploads'
-
 namespace :deploy do
   desc 'Symlinks the database.yml'
   task :symlink_db, :roles => :app do

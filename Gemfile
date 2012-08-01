@@ -41,6 +41,9 @@ gem 'addressable', :require => 'addressable/uri'
 # File uploads (posters, backdrops, and trailer thumbnails)
 gem 'carrierwave'
 
+# AWS integration for carrierwave
+gem 'fog'
+
 # Permalinks (TODO: look into to_param)
 gem 'friendly_id'
 
