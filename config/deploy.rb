@@ -11,10 +11,8 @@ require 'mina/git'
 set :domain, 'app.checkafilm.com'
 set :deploy_to, '/data/apps/checkafilm'
 set :repository, 'https://github.com/jacobwg/checkafilm.git'
-set :user, 'www-data'
+set :user, 'web'
 # set :port, '30000'
-
-set :bash_options, '-i'
 
 set :shared_paths, ['config/database.yml', 'config/application.yml', 'log']
 
@@ -30,9 +28,7 @@ task :deploy do
     invoke :'rails:assets_precompile'
 
     to :launch do
-      queue 'sudo god stop checkafilm'
-      queue "sudo god load #{deploy_to}/current/config/app.god"
-      queue 'sudo god start checkafilm'
+      queue 'touch tmp/restart.txt'
     end
   end
 end
