@@ -7,7 +7,7 @@
 
 window.poll = () ->
   $.getJSON window.location, (data) ->
-    if data.status_state is 'fresh'
+    if data.status_state is 'loaded'
       window.location = window.location
     else
       window.setTimeout window.poll, 2000
