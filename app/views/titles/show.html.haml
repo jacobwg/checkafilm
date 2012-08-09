@@ -20,6 +20,7 @@
       %h1 Title Not Found
       %p Oops, it looks like we cannot find that title...
 - else
+  - page_title "#{@title.name} (#{@title.release_date.year})"
   = cache @title do
     .row
       .span2
