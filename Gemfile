@@ -40,6 +40,7 @@ gem 'addressable', :require => 'addressable/uri'
 
 # File uploads (posters, backdrops, and trailer thumbnails)
 gem 'carrierwave'
+gem 'mini_magick'
 
 # AWS integration for carrierwave
 gem 'fog'
