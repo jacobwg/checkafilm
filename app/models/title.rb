@@ -51,7 +51,7 @@ class Title < ActiveRecord::Base
   mount_uploader :poster, PosterUploader
 
   # Scopes
-  scope :visible, where(:status_state => 'loaded')
+  scope :homepage, where(:status_state => 'loaded').sort('updated_at DESC').limit(20)
 
   # Status state
   include AASM
