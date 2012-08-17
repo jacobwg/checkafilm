@@ -1,8 +1,7 @@
 class LoadJob
-  extend Resque::Plugins::LockTimeout
+  include Resque::Plugins::UniqueJob
 
   @queue = :titles
-  @lock_timeout = 600 # five minutes
 
   def self.perform(title_id)
     title = Title.find(title_id)

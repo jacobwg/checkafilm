@@ -53,7 +53,7 @@ gem 'unicorn'
 
 # Background job processing
 gem 'resque'
-gem 'resque-lock-timeout'
+gem 'resque-loner'
 gem 'resque-pool'
 
 # Title state machine

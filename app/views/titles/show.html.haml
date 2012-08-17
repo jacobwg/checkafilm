@@ -24,7 +24,7 @@
   = cache @title do
     .row
       .span2
-        %img.hidden-phone{src: @title.poster_url, alt: "#{@title.name} Poster Image"}
+        %img.hidden-phone{src: @title.poster_url(:thumb), alt: "#{@title.name} Poster Image"}
 
         %p= link_to 'Homepage', @title.homepage, class: 'btn btn-inverse', target: '_blank' if @title.homepage?
         %p= link_to 'IMDb', @title.imdb_link, class: 'btn btn-inverse', target: '_blank' if @title.imdb_link?
