@@ -21,6 +21,13 @@
       %p Oops, it looks like we cannot find that title...
 - else
   - page_title "#{@title.name} (#{@title.release_date.year})"
+  - content_for :open_graph do
+    %meta{property: "og:title", content: "#{@title.name} (#{@title.release_date.year})"}
+    %meta{property: "og:type", content: "movie"}
+    %meta{property: "og:url", content: "http://checkafilm.com#{title_path(@title)}"}
+    %meta{property: "og:image", content: @title.poster_url}
+    %meta{property: "og:site_name", content: "Check a Film"}
+    %meta{property: "fb:admins", content: "100000505263000"}
   = cache @title do
     .row
       .span2
