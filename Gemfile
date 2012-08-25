@@ -69,3 +69,6 @@ end
 
 # scheduler
 gem 'rufus-scheduler'
+
+# Log viewing
+gem 'rubyception'
