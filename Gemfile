@@ -64,5 +64,8 @@ gem 'dalli'
 
 # Deployment
 group :development do
-  gem 'capistrano'
+  gem 'mina'
 end
+
+# scheduler
+gem 'rufus-scheduler'

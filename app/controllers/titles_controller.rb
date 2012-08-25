@@ -42,7 +42,7 @@ class TitlesController < ApplicationController
   def show
     @title = Title.find_by_imdb_id(params[:id])
     @title = Title.create!(imdb_id: params[:id]) unless @title
-    @title.async_load! unless @title.blocked? or Resque.enqueued?(LoadJob, @title.id)
+    @title.async_load! if @title.fresh? and not Resque.enqueued?(LoadJob, @title.id)
     respond_with @title
   end
 
