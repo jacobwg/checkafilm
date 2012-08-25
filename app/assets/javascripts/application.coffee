@@ -29,7 +29,10 @@ jQuery ($) ->
     $.backstretch window.images[index], speed: 500
 
     setInterval () ->
-      index = (index >= window.images.length - 1) ? 0 : index + 1
+      if index >= window.images.length - 1
+        index = 0
+      else
+        index += 1
       $.backstretch(window.images[index])
     , 5000
 
