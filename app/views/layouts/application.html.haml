@@ -9,15 +9,22 @@
     = csrf_meta_tags
     = content_for :open_graph
   %body
-    .navbar.navbar-fixed-top
+    .navbar.navbar-fixed-top.navbar-inverse
       .navbar-inner
         .container
           = link_to 'Check a Film', :root, :class => 'brand'
-          %ul.nav.pull-right
-            %li= link_to 'Home', :root
-            %li= link_to 'About', '/about'
           = form_tag search_path, :class => 'navbar-search pull-left', :method => 'get' do
             %input.search-query{type: 'text', placeholder: 'Search by Title...', name: 'q'}
+          .nav-collapse
+            %ul.nav.pull-right
+              %li= link_to 'Home', :root
+              %li= link_to 'About', '/about'
+
+          %button.btn.btn-navbar{:type => 'button', :'data-toggle' => 'collapse', :'data-target' => '.nav-collapse'}
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+
 
     .container
       #content

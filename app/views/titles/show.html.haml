@@ -33,77 +33,80 @@
       .span2
         %img.hidden-phone{src: @title.poster_url(:thumb), alt: "#{@title.name} Poster Image"}
 
-        %p= link_to 'Homepage', @title.homepage, class: 'btn btn-inverse', target: '_blank' if @title.homepage?
-        %p= link_to 'IMDb', @title.imdb_link, class: 'btn btn-inverse', target: '_blank' if @title.imdb_link?
-        %p= link_to 'TMDb', @title.tmdb_link, class: 'btn btn-inverse', target: '_blank' if @title.tmdb_link?
-        %p= link_to 'Rotten Tomatoes', @title.rotten_tomatoes_link, class: 'btn btn-inverse', target: '_blank' if @title.rotten_tomatoes_link?
-        %p= link_to 'Plugged In', @title.plugged_in_link, class: 'btn btn-inverse', target: '_blank' if @title.plugged_in_link?
-        %p= link_to 'Kids in Mind', @title.kids_in_mind_link, class: 'btn btn-inverse', target: '_blank' if @title.kids_in_mind_link?
+        %p= link_to 'Homepage', @title.homepage, class: 'btn btn-inverse btn-block', target: '_blank' if @title.homepage?
+        %p= link_to 'IMDb', @title.imdb_link, class: 'btn btn-inverse btn-block', target: '_blank' if @title.imdb_link?
+        %p= link_to 'TMDb', @title.tmdb_link, class: 'btn btn-inverse btn-block', target: '_blank' if @title.tmdb_link?
+        %p= link_to 'Rotten Tomatoes', @title.rotten_tomatoes_link, class: 'btn btn-inverse btn-block', target: '_blank' if @title.rotten_tomatoes_link?
+        %p= link_to 'Plugged In', @title.plugged_in_link, class: 'btn btn-inverse btn-block', target: '_blank' if @title.plugged_in_link?
+        %p= link_to 'Kids in Mind', @title.kids_in_mind_link, class: 'btn btn-inverse btn-block', target: '_blank' if @title.kids_in_mind_link?
       .span10
         %h1
           = @title.name
           %small
             = @title.release_date.year
+        .row
+          .span2
+            %p
+              %dl
+                - if @title.imdb_votes
+                  %dt IMDb Rating
+                  %dd #{@title.imdb_rating} (from #{pluralize(@title.imdb_votes, 'vote', 'votes')})
+                - if @title.tmdb_votes
+                  %dt TMDb Rating
+                  %dd #{@title.tmdb_rating} (from #{pluralize(@title.tmdb_votes, 'vote', 'votes')})
+                - unless @title.mpaa_rating.nil? or @title.mpaa_rating.empty?
+                  %dt MPAA Rating
+                  %dd
+                    %span.label{class: "label-rating#{@title.mpaa_rating}"}= @title.mpaa_rating
+                - unless @title.release_date.nil?
+                  - if @title.release_date < Date.today
+                    %dt Released (Theater)
+                    %dd= @title.release_date
+                  - elsif @title.release_date > Date.today
+                    %dt Releasing (Theater)
+                    %dd= @title.release_date
+                  - else
+                    %dt Released (Theater)
+                    %dd Today
+                - unless @title.release_date_dvd.nil?
+                  - if @title.release_date_dvd < Date.today
+                    %dt Released (DVD)
+                    %dd= @title.release_date_dvd
+                  - elsif @title.release_date_dvd > Date.today
+                    %dt Releasing (DVD)
+                    %dd= @title.release_date_dvd
+                  - else
+                    %dt Released (DVD)
+                    %dd Today
+                - if @title.runtime?
+                  %dt Runtime
+                  %dd= runtime(@title)
+          .span8
+            .rotten-tomatoes
+              %h2 Rotten Tomatoes
+              - critic_class = (@title.rotten_tomatoes_critics_rating ? @title.rotten_tomatoes_critics_rating.split(/ /).first.downcase : '')
+              - audience_class = (@title.rotten_tomatoes_audience_rating ? @title.rotten_tomatoes_audience_rating.split(/ /).first.downcase : 'wts')
+              .meter_box.clearfix
+                .critics
+                  .tomato_numbers
+                    .header Critic Score
+                    %span.meter.numeric{class: critic_class}= @title.rotten_tomatoes_critics_score.to_i
+                .consensus
+                  .tomatometer{class: critic_class}
+                    %span{style: "width: #{@title.rotten_tomatoes_critics_score.to_i}%;"}
+                  %p.critic_consensus= @title.rotten_tomatoes_critics_consensus
+                .audience
+                  .header Audience Score
+                  %span.meter.numeric{class: audience_class}= @title.rotten_tomatoes_audience_score.to_i
+                  - if audience_class == 'wts'
+                    .want-to-see want to see
 
-        %p
-          %dl
-            - if @title.imdb_votes
-              %dt IMDb Rating
-              %dd #{@title.imdb_rating} (from #{pluralize(@title.imdb_votes, 'vote', 'votes')})
-            - if @title.tmdb_votes
-              %dt TMDb Rating
-              %dd #{@title.tmdb_rating} (from #{pluralize(@title.tmdb_votes, 'vote', 'votes')})
-            - unless @title.mpaa_rating.nil? or @title.mpaa_rating.empty?
-              %dt MPAA Rating
-              %dd
-                %span.label{class: "label-rating#{@title.mpaa_rating}"}= @title.mpaa_rating
-            - unless @title.release_date.nil?
-              - if @title.release_date < Date.today
-                %dt Released (Theater)
-                %dd= @title.release_date
-              - elsif @title.release_date > Date.today
-                %dt Releasing (Theater)
-                %dd= @title.release_date
-              - else
-                %dt Released (Theater)
-                %dd Today
-            - unless @title.release_date_dvd.nil?
-              - if @title.release_date_dvd < Date.today
-                %dt Released (DVD)
-                %dd= @title.release_date_dvd
-              - elsif @title.release_date_dvd > Date.today
-                %dt Releasing (DVD)
-                %dd= @title.release_date_dvd
-              - else
-                %dt Released (DVD)
-                %dd Today
-            - if @title.runtime?
-              %dt Runtime
-              %dd= runtime(@title)
         %p.summary= @title.plot_summary
-
         %h2 Plot Summary
         .details
           %p= @title.plot_details
 
-        .rotten-tomatoes
-          %h2 Rotten Tomatoes
-          - critic_class = (@title.rotten_tomatoes_critics_rating ? @title.rotten_tomatoes_critics_rating.split(/ /).first.downcase : '')
-          - audience_class = (@title.rotten_tomatoes_audience_rating ? @title.rotten_tomatoes_audience_rating.split(/ /).first.downcase : 'wts')
-          .meter_box.clearfix
-            .critics
-              .tomato_numbers
-                .header Critic Score
-                %span.meter.numeric{class: critic_class}= @title.rotten_tomatoes_critics_score.to_i
-            .consensus
-              .tomatometer{class: critic_class}
-                %span{style: "width: #{@title.rotten_tomatoes_critics_score.to_i}%;"}
-              %p.critic_consensus= @title.rotten_tomatoes_critics_consensus
-            .audience
-              .header Audience Score
-              %span.meter.numeric{class: audience_class}= @title.rotten_tomatoes_audience_score.to_i
-              - if audience_class == 'wts'
-                .want-to-see want to see
+
 
         - if @title.kids_in_mind_sex_number?
           %h2 Kids in Mind Rating
