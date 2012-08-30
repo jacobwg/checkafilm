@@ -1,9 +1,9 @@
 #= require jquery
 #= require jquery_ujs
 #= require bootstrap
-#= require jquery.backstretch
 #= require jquery.fancybox
 #= require jquery.fancybox-media
+#= require docs
 
 window.poll = () ->
   $.getJSON window.location, (data) ->
@@ -11,6 +11,9 @@ window.poll = () ->
       window.location = window.location
     else
       window.setTimeout window.poll, 2000
+
+setImage = (div, image) ->
+  $(div).css('background-image', "url(#{image})")
 
 jQuery ($) ->
   $('.fancybox-media').fancybox
@@ -26,14 +29,13 @@ jQuery ($) ->
 
     index = 0
 
-    $.backstretch window.images[index], speed: 500
-
+    setImage('#titlehead', window.images[index])
     setInterval () ->
       if index >= window.images.length - 1
         index = 0
       else
         index += 1
-      $.backstretch(window.images[index])
+      setImage('#titlehead', window.images[index])
     , 5000
 
   setTimeout ->

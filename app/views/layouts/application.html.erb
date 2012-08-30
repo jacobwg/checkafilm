@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title><%= page_title %></title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Sans:700|Open+Sans:300italic,400italic,400,300,600,700,800">
+
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+  <%= csrf_meta_tags %>
+  <%= content_for :open_graph %>
+</head>
+<body data-spy="scroll" data-target=".bs-docs-sidebar">
+  <div class="navbar navbar-fixed-top navbar-inverse">
+    <div class="navbar-inner">
+      <div class="container">
+        <button class="btn btn-navbar" type="button" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <%= link_to 'Check a Film', :root, :class => 'brand' %>
+        <%= form_tag search_path, :class => 'navbar-search pull-left', :method => 'get' do %>
+          <input type="text" name="q" placeholder="Search by Title..." class="search-query">
+        <% end %>
+        <div class="nav-collapse">
+          <ul class="nav pull-right">
+            <li><%= link_to 'Home', :root %></li>
+            <li><%= link_to 'About', '/about' %></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--<p><%= notice %></p>-->
+  <%= yield %>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="pull-right"><a href="#">Back to top</a></p>
+      <p>&copy; 2012 Jacob Gillespie - powered by IMDb, The Movie Database, YouTube, Plugged In, and Kids in Mind</p>
+    </div>
+  </footer>
+</body>
+</html>

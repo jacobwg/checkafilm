@@ -340,4 +340,20 @@ class Title < ActiveRecord::Base
     Resque.enqueue(LoadJob, self.id)
   end
 
+  # Return page title
+  def page_title
+    if fresh?
+      'Loading...'
+    elsif blocked?
+      'Blocked'
+    elsif missing?
+      'Not Found'
+    elsif release_date?
+      "#{name} (#{release_date.year})"
+    else
+      name
+    end
+  end
+
+
 end

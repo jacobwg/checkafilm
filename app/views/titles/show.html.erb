@@ -1,0 +1,226 @@
+<% page_title @title.page_title %>
+
+
+
+<% if @title.loaded? %>
+  <% content_for :open_graph do %>
+    <meta property="og:title", content="<%= @title.page_title %>">
+    <meta property="og:type", content="movie">
+    <meta property="og:url", content="http://checkafilm.com<%= title_path(@title) %>">
+    <meta property="og:image", content="<%= @title.poster_url %>">
+    <meta property="og:site_name", content="Check a Film">
+    <meta property="fb:admins", content="100000505263000">
+  <% end %>
+  <header class="jumbotron subhead" id="titlehead">
+    <div class="container">
+      <h1><%= @title.name %><% if @title.release_date? %> <small><%= @title.release_date.year %></small><% end %></h1>
+      <p><%= @title.plot_summary %></p>
+    </div>
+  </header>
+  <script type="text/javascript">
+    window.images = <%= @title.backdrops.map { |b| b.image_url }.to_json.html_safe %>;
+  </script>
+<% end %>
+
+<div class="container">
+  <div class="row">
+    <% if @title.fresh? %>
+    <div class="span12">
+      <h1>Loading title...</h1>
+      <p>One moment while we load that movie...</p>
+      <div class="progress progress-striped active span5">
+        <div class="bar" style="width: 100%"></div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      $(function() { window.poll(); });
+    </script>
+    <% elsif @title.blocked? %>
+    <div class="span12">
+      <h1>Title Blocked</h1>
+      <p>It appears that title is blocked on this website...</p>
+    </div>
+    <% elsif @title.missing? %>
+    <div class="span12">
+      <h1>Title Not Found</h1>
+      <p>Sorry, but we couldn't find that title</p>
+    </div>
+    <% elsif %>
+    <div class="span3 bs-docs-sidebar">
+      <ul class="nav nav-list bs-docs-sidenav">
+        <li><a href="#generalInformation"><i class="icon-chevron-right"></i> General</a></li>
+        <li><a href="#rottenTomatoes"><i class="icon-chevron-right"></i> Rotten Tomatoes</a></li>
+        <li><a href="#plotInformation"><i class="icon-chevron-right"></i> Plot</a></li>
+        <li><a href="#links"><i class="icon-chevron-right"></i> External Links</a></li>
+        <li><a href="#kidsInMind"><i class="icon-chevron-right"></i> Kids in Mind</a></li>
+        <li><a href="#trailers"><i class="icon-chevron-right"></i> Trailers</a></li>
+      </ul>
+    </div>
+    <div class="span9">
+      <section id="generalInformation">
+        <div class="page-header">
+          <h1>General Information</h1>
+        </div>
+
+        <img class="hidden-phone pull-right" src="<%= @title.poster_url(:thumb) %>" alt="<%= @title.name %> Poster Image">
+
+        <dl>
+          <% if @title.imdb_votes %>
+            <dt>IMDb Rating</dt>
+            <dd><%= @title.imdb_rating %> (from <%= pluralize(@title.imdb_votes, 'vote', 'votes') %>)</dd>
+          <% end %>
+          <% if @title.tmdb_votes %>
+            <dt>TMDb Rating</dt>
+            <dd><%= @title.tmdb_rating %> (from <%= pluralize(@title.tmdb_votes, 'vote', 'votes') %>)</dd>
+          <% end %>
+          <% unless @title.mpaa_rating.nil? or @title.mpaa_rating.empty? %>
+            <dt>MPAA Rating</dt>
+            <dd>
+              <span class="label label-rating<%= @title.mpaa_rating %>"><%= @title.mpaa_rating %></span>
+            </dd>
+          <% end %>
+          <% unless @title.release_date.nil? %>
+            <% if @title.release_date < Date.today %>
+              <dt>Released (Theater)</dt>
+              <dd><%= @title.release_date %></dd>
+            <% elsif @title.release_date > Date.today %>
+              <dt>Releasing (Theater)</dt>
+              <dd><%= @title.release_date %></dd>
+            <% else %>
+              <dt>Released (Theater)</dt>
+              <dd>Today</dd>
+            <% end %>
+          <% end %>
+          <% unless @title.release_date_dvd.nil? %>
+            <% if @title.release_date_dvd < Date.today %>
+              <dt>Released (DVD)</dt>
+              <dd><%= @title.release_date_dvd %></dd>
+            <% elsif @title.release_date_dvd > Date.today %>
+              <dt>Releasing (DVD)</dt>
+              <dd><%= @title.release_date_dvd %></dd>
+            <% else %>
+              <dt>Released (DVD)</dt>
+              <dd>Today</dd>
+            <% end %>
+          <% end %>
+          <% if @title.runtime? %>
+            <dt>Runtime</dt>
+            <dd><%= runtime(@title) %></dd>
+          <% end %>
+        </dl>
+​
+      </section>
+
+      <section id="rottenTomatoes">
+        <div class="page-header">
+          <h1>Rotten Tomatoes</h1>
+        </div>
+
+        <div class="rotten-tomatoes">
+          <% critic_class = (@title.rotten_tomatoes_critics_rating ? @title.rotten_tomatoes_critics_rating.split(/ /).first.downcase : '') %>
+          <% audience_class = (@title.rotten_tomatoes_audience_rating ? @title.rotten_tomatoes_audience_rating.split(/ /).first.downcase : 'wts') %>
+          <div class="meter_box clearfix">
+            <div class="critics">
+              <div class="tomato_numbers">
+                <div class="header">Critic Score</div>
+                <span class="meter numeric <%= critic_class %>"><%= @title.rotten_tomatoes_critics_score.to_i %></span>
+              </div>
+            </div>
+            <div class="consensus">
+              <div class="tomatometer <%= critic_class %>">
+                <span style="width: <%= @title.rotten_tomatoes_critics_score.to_i %>%;"</span>
+              </div>
+              <p class="critic_consensus"><%= @title.rotten_tomatoes_critics_consensus %></p>
+            </div>
+            <div class="audience">
+              <div class="header">Audience Score</div>
+              <span class="meter numeric <%= audience_class %>"><%= @title.rotten_tomatoes_audience_score.to_i %></span>
+              <% if audience_class == 'wts' %><div class="want-to-see">want to see</div><% end %>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="plotInformation">
+        <div class="page-header">
+          <h1>Plot</h1>
+        </div>
+
+        <p><%= @title.plot_details %></p>
+      </section>
+
+      <section id="links">
+        <div class="page-header">
+          <h1>External Links</h1>
+        </div>
+
+        <div class="btn-toolbar">
+          <div class="btn-group">
+            <%= link_to 'Homepage', @title.homepage, class: 'btn btn-inverse', target: '_blank' %>
+          </div>
+            <div class="btn-group">
+            <%= link_to 'IMDb', @title.imdb_link, class: 'btn btn-inverse', target: '_blank' %>
+            <%= link_to 'TMDb', @title.tmdb_link, class: 'btn btn-inverse', target: '_blank' %>
+          </div>
+          <div class="btn-group">
+            <%= link_to 'Rotten Tomatoes', @title.rotten_tomatoes_link, class: 'btn btn-inverse', target: '_blank' %>
+            <%= link_to 'Plugged In', @title.plugged_in_link, class: 'btn btn-inverse', target: '_blank' %>
+            <%= link_to 'Kids in Mind', @title.kids_in_mind_link, class: 'btn btn-inverse', target: '_blank' %>
+          </div>
+        </div>
+      </section>
+
+      <% if @title.kids_in_mind_sex_number? %>
+        <section id="kidsInMind">
+          <div class="page-header">
+            <h1>Kids in Mind Rating</h1>
+          </div>
+          <div class="row">
+            <div class="span5">
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <th>Sexual Content</th>
+                    <td><%= @title.kids_in_mind_sex_number %></td>
+                  </tr>
+                    <th>Violence</th>
+                    <td><%= @title.kids_in_mind_violence_number %></td>
+                  <tr>
+                  </tr>
+                  <tr>
+                    <th>Profanity</th>
+                    <td><%= @title.kids_in_mind_language_number %></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="span4">
+              <p>Kids in Mind numbers range from 0 to 10, with 10 being the highest possible rating.  For example, a movie with a violence number of 10 would be more violent than a movie with a 5.</p>
+            </div>
+          </div>
+        </section>
+      <% end %>
+
+      <section id="trailers">
+        <div class="page-header">
+          <h1>Trailers</h1>
+        </div>
+        <div class="trailers">
+          <ul class="thumbnails">
+            <% @title.trailers.each do |trailer| %>
+              <li class="span2">
+                <%= link_to "http://www.youtube.com/watch?v=#{trailer.url}", class: 'thumbnail fancybox-media' do %>
+                  <img src="<%= trailer.thumbnail_url %>" alt="<%= trailer.name %>">
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </section>
+
+
+
+    </div>
+    <% end %>
+  </div>
+</div>
