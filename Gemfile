@@ -17,10 +17,6 @@ end
 # jQuery JavaScript framework
 gem 'jquery-rails'
 
-# HAML markup language
-gem 'haml'
-gem 'haml-rails'
-
 # Application setttings
 gem 'settingslogic'
 
