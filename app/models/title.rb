@@ -51,7 +51,10 @@ class Title < ActiveRecord::Base
   mount_uploader :poster, PosterUploader
 
   # Scopes
-  scope :homepage, where(:status_state => 'loaded').order('updated_at DESC').limit(20)
+  scope :new_releases, where(:status_state => 'loaded').where('release_date <= :current_date', current_date: Date.today).order('release_date DESC').limit(16)
+  scope :new_on_dvd, where(:status_state => 'loaded').order('release_date_dvd DESC').limit(16)
+  scope :recently_added, where(:status_state => 'loaded').order('created_at DESC').limit(16)
+  scope :recently_updated, where(:status_state => 'loaded').order('updated_at DESC').limit(16)
 
   # Status state
   include AASM

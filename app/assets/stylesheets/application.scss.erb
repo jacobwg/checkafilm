@@ -12,6 +12,8 @@
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<%= asset_path 'backdrop.jpg' %>', sizingMethod='scale');
+  -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<%= asset_path 'backdrop.jpg' %>', sizingMethod='scale')";
 }
 
 
@@ -80,101 +82,48 @@ div.rotten-tomatoes {
     font-weight: bold;
   }
 
-
-  /*div.critics{width:66%;padding-right:8px;border-right:1px solid #E7D77F;}
-  div.critics div.critic_side_container{clear:both;}
-  div.fan_side{float:left;padding:4px 0 0 8px;border-left:1px solid #FFF;}
-  div.meter_box p.help{float:left;margin-top:0;text-transform:uppercase;font-weight:bold;color:#556F1E;}
-  div.meter_critics{display:block;float:left;padding:4px 8px 0 0;}
-  div.meter_fans{overflow:hidden;float:left;padding:4px 0 0 8px;}
-
-  div.meter_critics div.tomato_numbers{float:left;margin-right:8px;width:40%;display:block;}
-  div.meter_critics div.tomato_numbers.needMoreWidth{width:48%;}
-  div.meter_critics div.tomato_numbers.noReviews{width:60%;}
-  div.meter_critics div.tomato_consensus{overflow:hidden;}
-  div.meter_critics .tomato_bar{float:left;display:inline-block;width:98%;height:19px;background:transparent url('http://images.rottentomatoescdn.com/images/tomatometer/tomatometer_bar_bg.png?v=30082010') repeat-x 0 0;margin:4px 0;border:1px solid #9AA671;border-top:0;-moz-border-radius:6px;-webkit-border-radius:6px;border-radius:6px;}
-  div.meter_critics .tomato_bar.noScore{height:28px;background-image:none;margin:4px 0;border-style:none;}
-  div.meter_critics .tomato_bar>.tomato_fill{float:left;display:block;height:19px;width:-1%;background:transparent url('http://images.rottentomatoescdn.com/images/tomatometer/tomatometer_bar_bg.png?v=30082010') repeat-x 0 -19px;border-top-left-radius:6px;border-bottom-left-radius:6px;-moz-border-radius-topleft:6px;-moz-border-radius-bottomleft:6px;-webkit-border-top-left-radius:6px;-webkit-border-bottom-left-radius:6px;}
-  div.meter_critics .critic_consensus{color:#6F6A57;clear:both;font-size:11px;line-height:13px;}*/
-
   .tomatometer,.tomatometer>*{display:block;width:188px;height:20px;margin:4px 0;background:transparent url('http://images.rottentomatoescdn.com/images/redesign/tomatometer_bar_bg.png') no-repeat 0 0;}
   .tomatometer>span{float:left;width:0;margin:0;}
   .tomatometer.fresh>span,.tomatometer.certified>span{background-position:0 -20px;}
   .tomatometer.rotten>span{background-position:0 -40px;}
 }
 
-.test {
-body {
-  padding-top: 60px;
-  background-color: rgba(0,0,0,0.60);
-}
 
-html {
-  background: url("<%= asset_path 'backdrop.jpg' %>") no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<%= asset_path 'backdrop.jpg' %>', sizingMethod='scale');
-  -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<%= asset_path 'backdrop.jpg' %>', sizingMethod='scale')";
-}
-
-.navbar-fixed-top .brand {
-  //padding-right: 0;
-  //padding-left: 0;
-  //margin-left: 20px;
-  //float: right;https://cart.rackspace.com/apps/done
-
-  color: #fff;
-  text-shadow: 0 1px 0 rgba(0,0,0,.1), 0 0 30px rgba(0,0,0,.125);
-  -webkit-transition: all .2s linear;
-     -moz-transition: all .2s linear;
-          transition: all .2s linear;
-}
-.navbar-fixed-top .brand:hover {
-  text-decoration: underline;
-  color: #eee;
-}
-
-
-.thumbnail {
-  background-color: #000;
-  border-color: #222;
-}
 
 .titles li {
-  height: 300px;
+  min-height: 360px;
 }
 
 .thumbnail a:hover {
   text-decoration:none
 }
 
-.thumbnail {
-  position: relative;
-}
+.trailers {
+  .thumbnail {
+    background-color: #000;
+    border-color: #222;
+  }
 
-.trailers .thumbnail:before {
-  content: "\f04b";
-  font-family: FontAwesome;
-  font-size: 40px;
-  font-weight: normal;
-  text-decoration:none;
-  color: #111;
-  text-shadow: 0px 0px 15px #fff;
-  z-index: 20;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  padding: 0;
-  margin: 0;
-  margin-left: -20px;
-  margin-top: -20px;
-}
+  .thumbnail {
+    position: relative;
+  }
 
-body {
-  &, h1, h2, h3, h4, h5, h6 {
-    color: #eee;
+  .thumbnail:before {
+    content: "\f04b";
+    font-family: FontAwesome;
+    font-size: 40px;
+    font-weight: normal;
+    text-decoration:none;
+    color: #111;
+    text-shadow: 0px 0px 15px #fff;
+    z-index: 20;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    padding: 0;
+    margin: 0;
+    margin-left: -15px;
+    //margin-top: -20px;
   }
 }
 
@@ -205,6 +154,3 @@ body {
 }
 
 
-
-
-}

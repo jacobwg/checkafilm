@@ -5,8 +5,11 @@ class TitlesController < ApplicationController
   caches_action :search, :expires_in => 1.hour, :cache_path => proc { |c| {:query => c.params[:q]} }
 
   def index
-    @titles = Title.homepage
-    respond_with @titles
+    @new_releases = Title.new_releases
+    @new_on_dvd = Title.new_on_dvd
+    @recently_added = Title.recently_added
+    @recently_updated = Title.recently_updated
+    respond_with @recently_updated
   end
 
   def search
