@@ -362,7 +362,9 @@ class Title < ActiveRecord::Base
             review[:spiritual_content] = html
           elsif section.match /sexual/i
             review[:sexual_content] = html
-          elsif section.match /violent/i
+          elsif section.match /sexual/i
+            review[:sexual_content] = html
+          elsif section.match /conduct/i
             review[:violent_content] = html
           elsif section.match /violence/i
             review[:violent_content] = html
