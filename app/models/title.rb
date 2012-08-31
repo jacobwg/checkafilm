@@ -98,9 +98,11 @@ class Title < ActiveRecord::Base
     Rails.logger.info('Loading data...')
     begin
       tmdb_data = Tmdb.api_call 'movie', :id => imdb_id, language: 'en'
-    rescue Exception
+    rescue RuntimeError
       Rails.logger.warn('Movie not found - exiting...')
       make_missing!
+      return
+    rescue Exception
       return
     end
 
