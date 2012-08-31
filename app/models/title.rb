@@ -232,7 +232,7 @@ class Title < ActiveRecord::Base
         unless trailer
           trailer = Trailer.new(url: t.source, name: t.name, title_id: self.id)
           trailer.save
-          trailer.async_fetch_thumbnail!
+          trailer.fetch_thumbnail!
         end
       end
     else
@@ -243,7 +243,7 @@ class Title < ActiveRecord::Base
         unless trailer
           trailer = Trailer.new(url: t[:id], name: t[:name], title_id: self.id)
           trailer.save!
-          trailer.async_fetch_thumbnail!
+          trailer.fetch_thumbnail!
         end
       end
     end
