@@ -58,6 +58,12 @@ group :development do
   gem 'mina'
 end
 
+# Profiling and dev server
+group :development do
+  gem 'ruby-prof'
+  gem 'thin'
+end
+
 # Scheduler
 gem 'whenever', :require => false
 
