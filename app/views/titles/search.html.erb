@@ -26,7 +26,7 @@
                 <% if title.poster_path.nil? %>
                   <img src="<%= asset_path('poster.png') %>">
                 <% else %>
-                  <img src="https://d1zm4mmpsrckwj.cloudfront.net/t/p/w185<%= title.poster_path %>">
+                  <img src="http://cf2.imgobject.com/t/p/w185<%= title.poster_path %>">
                 <% end %>
                 <h4><%= title.title %><% unless title.release_date.nil? %> (<%= Date.parse(title.release_date).year %>)<% end %></h4>
               <% end %>
