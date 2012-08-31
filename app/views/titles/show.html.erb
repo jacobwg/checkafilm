@@ -183,31 +183,49 @@
 
             <p><a href="<%= @title.plugged_in_link %>" target="_blank">View on PluggedIn.com <i class="icon-external-link"></i></a></p>
 
+            <% unless @title.plugged_in_review[:introduction].nil? %>
             <%= @title.plugged_in_review[:introduction].html_safe %>
+            <% end %>
 
+            <% unless @title.plugged_in_review[:positive_elements].nil? %>
             <h3>Positive Elements</h3>
             <%= @title.plugged_in_review[:positive_elements].html_safe %>
+            <% end %>
 
+            <% unless @title.plugged_in_review[:intrspiritual_contentoduction].nil? %>
             <h3>Spiritual Content</h3>
             <%= @title.plugged_in_review[:spiritual_content].html_safe %>
+            <% end %>
 
+            <% unless @title.plugged_in_review[:introsexual_contentduction].nil? %>
             <h3>Sexual Content</h3>
             <%= @title.plugged_in_review[:sexual_content].html_safe %>
+            <% end %>
 
+            <% unless @title.plugged_in_review[:violent_content].nil? %>
             <h3>Violent Content</h3>
             <%= @title.plugged_in_review[:violent_content].html_safe %>
+            <% end %>
 
+            <% unless @title.plugged_in_review[:crude_language].nil? %>
             <h3>Crude Language</h3>
             <%= @title.plugged_in_review[:crude_language].html_safe %>
+            <% end %>
 
+            <% unless @title.plugged_in_review[:drug_content].nil? %>
             <h3>Drug Content</h3>
             <%= @title.plugged_in_review[:drug_content].html_safe %>
+            <% end %>
 
+            <% unless @title.plugged_in_review[:negative_elements].nil? %>
             <h3>Negative Elements</h3>
             <%= @title.plugged_in_review[:negative_elements].html_safe %>
+            <% end %>
 
+            <% unless @title.plugged_in_review[:conclusion].nil? %>
             <h3>Conclusion</h3>
             <%= @title.plugged_in_review[:conclusion].html_safe %>
+            <% end %>
           </section>
         <% end %>
 
