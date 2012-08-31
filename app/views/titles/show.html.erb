@@ -28,7 +28,8 @@
 <% end %>
 
 <% if @title.loaded? %>
-  <% content_for :open_graph do %>
+  <% content_for :header do %>
+    <link rel="canonical" href="http://checkafilm.com<%= title_path(@title) %>">
     <meta property="og:title", content="<%= @title.page_title %>">
     <meta property="og:type", content="movie">
     <meta property="og:url", content="http://checkafilm.com<%= title_path(@title) %>">
@@ -79,6 +80,10 @@
       </div>
       <div class="span9">
         <section id="generalInformation">
+          <div class="pulll-left">
+              <div class="g-plusone" data-annotation="inline" data-width="300" data-href="http://checkafilm.com<%= title_path(@title) %>"></div>
+              <div class="fb-like" data-href="http://checkafilm.com<%= title_path(@title) %>" data-send="false" data-width="450" data-show-faces="true"></div>
+            </div>
           <div class="page-header">
             <h1>General Information</h1>
           </div>
@@ -220,4 +225,11 @@
       </div>
     </div>
   </div>
+  <script type="text/javascript">
+    (function() {
+      var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+      po.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+    })();
+  </script>
 <% end %>
