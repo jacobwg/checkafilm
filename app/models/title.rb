@@ -356,21 +356,23 @@ class Title < ActiveRecord::Base
           section = p.css('b').text
           p.search('.//b').remove
           html = p.to_html
-          if section.match /positive elements:/
+          if section.match /positive/i
             review[:positive_elements] = html
-          elsif section.match /spiritual content:/
+          elsif section.match /spiritual/i
             review[:spiritual_content] = html
-          elsif section.match /sexual content:/
+          elsif section.match /sexual/i
             review[:sexual_content] = html
-          elsif section.match /violent content:/
+          elsif section.match /violent/i
             review[:violent_content] = html
-          elsif section.match /crude or profane language:/
+          elsif section.match /crude/i
             review[:crude_language] = html
-          elsif section.match /drug and alcohol content:/
+          elsif section.match /drug/i
             review[:drug_content] = html
-          elsif section.match /other negative elements:/
+          elsif section.match /negative/i
             review[:negative_elements] = html
-          elsif section.match /conclusion:/
+          elsif section.match /conclusion/i
+            review[:conclusion] = html
+          elsif section.match /summary/i
             review[:conclusion] = html
           else
             review[:introduction] = html

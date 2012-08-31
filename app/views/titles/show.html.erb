@@ -30,6 +30,7 @@
 <% if @title.loaded? %>
   <% content_for :header do %>
     <link rel="canonical" href="http://checkafilm.com<%= title_path(@title) %>">
+    <% if @title.plot_summary? %><meta name="description" content="<%= @title.plot_summary %>"><% end %>
     <meta property="og:title", content="<%= @title.page_title %>">
     <meta property="og:type", content="movie">
     <meta property="og:url", content="http://checkafilm.com<%= title_path(@title) %>">
