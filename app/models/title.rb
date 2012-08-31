@@ -89,8 +89,9 @@ class Title < ActiveRecord::Base
   end
 
   # Permalinks
-  extend FriendlyId
-  friendly_id :imdb_id, use: :slugged
+  def to_param
+    imdb_id
+  end
 
   # Fetch and save basic information from IMDb, TMDb, and Rotten Tomatoes
   def fetch_basic_data!

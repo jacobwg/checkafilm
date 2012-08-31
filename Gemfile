@@ -41,9 +41,6 @@ gem 'mini_magick'
 # AWS integration for carrierwave
 gem 'fog'
 
-# Permalinks (TODO: look into to_param)
-gem 'friendly_id'
-
 # Background job processing
 gem 'resque'
 gem 'resque-loner'
