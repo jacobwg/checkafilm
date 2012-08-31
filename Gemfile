@@ -60,3 +60,6 @@ end
 
 # Scheduler
 gem 'whenever', :require => false
+
+# New Relic
+gem 'newrelic_rpm'
