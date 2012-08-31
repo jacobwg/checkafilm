@@ -44,9 +44,6 @@ gem 'fog'
 # Permalinks (TODO: look into to_param)
 gem 'friendly_id'
 
-# Application server
-gem 'unicorn'
-
 # Background job processing
 gem 'resque'
 gem 'resque-loner'
