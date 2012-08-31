@@ -14,12 +14,15 @@
     })
 
     // side bar
-    $('.bs-docs-sidenav').affix({
-      offset: {
-        top: function () { return $window.width() <= 980 ? 290 : 210 }
-      , bottom: 270
+
+
+    $('.bs-docs-sidenav').addClass("affix-top").each(function (){
+      var $self = $(this);
+      var offsetFn = function () {
+        return $('.jumbotron').outerHeight();
       }
-    })
+      $self.affix({offset: {top: offsetFn}});
+    });
 
     // make code pretty
     window.prettyPrint && prettyPrint()

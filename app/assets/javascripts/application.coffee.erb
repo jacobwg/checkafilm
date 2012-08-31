@@ -1,0 +1,73 @@
+#= require jquery
+#= require jquery_ujs
+#= require jquery.ui.autocomplete
+#= require bootstrap
+#= require jquery.fancybox
+#= require jquery.fancybox-media
+#= require docs
+
+window.poll = () ->
+  $.getJSON window.location, (data) ->
+    if data.status_state is 'loaded'
+      window.location = window.location
+    else
+      window.setTimeout window.poll, 2000
+
+setImage = (div, image) ->
+  $(div).css('background-image', "url(#{image})")
+
+jQuery ($) ->
+  $('.fancybox-media').fancybox
+    openEffect: 'none'
+    closeEffect: 'none'
+    fitToView: true
+    helpers:
+      media: {}
+
+  $('#search-box').autocomplete
+    source: (request, callback) ->
+      $.ajax
+        url: 'http://api.themoviedb.org/3/search/movie?api_key=<%= Settings.tmdb_key %>&callback=?'
+        dataType: 'jsonp'
+        data:
+          query: request.term
+        success: (json) ->
+          results = $.map json.results, (title) ->
+            if title.poster_path is null
+              title.poster_path = '/assets/poster.png'
+            else
+              title.poster_path = "http://cf2.imgobject.com/t/p/w92#{title.poster_path}"
+
+            label: title.title
+            value: title.title
+            poster: title.poster_path
+            id: title.id
+          callback(results)
+    select: (event, ui) ->
+      window.location = "/tmdb/#{ui.item.id}"
+    minLength: 2
+  .data("autocomplete")._renderItem = ( ul, item ) ->
+      $( "<li></li>" )
+        .data( "item.autocomplete", item )
+        .append( '<a class="clearfix"><img style="vertical-align:text-middle; margin-right: 6px;" src="' + item.poster + '" width="50">' + item.label + '</a>' )
+        .appendTo( ul )
+
+
+  if window.images
+    for image in window.images
+      $('<img/>')[0].src = image
+
+    index = 0
+
+    setImage('#titlehead', window.images[index])
+    setInterval () ->
+      if index >= window.images.length - 1
+        index = 0
+      else
+        index += 1
+      setImage('#titlehead', window.images[index])
+    , 5000
+
+  setTimeout ->
+    window.scrollTo 0, 1
+  , 1

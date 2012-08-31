@@ -42,10 +42,14 @@ class Title < ActiveRecord::Base
   attr_accessible :kids_in_mind_sex_number
   attr_accessible :kids_in_mind_language_number
   attr_accessible :kids_in_mind_violence_number
+  attr_accessible :plugged_in_review
 
   # Relations
   has_many :backdrops, dependent: :destroy
   has_many :trailers, dependent: :destroy
+
+  # Serialized fields
+  serialize :plugged_in_review, Hash
 
   # Uploaders
   mount_uploader :poster, PosterUploader
@@ -332,12 +336,77 @@ class Title < ActiveRecord::Base
     Rails.logger.info('Review information fetched')
   end
 
+  # Fetch the Plugged In review paragraphs (currently using the conclusion)
+  def fetch_plugged_in_review!
+    return unless plugged_in_link?
+    review = {}
+
+    begin
+
+      text = open(plugged_in_link).read
+      doc = Nokogiri::HTML(text)
+
+      if text.match /<p><p>/i
+        # Old-style review
+        puts "Old-style"
+        doc.css('#article p').each do |p|
+          section = p.css('b').text
+          p.search('.//b').remove
+          html = p.to_html
+          if section.match /positive elements:/
+            review[:positive_elements] = html
+          elsif section.match /spiritual content:/
+            review[:spiritual_content] = html
+          elsif section.match /sexual content:/
+            review[:sexual_content] = html
+          elsif section.match /violent content:/
+            review[:violent_content] = html
+          elsif section.match /crude or profane language:/
+            review[:crude_language] = html
+          elsif section.match /drug and alcohol content:/
+            review[:drug_content] = html
+          elsif section.match /other negative elements:/
+            review[:negative_elements] = html
+          elsif section.match /conclusion:/
+            review[:conclusion] = html
+          else
+            review[:introduction] = html
+          end
+        end
+      else
+        puts "New-style"
+        # Newer review
+        review[:introduction] = doc.css('#article p').first.to_html
+        review[:positive_elements] = doc.css('h3.positiveElements + p').to_html
+        review[:spiritual_content] = doc.css('h3.spiritualContent + p').to_html
+        review[:sexual_content] = doc.css('h3.sexualContent + p').to_html
+        review[:violent_content] = doc.css('h3.violentContent + p').to_html
+        review[:crude_language] = doc.css('h3.crudeLanguage + p').to_html
+        review[:drug_content] = doc.css('h3.drugContent + p').to_html
+        review[:negative_elements] = doc.css('h3.negativeElements + p').to_html
+        review[:conclusion] = doc.css('h3.conclusion + p').to_html
+      end
+
+      review.each do |key, value|
+        review[key] = value.gsub(/<i>/, '<em>').gsub(/<\/i>/, '</em>')
+        review[key] = value.gsub(/<a href="~/, '<a target="_blank" href="http://www.pluggedin.com/videos/2012/q1/~')
+      end
+
+      self.plugged_in_review = review
+
+      save
+
+    rescue Exception
+    end
+  end
+
   # Completely load a title
   def load!
     fetch_basic_data!
     fetch_images!
     fetch_trailers!
     fetch_review_information!
+    fetch_plugged_in_review!
     make_loaded! if fresh?
   end
 

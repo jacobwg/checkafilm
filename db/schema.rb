@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120729231240) do
+ActiveRecord::Schema.define(:version => 20120831183807) do
 
   create_table "backdrops", :force => true do |t|
     t.string   "image"
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(:version => 20120729231240) do
     t.integer  "kids_in_mind_language_number"
     t.integer  "kids_in_mind_violence_number"
     t.string   "status_state"
+    t.text     "plugged_in_review"
   end
 
   add_index "titles", ["slug"], :name => "index_titles_on_slug", :unique => true

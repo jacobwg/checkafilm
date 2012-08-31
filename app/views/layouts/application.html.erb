@@ -39,7 +39,7 @@
       <div class="container">
         <%= link_to 'Check a Film', :root, :class => 'brand' %>
         <%= form_tag search_path, :class => 'navbar-search pull-left', :method => 'get' do %>
-          <input type="text" name="q" placeholder="Search by Title..." class="search-query">
+          <input type="text" name="q" placeholder="Search by Title..." class="search-query" id="search-box" autocomplete="off">
         <% end %>
         <div class="nav-collapse">
           <ul class="nav pull-right">
