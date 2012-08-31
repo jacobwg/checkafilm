@@ -235,7 +235,9 @@ class Title < ActiveRecord::Base
 
     if trailers.youtube.size > 0
       trailers.youtube.each do |t|
-        t.source.gsub!(/http:\/\/.*youtube.com\/watch\?v=/, '').gsub!(/&.*$/, '') unless t.source.nil?
+        puts t.source
+        t.source.gsub!(/http:\/\/.*youtube.com\/watch\?v=/, '') unless t.source.nil?
+        t.source.gsub!(/&.*$/, '') unless t.source.nil?
         trailer = Trailer.find_by_url(t.source)
         unless trailer
           trailer = Trailer.new(url: t.source, name: t.name, title_id: self.id)
