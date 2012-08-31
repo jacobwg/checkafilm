@@ -359,4 +359,12 @@ class Title < ActiveRecord::Base
   end
 
 
+  # Helper to refresh all titles
+  def self.refresh_all
+    Title.find_each do |t|
+      t.async_fetch_information!
+    end
+  end
+
+
 end

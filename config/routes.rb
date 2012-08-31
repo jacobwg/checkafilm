@@ -2,9 +2,6 @@ require 'resque/server'
 
 Checkafilm::Application.routes.draw do
 
-  # Log monitor
-  match 'rubyception' => 'rubyception/application#index'
-
   # Resque web monitor interface
   mount Resque::Server.new, :at => '/jobs'
 
