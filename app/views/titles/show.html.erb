@@ -85,7 +85,7 @@
 
           <img class="hidden-phone pull-right" src="<%= @title.poster_url(:thumb) %>" alt="<%= @title.name %> Poster Image">
 
-          <dl>
+          <dl class="dl-horizontal">
             <% if @title.imdb_votes %>
               <dt>IMDb Rating</dt>
               <dd><%= @title.imdb_rating %> (from <%= pluralize(@title.imdb_votes, 'vote', 'votes') %>)</dd>
@@ -101,28 +101,12 @@
               </dd>
             <% end %>
             <% unless @title.release_date.nil? %>
-              <% if @title.release_date < Date.today %>
-                <dt>Released (Theater)</dt>
-                <dd><%= @title.release_date %></dd>
-              <% elsif @title.release_date > Date.today %>
-                <dt>Releasing (Theater)</dt>
-                <dd><%= @title.release_date %></dd>
-              <% else %>
-                <dt>Released (Theater)</dt>
-                <dd>Today</dd>
-              <% end %>
+              <dt>Release Date</dt>
+              <dd><%= @title.release_date %></dd>
             <% end %>
             <% unless @title.release_date_dvd.nil? %>
-              <% if @title.release_date_dvd < Date.today %>
-                <dt>Released (DVD)</dt>
-                <dd><%= @title.release_date_dvd %></dd>
-              <% elsif @title.release_date_dvd > Date.today %>
-                <dt>Releasing (DVD)</dt>
-                <dd><%= @title.release_date_dvd %></dd>
-              <% else %>
-                <dt>Released (DVD)</dt>
-                <dd>Today</dd>
-              <% end %>
+              <dt>Release (DVD)</dt>
+              <dd><%= @title.release_date_dvd %></dd>
             <% end %>
             <% if @title.runtime? %>
               <dt>Runtime</dt>
