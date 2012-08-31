@@ -68,4 +68,4 @@ group :development do
 end
 
 # Scheduler
-gem 'whenever'
+gem 'whenever', :require => false

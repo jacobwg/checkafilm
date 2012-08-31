@@ -27,6 +27,8 @@ task :deploy do
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
 
+    queue 'whenever --update-cron'
+
     to :launch do
       queue 'touch tmp/restart.txt'
     end
