@@ -32,10 +32,10 @@ body > .navbar {
 
 /* Change the docs' brand */
 body > .navbar .brand {
-  padding-right: 0;
   padding-left: 0;
-  margin-left: 20px;
-  float: right;
+  padding-right: 0;
+  margin-right: 20px;
+  float: left;
   font-weight: bold;
   color: #000;
   text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.125);
@@ -171,25 +171,6 @@ hr.soften {
           box-shadow: inset 0 2px 4px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.1);
 }
 
-
-/* Pattern overlay
-------------------------- */
-.jumbotron .container {
-  position: relative;
-  z-index: 2;
-}
-.jumbotron:after {
-  content: '';
-  display: block;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: url(../img/bs-docs-masthead-pattern.png) repeat center center;
-  opacity: .4;
-}
-
 /* Masthead (docs home)
 ------------------------- */
 .masthead {
@@ -198,7 +179,7 @@ hr.soften {
   color: #fff;
 }
 .masthead h1 {
-  font-size: 120px;
+  font-size: 90px;
   line-height: 1;
   letter-spacing: -2px;
 }
@@ -260,43 +241,6 @@ hr.soften {
 }
 
 
-
-/* Marketing section of Overview
--------------------------------------------------- */
-
-.marketing {
-  text-align: center;
-  color: #5a5a5a;
-}
-.marketing h1 {
-  margin: 60px 0 10px;
-  font-size: 60px;
-  font-weight: 200;
-  line-height: 1;
-  letter-spacing: -1px;
-}
-.marketing h2 {
-  font-weight: 200;
-  margin-bottom: 5px;
-}
-.marketing p {
-  font-size: 16px;
-  line-height: 1.5;
-}
-.marketing .marketing-byline {
-  margin-bottom: 40px;
-  font-size: 20px;
-  font-weight: 300;
-  line-height: 25px;
-  color: #999;
-}
-.marketing img {
-  display: block;
-  margin: 0 auto 30px;
-}
-
-
-
 /* Footer
 -------------------------------------------------- */
 
@@ -317,170 +261,6 @@ hr.soften {
   display: inline;
   margin-right: 10px;
 }
-
-
-
-/* Special grid styles
--------------------------------------------------- */
-
-.show-grid {
-  margin-top: 10px;
-  margin-bottom: 20px;
-}
-.show-grid [class*="span"] {
-  background-color: #eee;
-  text-align: center;
-  -webkit-border-radius: 3px;
-     -moz-border-radius: 3px;
-          border-radius: 3px;
-  min-height: 40px;
-  line-height: 40px;
-}
-.show-grid:hover [class*="span"] {
-  background: #ddd;
-}
-.show-grid .show-grid {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-.show-grid .show-grid [class*="span"] {
-  background-color: #ccc;
-}
-
-
-
-/* Mini layout previews
--------------------------------------------------- */
-.mini-layout {
-  border: 1px solid #ddd;
-  -webkit-border-radius: 6px;
-     -moz-border-radius: 6px;
-          border-radius: 6px;
-  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.075);
-     -moz-box-shadow: 0 1px 2px rgba(0,0,0,.075);
-          box-shadow: 0 1px 2px rgba(0,0,0,.075);
-}
-.mini-layout,
-.mini-layout .mini-layout-body,
-.mini-layout.fluid .mini-layout-sidebar {
-  height: 300px;
-}
-.mini-layout {
-  margin-bottom: 20px;
-  padding: 9px;
-}
-.mini-layout div {
-  -webkit-border-radius: 3px;
-     -moz-border-radius: 3px;
-          border-radius: 3px;
-}
-.mini-layout .mini-layout-body {
-  background-color: #dceaf4;
-  margin: 0 auto;
-  width: 70%;
-}
-.mini-layout.fluid .mini-layout-sidebar,
-.mini-layout.fluid .mini-layout-header,
-.mini-layout.fluid .mini-layout-body {
-  float: left;
-}
-.mini-layout.fluid .mini-layout-sidebar {
-  background-color: #bbd8e9;
-  width: 20%;
-}
-.mini-layout.fluid .mini-layout-body {
-  width: 77.5%;
-  margin-left: 2.5%;
-}
-
-
-
-/* Download page
--------------------------------------------------- */
-
-.download .page-header {
-  margin-top: 36px;
-}
-.page-header .toggle-all {
-  margin-top: 5px;
-}
-
-/* Space out h3s when following a section */
-.download h3 {
-  margin-bottom: 5px;
-}
-.download-builder input + h3,
-.download-builder .checkbox + h3 {
-  margin-top: 9px;
-}
-
-/* Fields for variables */
-.download-builder input[type=text] {
-  margin-bottom: 9px;
-  font-family: Menlo, Monaco, "Courier New", monospace;
-  font-size: 12px;
-  color: #d14;
-}
-.download-builder input[type=text]:focus {
-  background-color: #fff;
-}
-
-/* Custom, larger checkbox labels */
-.download .checkbox {
-  padding: 6px 10px 6px 25px;
-  font-size: 13px;
-  line-height: 18px;
-  color: #555;
-  background-color: #f9f9f9;
-  -webkit-border-radius: 3px;
-     -moz-border-radius: 3px;
-          border-radius: 3px;
-  cursor: pointer;
-}
-.download .checkbox:hover {
-  color: #333;
-  background-color: #f5f5f5;
-}
-.download .checkbox small {
-  font-size: 12px;
-  color: #777;
-}
-
-/* Variables section */
-#variables label {
-  margin-bottom: 0;
-}
-
-/* Giant download button */
-.download-btn {
-  margin: 36px 0 108px;
-}
-#download p,
-#download h4 {
-  max-width: 50%;
-  margin: 0 auto;
-  color: #999;
-  text-align: center;
-}
-#download h4 {
-  margin-bottom: 0;
-}
-#download p {
-  margin-bottom: 18px;
-}
-.download-btn .btn {
-  display: block;
-  width: auto;
-  padding: 19px 24px;
-  margin-bottom: 27px;
-  font-size: 30px;
-  line-height: 1;
-  text-align: center;
-  -webkit-border-radius: 6px;
-     -moz-border-radius: 6px;
-          border-radius: 6px;
-}
-
 
 
 /* Misc
@@ -681,77 +461,6 @@ form.bs-docs-example {
   width: 260px;
   margin: 20px;
 }
-
-
-
-/* Responsive docs
--------------------------------------------------- */
-
-/* Utility classes table
-------------------------- */
-.responsive-utilities th small {
-  display: block;
-  font-weight: normal;
-  color: #999;
-}
-.responsive-utilities tbody th {
-  font-weight: normal;
-}
-.responsive-utilities td {
-  text-align: center;
-}
-.responsive-utilities td.is-visible {
-  color: #468847;
-  background-color: #dff0d8 !important;
-}
-.responsive-utilities td.is-hidden {
-  color: #ccc;
-  background-color: #f9f9f9 !important;
-}
-
-/* Responsive tests
-------------------------- */
-.responsive-utilities-test {
-  margin-top: 5px;
-  margin-left: 0;
-  list-style: none;
-  overflow: hidden; /* clear floats */
-}
-.responsive-utilities-test li {
-  position: relative;
-  float: left;
-  width: 25%;
-  height: 43px;
-  font-size: 14px;
-  font-weight: bold;
-  line-height: 43px;
-  color: #999;
-  text-align: center;
-  border: 1px solid #ddd;
-  -webkit-border-radius: 4px;
-     -moz-border-radius: 4px;
-          border-radius: 4px;
-}
-.responsive-utilities-test li + li {
-  margin-left: 10px;
-}
-.responsive-utilities-test span {
-  position: absolute;
-  top:    -1px;
-  left:   -1px;
-  right:  -1px;
-  bottom: -1px;
-  -webkit-border-radius: 4px;
-     -moz-border-radius: 4px;
-          border-radius: 4px;
-}
-.responsive-utilities-test span {
-  color: #468847;
-  background-color: #dff0d8;
-  border: 1px solid #d6e9c6;
-}
-
-
 
 /* Sidenav for Docs
 -------------------------------------------------- */

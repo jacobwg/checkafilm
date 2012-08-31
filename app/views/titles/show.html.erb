@@ -36,7 +36,7 @@
     <meta property="og:site_name", content="Check a Film">
     <meta property="fb:admins", content="100000505263000">
   <% end %>
-  <header class="jumbotron subhead" id="titlehead">
+  <header class="jumbotron masthead" id="titlehead">
     <div class="container">
       <h1><%= @title.name %><% if @title.release_date? %> <small><%= @title.release_date.year %></small><% end %></h1>
       <p class="lead"><%= @title.plot_summary %></p>
@@ -159,20 +159,14 @@
             <h1>External Links</h1>
           </div>
 
-          <div class="btn-toolbar">
-            <div class="btn-group">
-              <%= link_to 'Homepage', @title.homepage, class: 'btn btn-inverse', target: '_blank' %>
-            </div>
-              <div class="btn-group">
-              <%= link_to 'IMDb', @title.imdb_link, class: 'btn btn-inverse', target: '_blank' %>
-              <%= link_to 'TMDb', @title.tmdb_link, class: 'btn btn-inverse', target: '_blank' %>
-            </div>
-            <div class="btn-group">
-              <%= link_to 'Rotten Tomatoes', @title.rotten_tomatoes_link, class: 'btn btn-inverse', target: '_blank' %>
-              <%= link_to 'Plugged In', @title.plugged_in_link, class: 'btn btn-inverse', target: '_blank' %>
-              <%= link_to 'Kids in Mind', @title.kids_in_mind_link, class: 'btn btn-inverse', target: '_blank' %>
-            </div>
-          </div>
+          <ul class="nav nav-tabs nav-stacked">
+            <li><%= link_to '<i class="icon-external-link"></i> Homepage'.html_safe, @title.homepage, target: '_blank' %></li>
+            <li><%= link_to '<i class="icon-external-link"></i> IMDb'.html_safe, @title.imdb_link, target: '_blank' %></li>
+            <li><%= link_to '<i class="icon-external-link"></i> TMDb'.html_safe, @title.tmdb_link, target: '_blank' %></li>
+            <li><%= link_to '<i class="icon-external-link"></i> Rotten Tomatoes'.html_safe, @title.rotten_tomatoes_link, target: '_blank' %></li>
+            <li><%= link_to '<i class="icon-external-link"></i> Plugged In'.html_safe, @title.plugged_in_link, target: '_blank' %></li>
+            <li><%= link_to '<i class="icon-external-link"></i> Kids in Mind'.html_safe, @title.kids_in_mind_link, target: '_blank' %></li>
+          </ul>
         </section>
 
         <% if @title.kids_in_mind_sex_number? %>

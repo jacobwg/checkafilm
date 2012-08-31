@@ -17,11 +17,6 @@
   <div class="navbar navbar-fixed-top navbar-inverse">
     <div class="navbar-inner">
       <div class="container">
-        <button class="btn btn-navbar" type="button" data-toggle="collapse" data-target=".nav-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
         <%= link_to 'Check a Film', :root, :class => 'brand' %>
         <%= form_tag search_path, :class => 'navbar-search pull-left', :method => 'get' do %>
           <input type="text" name="q" placeholder="Search by Title..." class="search-query">
