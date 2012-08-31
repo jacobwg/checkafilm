@@ -17,7 +17,7 @@ require 'mina/git'
 
 set :domain, 'app.checkafilm.com'
 set :deploy_to, '/data/apps/checkafilm'
-set :repository, 'https://github.com/jacobwg/checkafilm.git'
+set :repository, 'git://github.com/jacobwg/checkafilm.git'
 set :branch, 'master'
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
