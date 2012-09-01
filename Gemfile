@@ -69,3 +69,7 @@ gem 'whenever', :require => false
 
 # New Relic
 gem 'newrelic_rpm'
+
+# HTTP Clients
+gem 'rest-client', :require => 'rest_client'
+gem 'faraday'

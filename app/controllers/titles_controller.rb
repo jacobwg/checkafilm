@@ -30,16 +30,16 @@ class TitlesController < ApplicationController
   end
 
   def tmdb
-    begin
+    #begin
       movie = Tmdb.api_call 'movie', id: params[:id]
       if movie['imdb_id']
         redirect_to title_path(movie['imdb_id'])
       else
         redirect_to :root
       end
-    rescue Exception
-      redirect_to :root
-    end
+    #rescue Exception
+    #  redirect_to :root
+    #end
   end
 
   def show

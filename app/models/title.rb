@@ -270,70 +270,21 @@ class Title < ActiveRecord::Base
     search_title = "#{self.name}"
     search_title = "#{search_title} (#{self.release_date.year})" if self.release_date?
 
-    begin
-
-      uri = "http://www.google.com/search?ie=UTF-8&q=site%3Awww.kids-in-mind.com+#{CGI::escape(search_title)}"
-      result = Curl::Easy.perform(uri).body_str
-      doc = Nokogiri::HTML(result)
-      results = doc.css('h3.r a')
-      filtered_results = results.to_a.reject { |i| not i.text.match(/[\[]/) }
-      kim_uri = filtered_results.first
-
-      if kim_uri.nil?
-        kim_uri = results.first
-      end
-
-      unless kim_uri.nil?
-        kim_uri = kim_uri['href']
-        kim_uri = CGI.parse(URI.parse(kim_uri).query)['q'].first
-        self.kids_in_mind_link = kim_uri
-      end
-
-      unless kim_uri.nil?
-        begin
-          result = Curl::Easy.perform(kim_uri).body_str
-          doc = Nokogiri::HTML(result)
-          sex = doc.css('img').reject { |i| i['src'].match(/ratings\/s&n/).nil? }
-          violence = doc.css('img').reject { |i| i['src'].match(/ratings\/v&g/).nil? }
-          profanity = doc.css('img').reject { |i| i['src'].match(/ratings\/prof/).nil? }
-
-          sex = sex.first['src'].match(/images\/ratings\/s&n(\d+).jpg$/)[1] if sex.first
-          violence = violence.first['src'].match(/images\/ratings\/v&g(\d+).jpg$/)[1] if violence.first
-          profanity = profanity.first['src'].match(/images\/ratings\/prof(\d+).jpg$/)[1] if profanity.first
-
-          self.kids_in_mind_sex_number = sex || nil
-          self.kids_in_mind_violence_number = violence || nil
-          self.kids_in_mind_language_number = profanity || nil
-        rescue nil
-        end
-      end
-
-      uri = "http://search.pluggedin.com/search?q=#{CGI::escape(search_title)}&btnG=Search&filter=&ntqr=0&output=xml_no_dtd&sort=date%3AD%3AL%3Ad1&client=pluggedin_com&filter=&ud=1&oe=UTF-8&ie=UTF-8&site=pluggedin_com&getfields=*"
-      result = Curl::Easy.perform(uri).body_str
-      doc = Nokogiri::XML(result)
-      pi_uri = doc.css('U').first
-
-      unless pi_uri.nil?
-        pi_uri = pi_uri.content
-        pi_uri = nil unless pi_uri.nil? or !!(pi_uri.match(/https?:\/\/(www.)?pluggedin.com\/(videos|movies)/))
-      end
-
-      if pi_uri.nil?
-        search_title = self.name
-        uri = "http://search.pluggedin.com/search?q=#{CGI::escape(search_title)}&btnG=Search&filter=&ntqr=0&output=xml_no_dtd&sort=date%3AD%3AL%3Ad1&client=pluggedin_com&filter=&ud=1&oe=UTF-8&ie=UTF-8&site=pluggedin_com&getfields=*"
-        result = Curl::Easy.perform(uri).body_str
-        doc = Nokogiri::XML(result)
-        pi_uri = doc.css('U').first
-        unless pi_uri.nil?
-          pi_uri = pi_uri.content unless pi_uri.nil?
-          pi_uri = nil unless !!(pi_uri.match(/https?:\/\/(www.)?pluggedin.com\/(videos|movies)/))
-        end
-      end
-
-      self.plugged_in_link = pi_uri
-
-    rescue Exception
+    if (pi_movie = PluggedIn.search(search_title))
+      match = pi_movie.match(name, release_date.try(:year))
+      self.plugged_in_link = pi_movie.url if (match[:year] == 0 and match[:title] < 5)
     end
+
+    if (kim_movie = KidsInMind.search(search_title))
+      match = kim_movie.match(name, release_date.try(:year))
+      if (match[:year] == 0 and match[:title] < 5)
+        self.kids_in_mind_link = kim_movie.url
+        self.kids_in_mind_sex_number = kim_movie.sex
+        self.kids_in_mind_violence_number = kim_movie.violence
+        self.kids_in_mind_language_number = kim_movie.language
+      end
+    end
+
     save
 
     Rails.logger.info('Review information fetched')
@@ -342,71 +293,9 @@ class Title < ActiveRecord::Base
   # Fetch the Plugged In review paragraphs (currently using the conclusion)
   def fetch_plugged_in_review!
     return unless plugged_in_link?
-    review = {}
-
-    begin
-
-      text = open(plugged_in_link).read
-      doc = Nokogiri::HTML(text)
-
-      if text.match /<p><p>/i
-        # Old-style review
-        puts "Old-style"
-        doc.css('#article p').each do |p|
-          section = p.css('b').text
-          p.search('.//b').remove
-          html = p.to_html
-          if section.match /positive/i
-            review[:positive_elements] = html
-          elsif section.match /spiritual/i
-            review[:spiritual_content] = html
-          elsif section.match /sexual/i
-            review[:sexual_content] = html
-          elsif section.match /sexual/i
-            review[:sexual_content] = html
-          elsif section.match /conduct/i
-            review[:violent_content] = html
-          elsif section.match /violence/i
-            review[:violent_content] = html
-          elsif section.match /crude/i
-            review[:crude_language] = html
-          elsif section.match /drug/i
-            review[:drug_content] = html
-          elsif section.match /negative/i
-            review[:negative_elements] = html
-          elsif section.match /conclusion/i
-            review[:conclusion] = html
-          elsif section.match /summary/i
-            review[:conclusion] = html
-          else
-            review[:introduction] = html
-          end
-        end
-      else
-        puts "New-style"
-        # Newer review
-        review[:introduction] = doc.css('#article p').first.to_html
-        review[:positive_elements] = doc.css('h3.positiveElements + p').to_html
-        review[:spiritual_content] = doc.css('h3.spiritualContent + p').to_html
-        review[:sexual_content] = doc.css('h3.sexualContent + p').to_html
-        review[:violent_content] = doc.css('h3.violentContent + p').to_html
-        review[:crude_language] = doc.css('h3.crudeLanguage + p').to_html
-        review[:drug_content] = doc.css('h3.drugContent + p').to_html
-        review[:negative_elements] = doc.css('h3.negativeElements + p').to_html
-        review[:conclusion] = doc.css('h3.conclusion + p').to_html
-      end
-
-      review.each do |key, value|
-        review[key] = value.gsub(/<i>/, '<em>').gsub(/<\/i>/, '</em>')
-        review[key] = value.gsub(/<a href="~/, '<a target="_blank" href="http://www.pluggedin.com/videos/2012/q1/~')
-      end
-
-      self.plugged_in_review = review
-
-      save
-
-    rescue Exception
-    end
+    m = PluggedIn::Movie.new(plugged_in_link)
+    self.plugged_in_review = m.review_data
+    save
   end
 
   # Completely load a title

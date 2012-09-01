@@ -13,7 +13,7 @@
   <header class="jumbotron subhead" id="titlehead">
     <div class="container">
       <h1>Blocked Title</h1>
-      <p class="lead">This title is blocked on this website, sorry (usually a pornographic movie)...</p>
+      <p class="lead">This title is blocked on this website, sorry (usually for pornographic material)...</p>
     </div>
   </header>
 <% end %>
@@ -75,9 +75,15 @@
           <li><a href="#rottenTomatoes"><i class="icon-chevron-right"></i> Rotten Tomatoes</a></li>
           <li><a href="#plotInformation"><i class="icon-chevron-right"></i> Plot</a></li>
           <li><a href="#links"><i class="icon-chevron-right"></i> External Links</a></li>
-          <li><a href="#pluggedIn"><i class="icon-chevron-right"></i> Plugged In Review</a></li>
-          <li><a href="#kidsInMind"><i class="icon-chevron-right"></i> Kids in Mind</a></li>
-          <li><a href="#trailers"><i class="icon-chevron-right"></i> Trailers</a></li>
+          <% if @title.plugged_in_review? %>
+            <li><a href="#pluggedIn"><i class="icon-chevron-right"></i> Plugged In Review</a></li>
+          <% end %>
+          <% if @title.kids_in_mind_sex_number? %>
+            <li><a href="#kidsInMind"><i class="icon-chevron-right"></i> Kids in Mind</a></li>
+          <% end %>
+          <% if @title.trailers.size > 0 %>
+            <li><a href="#trailers"><i class="icon-chevron-right"></i> Trailers</a></li>
+          <% end %>
         </ul>
       </div>
       <div class="span9">
@@ -167,12 +173,24 @@
           </div>
 
           <ul class="nav nav-tabs nav-stacked">
-            <li><%= link_to '<i class="icon-external-link"></i> Homepage'.html_safe, @title.homepage, target: '_blank' %></li>
-            <li><%= link_to '<i class="icon-external-link"></i> IMDb'.html_safe, @title.imdb_link, target: '_blank' %></li>
-            <li><%= link_to '<i class="icon-external-link"></i> TMDb'.html_safe, @title.tmdb_link, target: '_blank' %></li>
-            <li><%= link_to '<i class="icon-external-link"></i> Rotten Tomatoes'.html_safe, @title.rotten_tomatoes_link, target: '_blank' %></li>
-            <li><%= link_to '<i class="icon-external-link"></i> Plugged In'.html_safe, @title.plugged_in_link, target: '_blank' %></li>
-            <li><%= link_to '<i class="icon-external-link"></i> Kids in Mind'.html_safe, @title.kids_in_mind_link, target: '_blank' %></li>
+            <% if @title.homepage? %>
+              <li><%= link_to '<i class="icon-external-link"></i> Homepage'.html_safe, @title.homepage, target: '_blank' %></li>
+            <% end %>
+            <% if @title.imdb_link? %>
+              <li><%= link_to '<i class="icon-external-link"></i> IMDb'.html_safe, @title.imdb_link, target: '_blank' %></li>
+            <% end %>
+            <% if @title.tmdb_link? %>
+              <li><%= link_to '<i class="icon-external-link"></i> TMDb'.html_safe, @title.tmdb_link, target: '_blank' %></li>
+            <% end %>
+            <% if @title.rotten_tomatoes_link? %>
+              <li><%= link_to '<i class="icon-external-link"></i> Rotten Tomatoes'.html_safe, @title.rotten_tomatoes_link, target: '_blank' %></li>
+            <% end %>
+            <% if @title.plugged_in_link? %>
+              <li><%= link_to '<i class="icon-external-link"></i> Plugged In'.html_safe, @title.plugged_in_link, target: '_blank' %></li>
+            <% end %>
+            <% if @title.kids_in_mind_link? %>
+              <li><%= link_to '<i class="icon-external-link"></i> Kids in Mind'.html_safe, @title.kids_in_mind_link, target: '_blank' %></li>
+            <% end %>
           </ul>
         </section>
 
@@ -262,22 +280,25 @@
           </section>
         <% end %>
 
-        <section id="trailers">
-          <div class="page-header">
-            <h1>Trailers</h1>
-          </div>
-          <div class="trailers">
-            <ul class="thumbnails">
-              <% @title.trailers.each do |trailer| %>
-                <li class="span2">
-                  <%= link_to "http://www.youtube.com/watch?v=#{trailer.url}", class: 'thumbnail fancybox-media' do %>
-                    <img src="<%= trailer.thumbnail_url %>" alt="<%= trailer.name %>">
-                  <% end %>
-                </li>
-              <% end %>
-            </ul>
-          </div>
-        </section>
+        <% "TODO: add counter cache" %>
+        <% if @title.trailers.size > 0 %>
+          <section id="trailers">
+            <div class="page-header">
+              <h1>Trailers</h1>
+            </div>
+            <div class="trailers">
+              <ul class="thumbnails">
+                <% @title.trailers.each do |trailer| %>
+                  <li class="span2">
+                    <%= link_to "http://www.youtube.com/watch?v=#{trailer.url}", class: 'thumbnail fancybox-media' do %>
+                      <img src="<%= trailer.thumbnail_url %>" alt="<%= trailer.name %>">
+                    <% end %>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          </section>
+        <% end %>
 
       </div>
     </div>
