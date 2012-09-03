@@ -308,7 +308,7 @@ class Title < ActiveRecord::Base
 
   # Async load a title
   def async_load!
-    Resque.enqueue(LoadJob, self.id)
+    LoadJob.create(id: self.id)
   end
 
   # Return page title
@@ -326,13 +326,11 @@ class Title < ActiveRecord::Base
     end
   end
 
-
   # Helper to refresh all titles
   def self.refresh_all
     Title.find_each do |t|
       t.async_fetch_information!
     end
   end
-
 
 end

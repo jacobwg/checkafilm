@@ -20,6 +20,6 @@ class Trailer < ActiveRecord::Base
   end
 
   def async_fetch_thumbnail!
-    Resque.enqueue(ThumbnailJob, self.id)
+    ThumbnailJob.create(id: self.id)
   end
 end

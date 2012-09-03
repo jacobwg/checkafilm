@@ -45,8 +45,8 @@ gem 'fog'
 
 # Background job processing
 gem 'resque'
-gem 'resque-loner'
-gem 'resque-pool'
+gem 'resque-lock'
+gem 'resque-status'
 
 # Title state machine
 gem 'aasm'

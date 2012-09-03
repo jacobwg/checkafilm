@@ -1,4 +1,5 @@
 require 'resque/server'
+require 'resque/status_server'
 
 Checkafilm::Application.routes.draw do
 
