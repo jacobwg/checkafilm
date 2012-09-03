@@ -47,6 +47,19 @@
   <script type="text/javascript">
     window.images = <%= @title.backdrops.map { |b| b.image_url }.to_json.html_safe %>;
   </script>
+
+  <div class="bs-docs-social">
+    <div class="container">
+      <ul class="bs-docs-social-buttons">
+        <li>
+          <div class="g-plusone" data-annotation="inline" data-width="300" data-href="http://checkafilm.com<%= title_path(@title) %>"></div>
+        </li>
+        <li>
+          <div class="fb-like" data-href="http://checkafilm.com<%= title_path(@title) %>" data-send="false" data-width="450" data-show-faces="true"></div>
+        </li>
+      </ul>
+    </div>
+  </div>
 <% end %>
 
 <% if @title.fresh? %>
@@ -88,10 +101,6 @@
       </div>
       <div class="span9">
         <section id="generalInformation">
-          <div class="pulll-left">
-              <div class="g-plusone" data-annotation="inline" data-width="300" data-href="http://checkafilm.com<%= title_path(@title) %>"></div>
-              <div class="fb-like" data-href="http://checkafilm.com<%= title_path(@title) %>" data-send="false" data-width="450" data-show-faces="true"></div>
-            </div>
           <div class="page-header">
             <h1>General Information</h1>
           </div>
