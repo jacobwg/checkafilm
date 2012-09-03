@@ -1,3 +1,156 @@
+//= require bootstrap/bootstrap
+//= require_self
+//= require bootstrap/responsive
+//= require jquery.fancybox
+//= require jquery.ui.autocomplete
+
+#titlehead {
+  background: url("/assets/backdrop.jpg") no-repeat center center scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/assets/backdrop.jpg', sizingMethod='scale');
+  -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/assets/backdrop.jpg', sizingMethod='scale')";
+}
+
+
+
+// Rotten Tomatoes Meter
+// ---------------------
+
+div.rotten-tomatoes {
+
+  .critics, .consensus, .audience {
+    float: left;
+    padding: 6px;
+    border-radius: 8px;
+    background: #ffe37c; /* Old browsers */
+    background: -moz-linear-gradient(top,  #ffe37c 0%, #fffed7 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffe37c), color-stop(100%,#fffed7)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #ffe37c 0%,#fffed7 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #ffe37c 0%,#fffed7 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #ffe37c 0%,#fffed7 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #ffe37c 0%,#fffed7 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffe37c', endColorstr='#fffed7',GradientType=0 ); /* IE6-9 */
+    margin: 6px;
+  }
+
+  div.meter_box {
+    line-height:normal;
+    margin:0;
+    padding:0;
+    color:#556F1E;
+    display:block;
+  }
+
+  .consensus {
+    max-width: 190px;
+    text-align: justify;
+    font-size: 11px;
+    line-height: 13px;
+    color: #6F6A57;
+    padding: 6px;
+  }
+
+  .header {
+    text-transform: uppercase;
+    font-weight: bold;
+    padding-bottom: 6px;
+  }
+
+  .meter{clear:left;color:#506A16;font-size:44px;font-weight:bold;white-space:nowrap;display:block;float:left;background:transparent url('http://images.rottentomatoescdn.com/images/tomatometer/rt_lg.png?v=20110531') no-repeat left top;background-repeat:no-repeat;vertical-align:middle;padding-left:55px;margin-bottom:4px;min-height:50px;max-height:50px;line-height:24px;}
+  .meter.noScore{font-size:26px;background-image:none;padding-top:10px;padding-left:0;min-height:40px;}
+  .meter.noReviews{font-size:26px;background-image:none;padding-top:10px;padding-left:0;min-height:30px;}
+  .meter.numeric{font-size:48px;}
+  .meter.numeric.perfect{font-size:40px;}
+  .meter.numeric:after{content:'%';vertical-align:super;font-size:24px;}
+  .meter.numeric.perfect:after{font-size:15px;}
+  .meter.empty{padding-left:0;background-position:-50px 50px;}
+  .meter.empty:after{content:'';}
+  .meter.fresh{background-position:0 0;}
+  .meter.rotten{background-position:0 -50px;}
+  .meter.certified{background-position:0 -100px;}
+  .meter.upright{background-position:0 -150px;margin-bottom:1px;}
+  .meter.wts{background-position:0 -200px;margin-bottom:0;}
+  .meter.spilled{background-position:0 -250px;margin-bottom:1px;}
+
+  .want-to-see {
+    padding: 0 0 0 50px;
+    font-weight: bold;
+  }
+
+  .tomatometer,.tomatometer>*{display:block;width:188px;height:20px;margin:4px 0;background:transparent url('http://images.rottentomatoescdn.com/images/redesign/tomatometer_bar_bg.png') no-repeat 0 0;}
+  .tomatometer>span{float:left;width:0;margin:0;}
+  .tomatometer.fresh>span,.tomatometer.certified>span{background-position:0 -20px;}
+  .tomatometer.rotten>span{background-position:0 -40px;}
+}
+
+
+
+.titles li {
+  min-height: 360px;
+}
+
+.thumbnail a:hover {
+  text-decoration:none
+}
+
+.trailers {
+  .thumbnail {
+    background-color: #000;
+    border-color: #222;
+  }
+
+  .thumbnail {
+    position: relative;
+  }
+
+  .thumbnail:before {
+    content: "\f04b";
+    font-family: FontAwesome;
+    font-size: 40px;
+    font-weight: normal;
+    text-decoration:none;
+    color: #111;
+    text-shadow: 0px 0px 15px #fff;
+    z-index: 20;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    padding: 0;
+    margin: 0;
+    margin-left: -15px;
+    //margin-top: -20px;
+  }
+}
+
+
+.label-ratingR, .label-ratingNC-17 {
+  background-color: #b94a48;
+}
+.label-ratingR:hover, .label-ratingNC-17:hover {
+  background-color: #953b39;
+}
+.label-ratingPG, .label-ratingPG-13 {
+  background-color: #f89406;
+}
+.label-ratingPG:hover, .label-ratingPG-13:hover {
+  background-color: #c67605;
+}
+.label-ratingG {
+  background-color: #468847;
+}
+.label-ratingG:hover {
+  background-color: #356635;
+}
+.label-rating {
+  background-color: #3a87ad;
+}
+.label-rating:hover {
+  background-color: #2d6987;
+}
+
 /* Add additional stylesheets below
 -------------------------------------------------- */
 /*
@@ -729,3 +882,5 @@ form.bs-docs-example {
     float: none;
   }
 }
+
+
