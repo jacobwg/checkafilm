@@ -19,7 +19,7 @@
     $('.bs-docs-sidenav').addClass("affix-top").each(function (){
       var $self = $(this);
       var offsetFn = function () {
-        return $('.jumbotron').outerHeight();
+        return $('.jumbotron').outerHeight() + $('.bs-docs-social').outerHeight();
       }
       $self.affix({offset: {top: offsetFn}});
     });
