@@ -1,10 +1,8 @@
+require 'uri'
+require 'cgi'
+
 class Tmdb
 
-  require 'net/http'
-  require 'uri'
-  require 'cgi'
-
-  @@api_key = ""
   @@default_language = "en"
   @@api_response = {}
 
@@ -23,15 +21,11 @@ class Tmdb
     Settings.tmdb_key
   end
 
-  def self.api_key=(key)
-  end
-
   def self.base_api_url
     "http://api.themoviedb.org/3"
   end
 
   def self.api_call(method, data)
-    raise ArgumentError, "Tmdb.api_key must be set before using the API" if(Tmdb.api_key.nil? || Tmdb.api_key.empty?)
     raise ArgumentError, "Invalid data." if(data.nil? || (data.class != Hash))
 
     method, action = method.split '/'
@@ -78,21 +72,8 @@ class Tmdb
     end
   end
 
-  # Get a URL and return a response object, follow upto 'limit' re-directs on the way
-  def self.get_url(uri_str, limit = 10)
-    return false if limit == 0
-    begin
-      response = Net::HTTP.get_response(URI.parse(uri_str))
-    rescue SocketError, Errno::ENETDOWN
-      response = Net::HTTPBadRequest.new( '404', 404, "Not Found" )
-      return response
-    end
-    case response
-      when Net::HTTPSuccess     then response
-      when Net::HTTPRedirection then get_url(response['location'], limit - 1)
-    else
-      Net::HTTPBadRequest.new( '404', 404, "Not Found" )
-    end
+  def self.get_url(uri_str)
+    RestClient.get(uri_str)
   end
 
   def self.data_to_object(data)

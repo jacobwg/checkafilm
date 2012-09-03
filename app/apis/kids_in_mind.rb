@@ -1,3 +1,6 @@
+require 'uri'
+require 'cgi'
+
 module KidsInMind
 
   def self.search(title, year=nil)

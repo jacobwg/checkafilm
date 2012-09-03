@@ -1,5 +1,3 @@
-Tmdb.api_key = Settings.tmdb_key
-
 class Title < ActiveRecord::Base
 
   # Include text helpers for pluralize
