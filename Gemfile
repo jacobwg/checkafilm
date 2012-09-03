@@ -74,3 +74,6 @@ gem 'newrelic_rpm'
 # HTTP Clients
 gem 'rest-client', :require => 'rest_client'
 gem 'faraday'
+
+# Netflix API
+gem 'netflix4r'
