@@ -14,7 +14,7 @@ window.poll = () ->
       window.setTimeout window.poll, 2000
 
 setImage = (div, image) ->
-  $(div).css('background-image', "url(#{image})")
+  $(div).css('background-image', "url(#{image})") unless image is undefined
 
 jQuery ($) ->
   $('.fancybox-media').fancybox
@@ -54,18 +54,24 @@ jQuery ($) ->
 
 
   if window.images
+
+    slideshow = []
+
     for image in window.images
-      $('<img/>')[0].src = image
+      img = new Image()
+      $(img).load () ->
+        slideshow.push($(this).attr('src'))
+      .attr 'src', image
 
     index = 0
 
-    setImage('#titlehead', window.images[index])
+    setImage('#titlehead', slideshow[index])
     setInterval () ->
-      if index >= window.images.length - 1
+      if index >= slideshow.length - 1
         index = 0
       else
         index += 1
-      setImage('#titlehead', window.images[index])
+      setImage('#titlehead', slideshow[index])
     , 5000
 
   setTimeout ->
