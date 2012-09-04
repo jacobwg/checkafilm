@@ -17,9 +17,6 @@ Checkafilm::Application.routes.draw do
   # TMDb ID redirect
   match 'tmdb/:id' => 'titles#tmdb', :as => :tmdb_redirect
 
-  # Proxy for TMDb posters
-  match 'assets/tmdb/:size/:path' => 'assets#tmdb', :as => :tmdb_asset
-
   # About page
   get 'about' => 'pages#about', :as => :about
 
