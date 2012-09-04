@@ -364,4 +364,24 @@ class Title < ActiveRecord::Base
     end
   end
 
+  # Build montage image for homepage
+  def self.build_montage
+    titles = self.new_releases
+    images = titles.map { |t| t.poster_url(:thumb) }
+    images.map! { |i| MiniMagick::Image.open(i) }
+    paths = images.map { |i| i.path }
+
+    output = Rails.root.join('public', 'montage.jpg')
+
+    command = "montage -tile x2 -geometry 200x300 -background black #{paths.join ' '} #{output}"
+    system(command)
+    command = "convert #{output} -fill black -colorize 75% #{output}"
+    system(command)
+  end
+
+  # Schedule building of montage
+  def self.async_build_montage
+    TitleMontageJob.create
+  end
+
 end
