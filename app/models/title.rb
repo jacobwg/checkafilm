@@ -387,4 +387,16 @@ class Title < ActiveRecord::Base
     TitleMontageJob.create
   end
 
+  def self.scrape_imdb_dvd_list
+    r = RestClient.get('http://www.imdb.com/sections/dvd/')
+    d = Nokogiri::HTML(r)
+    d.css('.list.detail .info b a').each do |l|
+      imdb_id = l.attr('href').match(/\/title\/(tt\d+)\//)[1]
+      if imdb_id
+        title = Title.find_or_create_by_imdb_id(imdb_id)
+        title.async_load! if title.fresh? and not title.active_job?('LoadJob')
+      end
+    end
+  end
+
 end
