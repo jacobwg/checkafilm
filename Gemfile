@@ -45,7 +45,7 @@ gem 'fog'
 
 # Background job processing
 gem 'resque'
-gem 'resque-lock'
+gem 'resque-lock-timeout'
 gem 'resque-status'
 
 # Title state machine
@@ -77,3 +77,6 @@ gem 'faraday'
 
 # Netflix API
 gem 'netflix4r'
+
+# API
+gem 'acts_as_api'

@@ -66,11 +66,9 @@
   <div class="container">
     <div class="row">
       <div class="span12">
-        <section>
-          <div class="progress progress-striped active span5">
-            <div class="bar" style="width: 100%"></div>
-          </div>
-        </section>
+        <div id="jobs">
+          <%= render 'jobs', jobs: @title.jobs %>
+        </div>
       </div>
     </div>
   </div>
@@ -100,6 +98,11 @@
         </ul>
       </div>
       <div class="span9">
+
+        <div id="jobs">
+          <%= render 'jobs', jobs: @title.jobs %>
+        </div>
+
         <section id="generalInformation">
           <div class="page-header">
             <h1>General Information</h1>

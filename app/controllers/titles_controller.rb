@@ -45,8 +45,19 @@ class TitlesController < ApplicationController
   def show
     @title = Title.find_by_imdb_id(params[:id])
     @title = Title.create!(imdb_id: params[:id]) unless @title
-    @title.async_load! if @title.fresh? and not Resque.enqueued?(LoadJob, @title.id)
-    respond_with @title
+    @title.async_load! if @title.fresh? and not @title.active_job?('LoadJob')
+    respond_with @title do |format|
+      format.json { render_for_api :public, :json => @title }
+    end
+  end
+
+  def jobs
+    @title = Title.find_by_imdb_id(params[:id])
+    @jobs = @title.try :jobs
+    @title.try :jobs_clear
+    respond_with @title do |format|
+      format.js
+    end
   end
 
 end

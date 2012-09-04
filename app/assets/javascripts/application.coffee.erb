@@ -9,7 +9,7 @@
 
 window.poll = () ->
   $.getJSON window.location, (data) ->
-    if data.status_state is 'loaded'
+    if data.title.status_state is 'loaded'
       window.location = window.location
     else
       window.setTimeout window.poll, 2000
@@ -53,6 +53,18 @@ jQuery ($) ->
         .append( '<a class="clearfix"><img style="vertical-align:text-middle; margin-right: 6px;" src="' + item.poster + '" width="50">' + item.label + '</a>' )
         .appendTo( ul )
 
+
+  if $('#jobs')
+    console.log('fetching jobs...')
+    window.refreshJobs = () ->
+      $.ajax
+        url: "#{window.location}/jobs.js"
+        dataType: 'script'
+        success: (data, textStatus) ->
+          setTimeout refreshJobs, 1000 if /active/.exec(data)
+        error: (jqxhr, textStatus, errorThrown) ->
+          setTimeout refreshJobs, 1000
+    setTimeout window.refreshJobs, 1000
 
   if window.images
 

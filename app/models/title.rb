@@ -90,6 +90,16 @@ class Title < ActiveRecord::Base
     end
   end
 
+  # API
+  acts_as_api
+
+  api_accessible :public do |template|
+    template.add :id
+    template.add :imdb_id
+    template.add :status_state
+    template.add :jobs
+  end
+
   # Permalinks
   def to_param
     imdb_id
@@ -308,7 +318,28 @@ class Title < ActiveRecord::Base
 
   # Async load a title
   def async_load!
-    LoadJob.create(id: self.id)
+    Job.enqueue(LoadJob, jobs_set, id: self.id)
+  end
+
+  def jobs_set
+    "title:#{self.id}"
+  end
+
+  def jobs
+    jobs = Job.jobs(jobs_set)
+    jobs.map { |j| Job.get(j) }
+  end
+
+  def jobs_clear
+    Job.clear(jobs_set)
+  end
+
+  def active_job?(type)
+    active = false
+    jobs.each do |job|
+      active = true if job.status != 'completed' and job.name.match(type)
+    end
+    active
   end
 
   # Return page title
