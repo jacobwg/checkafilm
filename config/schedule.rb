@@ -22,4 +22,5 @@
 every 24.hours do
   runner 'Title.refresh_all'
   runner 'Title.async_build_montage'
+  runner 'Title.scrape_imdb_dvd_list'
 end
