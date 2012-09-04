@@ -1,5 +1,7 @@
 # Check a Film
 
+[![Dependency Status](https://gemnasium.com/jacobwg/checkafilm.png)](https://gemnasium.com/jacobwg/checkafilm)
+
 Every time my family and I are considering whether or not a particular movie is worth watching, I manually check IMDb, Plugged In, and Kids in Mind for information about the movie. Additionally, we are often in the store, and those three websites are hard to check from a mobile phone.
 
 This project automatically loads information from those three sources given any movie title and conveniently displays that information on a responsive mobile-friendly website.
