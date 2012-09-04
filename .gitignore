@@ -21,3 +21,5 @@ config/application.yml
 public/uploads
 config/database.yml
 config/newrelic.yml
+
+public/montage.jpg
