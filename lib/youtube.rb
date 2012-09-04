@@ -53,7 +53,7 @@ class Youtube
     end
 
     body = JSON(response.body)
-    if body.has_key?("feed") && body["feed"]["entry"].empty?
+    if body.has_key?("feed") && body["feed"].has_key?("entry") && ["entry"].empty?
       return nil
     else
       results = body['feed']['entry'].map do |entry|
