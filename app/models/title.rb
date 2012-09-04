@@ -278,7 +278,10 @@ class Title < ActiveRecord::Base
     search_title = "#{self.name}"
     search_title = "#{search_title} (#{self.release_date.year})" if self.release_date?
 
-    if (pi_movie = PluggedIn.search(search_title))
+    pi_movie = PluggedIn.search(search_title)
+    pi_movie = PluggedIn.search(name) unless pi_movie
+
+    if (pi_movie)
       match = pi_movie.match(name, release_date.try(:year))
       self.plugged_in_link = pi_movie.url if (match[:year] == 0 and match[:title] < 5)
     end
