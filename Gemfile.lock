@@ -83,7 +83,7 @@ GEM
       jquery-rails
       railties (>= 3.1.0)
     json (1.7.5)
-    less (2.2.1)
+    less (2.2.2)
       commonjs (~> 0.2.6)
     less-rails (2.2.3)
       actionpack (>= 3.1)
