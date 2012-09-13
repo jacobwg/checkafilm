@@ -80,3 +80,6 @@ gem 'netflix4r'
 
 # API
 gem 'acts_as_api'
+
+# Zeus development reloading
+gem 'zeus', :require => false
