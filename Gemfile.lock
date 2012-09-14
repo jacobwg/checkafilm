@@ -207,7 +207,6 @@ GEM
       activesupport (>= 2.3.4)
       chronic (~> 0.6.3)
     yajl-ruby (1.1.0)
-    zeus (0.10.2)
 
 PLATFORMS
   ruby
@@ -246,4 +245,3 @@ DEPENDENCIES
   uglifier (>= 1.0.3)
   whenever
   yajl-ruby
-  zeus
