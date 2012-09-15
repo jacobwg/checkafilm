@@ -38,6 +38,7 @@ gem 'addressable', :require => 'addressable/uri'
 
 # File uploads (posters, backdrops, and trailer thumbnails)
 gem 'carrierwave'
+gem 'carrierwave-mongoid', :require => 'carrierwave/mongoid'
 gem 'mini_magick'
 
 # AWS integration for carrierwave

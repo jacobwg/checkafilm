@@ -1,8 +1,12 @@
 class Trailer < ActiveRecord::Base
-  attr_accessible :title_id, :url, :title, :name
-  attr_accessible :thumbnail, :remote_thumbnail_url
 
-  belongs_to :title, touch: true
+  include Mongoid::Document
+
+  field :url, type: String
+  field :name, type: String
+  field :thumbnail, type: String
+
+  embedded_in :title
 
   mount_uploader :thumbnail, TrailerThumbnailUploader
 

@@ -1,7 +1,11 @@
-class Backdrop < ActiveRecord::Base
-  attr_accessible :image, :original_url, :title, :title_id, :remote_image_url, :image_url
+class Backdrop
 
-  belongs_to :title, touch: true
+  include Mongoid::Document
+
+  field :image, type: String
+  field :original_url, type: String
+
+  embedded_in :title
 
   mount_uploader :image, BackdropUploader
 end

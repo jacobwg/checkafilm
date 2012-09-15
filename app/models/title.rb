@@ -1,62 +1,71 @@
-class Title < ActiveRecord::Base
+class Title
+
+  include Mongoid::Document
+
+  # IDs
+  field :imdb_id, type: String
+  field :tmdb_id, type: String
+
+  # Basic Details
+  field :name, type: String
+  field :plot_details, type: String
+  field :plot_summary, type: String
+  field :mpaa_rating, type: String
+  field :release_date, type: Date
+  field :release_date_dvd, type: Date
+
+  # Critic Ratings
+  field :rotten_tomatoes_critics_rating, type: String
+  field :rotten_tomatoes_critics_score, type: Float
+  field :rotten_tomatoes_critics_consensus, type: String
+
+  # User Ratings
+  field :imdb_rating, type: Float
+  field :imdb_votes, type: Integer
+  field :tmdb_rating, type: Float
+  field :tmdb_votes, type: Integer
+  field :rotten_tomatoes_audience_rating, type: String
+  field :rotten_tomatoes_audience_score, type: Float
+
+  # Media Details
+  field :runtime, type: String
+
+  # Multimedia
+  field :poster, type: String
+
+  # Links
+  field :rotten_tomatoes_link, type: String
+  field :imdb_link, type: String
+  field :tmdb_link, type: String
+  field :plugged_in_link, type: String
+  field :kids_in_mind_link, type: String
+  field :homepage, type: String
+
+  # Content
+  field :kids_in_mind_sex_number, type: Integer
+  field :kids_in_mind_language_number, type: Integer
+  field :kids_in_mind_violence_number, type: Integer
+  field :plugged_in_review, type: Hash
+
+  # State Information
+  field :status_state, type: String
 
   # Include text helpers for pluralize
   include ActionView::Helpers::TextHelper
 
-  # IDs
-  attr_accessible :imdb_id, :tmdb_id
-
-  # Basic Details
-  attr_accessible :name, :plot_details, :plot_summary, :mpaa_rating, :release_date
-  attr_accessible :release_date_dvd
-
-  # Critic Ratings
-  attr_accessible :rotten_tomatoes_critics_rating
-  attr_accessible :rotten_tomatoes_critics_score
-  attr_accessible :rotten_tomatoes_critics_consensus
-
-  # User Ratings
-  attr_accessible :imdb_rating, :imdb_votes
-  attr_accessible :tmdb_rating, :tmdb_votes
-  attr_accessible :rotten_tomatoes_audience_rating
-  attr_accessible :rotten_tomatoes_audience_score
-
-  # Media Details
-  attr_accessible :runtime
-
-  # Additional Multimedia
-  attr_accessible :poster
-  attr_accessible :backdrops, :backdrop_ids
-
-  # Links
-  attr_accessible :rotten_tomatoes_link
-  attr_accessible :imdb_link
-  attr_accessible :tmdb_link
-  attr_accessible :plugged_in_link
-  attr_accessible :kids_in_mind_link
-  attr_accessible :homepage
-
-  # Content
-  attr_accessible :kids_in_mind_sex_number
-  attr_accessible :kids_in_mind_language_number
-  attr_accessible :kids_in_mind_violence_number
-  attr_accessible :plugged_in_review
-
   # Relations
-  has_many :backdrops, dependent: :destroy
-  has_many :trailers, dependent: :destroy
-
-  # Serialized fields
-  serialize :plugged_in_review, Hash
+  embeds_many :backdrops
+  embeds_many :trailers
 
   # Uploaders
   mount_uploader :poster, PosterUploader
 
   # Scopes
-  scope :new_releases, where(:status_state => 'loaded').where('release_date <= :current_date', current_date: Date.today).order('release_date DESC').limit(16)
-  scope :new_on_dvd, where(:status_state => 'loaded').where('release_date_dvd <= :current_date', current_date: Date.today).order('release_date_dvd DESC').limit(16)
-  scope :recently_added, where(:status_state => 'loaded').order('created_at DESC').limit(16)
-  scope :recently_updated, where(:status_state => 'loaded').order('updated_at DESC').limit(16)
+  scope :new_releases, where(:status_state => 'loaded', :release_date.lte => Date.today).order_by([[:release_date, :desc]]).limit(16)
+  scope :new_on_dvd, where(:status_state => 'loaded', :release_date_dvd.lte => Date.today).order_by([[:release_date_dvd, :desc]]).limit(16)
+  scope :recently_added, where(:status_state => 'loaded').order_by([[:created_at, :desc]]).limit(16)
+  scope :recently_updated, where(:status_state => 'loaded').order_by([[:updated_at, :desc]]).limit(16)
+
 
   # Status state
   include AASM
