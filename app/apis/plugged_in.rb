@@ -22,15 +22,7 @@ module PluggedIn
     Movie.new(pi_uri)
   end
 
-  class Movie
-
-    def initialize(url)
-      @url = url
-    end
-
-    def url
-      @url
-    end
+  class Movie < API::Object
 
     def match(true_title, true_year)
       {
@@ -116,14 +108,6 @@ module PluggedIn
 
     def style
       @style ||= (response.match(/<p><p>/i) ? :old : :new)
-    end
-
-    def response
-      @response ||= RestClient.get(@url)
-    end
-
-    def doc
-      @doc ||= Nokogiri::HTML(response)
     end
 
   end

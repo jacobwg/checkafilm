@@ -23,15 +23,7 @@ module KidsInMind
     Movie.new(kim_uri)
   end
 
-  class Movie
-
-    def initialize(url)
-      @url = url
-    end
-
-    def url
-      @url
-    end
+  class Movie < API::Object
 
     def match(true_title, true_year)
       {
@@ -58,14 +50,6 @@ module KidsInMind
 
     def violence
       @sex ||= (match = doc.css('title').text.match(/\- (\d+)\.(\d+)\.(\d+)$/))[1].nil? ? nil : match[1].to_i
-    end
-
-    def response
-      @response ||= RestClient.get(@url)
-    end
-
-    def doc
-      @doc ||= Nokogiri::HTML(response)
     end
 
   end
