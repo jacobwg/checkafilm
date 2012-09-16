@@ -226,7 +226,7 @@ class Title
 
     backdrop_urls.each do |url|
       backdrops_to_delete[url][:delete] = false if backdrops_to_delete[url]
-      backdrop = Backdrop.find_by_original_url(url)
+      backdrop = Backdrop.find_by(original_url: url)
       unless backdrop
         backdrop = Backdrop.new(title_id: self.id, original_url: url, remote_image_url: url)
         backdrop.save
@@ -255,7 +255,7 @@ class Title
         puts t.source
         t.source.gsub!(/http:\/\/.*youtube.com\/watch\?v=/, '') unless t.source.nil?
         t.source.gsub!(/&.*$/, '') unless t.source.nil?
-        trailer = Trailer.find_by_url(t.source)
+        trailer = Trailer.find_by(url: t.source)
         unless trailer
           trailer = Trailer.new(url: t.source, name: t.name, title_id: self.id)
           trailer.save
@@ -266,7 +266,7 @@ class Title
       trailers = Youtube.search("#{self.name} (#{self.release_date.year}) trailer")
       unless trailers.empty?
         t = trailers.first
-        trailer = Trailer.find_by_url(t[:id])
+        trailer = Trailer.find_by(url: t[:id])
         unless trailer
           trailer = Trailer.new(url: t[:id], name: t[:name], title_id: self.id)
           trailer.save!
@@ -402,7 +402,7 @@ class Title
     d.css('.list.detail .info b a').each do |l|
       imdb_id = l.attr('href').match(/\/title\/(tt\d+)\//)[1]
       if imdb_id
-        title = Title.find_or_create_by_imdb_id(imdb_id)
+        title = Title.find_or_create_by(imdb_id: imdb_id)
         title.async_load! if title.fresh? and not title.active_job?('LoadJob')
       end
     end

@@ -4,4 +4,4 @@
 # If you change this key, all old signed cookies will become invalid!
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-Checkafilm::Application.config.secret_token = '109f04c8a94d2deb5a14af787ab0a95053eb3ae2f549cb9ad807b9d222cd405f9950502d1108701da365fd9ea9cff244379b4388dd5b35a0a1756e1160237d16'
+Checkafilm::Application.config.secret_token = '5ba1b0456284242ff7e174466f8d88621430f740e69603899b6380fab554a57df2a228654108b9dd4c4ee3d903edf49eaeba21498e011101635291a4c38f6576'

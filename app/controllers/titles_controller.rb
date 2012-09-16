@@ -43,8 +43,7 @@ class TitlesController < ApplicationController
   end
 
   def show
-    @title = Title.find_by_imdb_id(params[:id])
-    @title = Title.create!(imdb_id: params[:id]) unless @title
+    @title = Title.find_or_create_by(imdb_id: params[:id])
     @title.async_load! if @title.fresh? and not @title.active_job?('LoadJob')
     respond_with @title do |format|
       format.json { render_for_api :public, :json => @title }
@@ -52,7 +51,7 @@ class TitlesController < ApplicationController
   end
 
   def jobs
-    @title = Title.find_by_imdb_id(params[:id])
+    @title = Title.find_by(imdb_id: params[:id])
     @jobs = @title.try :jobs
     @title.try :jobs_clear
     respond_with @title do |format|
