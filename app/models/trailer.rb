@@ -1,4 +1,4 @@
-class Trailer < ActiveRecord::Base
+class Trailer
 
   include Mongoid::Document
 

@@ -5,7 +5,7 @@ class LoadJob
   @queue = :titles
 
   def perform
-    title_id = options['id']
+    title_id = options['id']['$oid']['$oid']
     title = Title.find(title_id)
     return unless title
 
