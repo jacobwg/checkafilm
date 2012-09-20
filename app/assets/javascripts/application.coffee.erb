@@ -54,7 +54,7 @@ jQuery ($) ->
         .appendTo( ul )
 
 
-  if $('#jobs')
+  if $('#jobs').size() > 0
     console.log('fetching jobs...')
     window.refreshJobs = () ->
       $.ajax

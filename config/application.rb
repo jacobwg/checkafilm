@@ -59,6 +59,18 @@ module Checkafilm
     # parameters by using an attr_accessible or attr_protected declaration.
     # config.active_record.whitelist_attributes = true
 
+    config.generators do |g|
+      g.test_framework :rspec,
+        :fixtures => true,
+        :view_specs => false,
+        :helper_specs => false,
+        :routing_specs => false,
+        :controller_specs => true,
+        :request_specs => true
+      g.fixture_replacement :fabrication, :dir => 'spec/fabrication'
+    end
+
+
     # Enable the asset pipeline
     config.assets.enabled = true
 
