@@ -59,6 +59,7 @@ class Title
 
   # Uploaders
   mount_uploader :poster, PosterUploader
+  field :original_poster_url, type: String
 
   # Scopes
   scope :new_releases, where(:status_state => 'loaded', :release_date.lte => Date.today).order_by([[:release_date, :desc]]).limit(16)
@@ -117,7 +118,7 @@ class Title
   # Fetch and save basic information from IMDb, TMDb, and Rotten Tomatoes
   def fetch_basic_data!
     return if blocked? or not imdb_id?
-    Rails.logger.info('Loading data...')
+    puts('Loading data...')
     begin
       tmdb_data = Tmdb.api_call 'movie', :id => imdb_id, language: 'en'
     rescue RuntimeError
@@ -182,7 +183,7 @@ class Title
 
     save
 
-    Rails.logger.info('Basic data loaded...')
+    puts('Basic data loaded...')
 
   end
 
@@ -193,7 +194,7 @@ class Title
     images = Tmdb.api_call 'movie/images', id: self.tmdb_id
     images = Tmdb.data_to_object(images)
 
-    Rails.logger.info('Saving poster...')
+    puts('Saving poster...')
 
     posters = images.posters.keep_if { |p| p.iso_639_1.nil? or p.iso_639_1 == 'en' }
     poster = posters.first
@@ -212,9 +213,9 @@ class Title
 
     save
 
-    Rails.logger.info('Posters saved...')
+    puts('Posters saved...')
 
-    Rails.logger.info('Saving backdrops...')
+    puts('Saving backdrops...')
 
     backdrop_urls = []
     images.backdrops.each do |backdrop|
@@ -226,18 +227,17 @@ class Title
 
     backdrop_urls.each do |url|
       backdrops_to_delete[url][:delete] = false if backdrops_to_delete[url]
-      backdrop = Backdrop.find_by(original_url: url)
-      unless backdrop
-        backdrop = Backdrop.new(title_id: self.id, original_url: url, remote_image_url: url)
-        backdrop.save
-      end
+      backdrop = self.backdrops.find_or_create_by(original_url: url)
+      backdrop.remote_image_url = url unless backdrop.image
+      puts "Saving backdrop: #{url}"
+      backdrop.save
     end
 
     backdrops_to_delete.each do |url, b|
       b[:obj].destroy if b[:delete]
     end
 
-    Rails.logger.info('Backdrops saved...')
+    puts('Backdrops saved...')
 
   end
 
@@ -245,7 +245,7 @@ class Title
   def fetch_trailers!
     return if blocked? or missing?
 
-    Rails.logger.info('Fetching trailers...')
+    puts('Fetching trailers...')
 
     trailers = Tmdb.api_call 'movie/trailers', id: self.tmdb_id, language: 'en'
     trailers = Tmdb.data_to_object(trailers)
@@ -255,34 +255,30 @@ class Title
         puts t.source
         t.source.gsub!(/http:\/\/.*youtube.com\/watch\?v=/, '') unless t.source.nil?
         t.source.gsub!(/&.*$/, '') unless t.source.nil?
-        trailer = Trailer.find_by(url: t.source)
-        unless trailer
-          trailer = Trailer.new(url: t.source, name: t.name, title_id: self.id)
-          trailer.save
-          trailer.fetch_thumbnail!
-        end
+        trailer = self.trailers.find_or_create_by(url: t.source)
+        trailer.name = t.name
+        trailer.save
+        trailer.fetch_thumbnail!
       end
     else
       trailers = Youtube.search("#{self.name} (#{self.release_date.year}) trailer")
       unless trailers.empty?
         t = trailers.first
-        trailer = Trailer.find_by(url: t[:id])
-        unless trailer
-          trailer = Trailer.new(url: t[:id], name: t[:name], title_id: self.id)
-          trailer.save!
-          trailer.fetch_thumbnail!
-        end
+        trailer = self.trailers.find_or_create_by(url: t[:id])
+        trailer.name = t[:name]
+        trailer.save
+        trailer.fetch_thumbnail!
       end
     end
 
-    Rails.logger.info('Trailers fetched...')
+    puts('Trailers fetched...')
   end
 
   # Fetch and save review information from Plugged In and Kids in Mind
   def fetch_review_information!
     return if blocked? or missing?
 
-    Rails.logger.info('Fetching review information')
+    puts('Fetching review information')
 
     search_title = "#{self.name}"
     search_title = "#{search_title} (#{self.release_date.year})" if self.release_date?
@@ -307,7 +303,7 @@ class Title
 
     save
 
-    Rails.logger.info('Review information fetched')
+    puts('Review information fetched')
   end
 
   # Fetch the Plugged In review paragraphs (currently using the conclusion)
@@ -330,7 +326,7 @@ class Title
 
   # Async load a title
   def async_load!
-    Job.enqueue(LoadJob, jobs_set, id: self.id)
+    delay.async_load!
   end
 
   def jobs_set
@@ -393,7 +389,7 @@ class Title
 
   # Schedule building of montage
   def self.async_build_montage
-    TitleMontageJob.create
+    delay.build_montage
   end
 
   def self.scrape_imdb_dvd_list

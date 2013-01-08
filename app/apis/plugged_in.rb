@@ -24,12 +24,12 @@ module PluggedIn
 
   class Movie < API::Object
 
-    def match(true_title, true_year)
-      {
-        title: Utils.damerau_levenshtein(title, true_title),
-        year: (year.to_i - true_year.to_i).abs
-      }
-    end
+    #def match(true_title, true_year)
+    #  {
+    #    title: Utils.damerau_levenshtein(title, true_title),
+    #    year: (year.to_i - true_year.to_i).abs
+    #  }
+    #end
 
     def title
       @title ||= (doc.css('#article h1').first.nil? ? nil : doc.css('#article h1').first.content)

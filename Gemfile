@@ -58,10 +58,8 @@ gem 'mini_magick'
 gem 'fog'
 
 # Background job processing
-gem 'resque'
-gem 'resque-lock-timeout'
-gem 'resque-status'
-gem 'delayed_job_active_record'
+gem 'delayed_job_mongoid'
+gem 'dj_mon'
 
 # Title state machine
 gem 'aasm'

@@ -44,7 +44,7 @@ class TitlesController < ApplicationController
 
   def show
     @title = Title.find_or_create_by(imdb_id: params[:id])
-    @title.async_load! if @title.fresh? and not @title.active_job?('LoadJob')
+    #@title.async_load! if @title.fresh?
     respond_with @title do |format|
       format.json { render_for_api :public, :json => @title }
     end

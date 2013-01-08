@@ -1,10 +1,7 @@
-require 'resque/server'
-require 'resque/status_server'
-
 Checkafilm::Application.routes.draw do
 
-  # Resque web monitor interface
-  mount Resque::Server.new, :at => '/jobs'
+  # Background jobs
+  mount DjMon::Engine => 'dj_mon'
 
   # Title index and show
   match 'title' => 'titles#index', :as => :titles
