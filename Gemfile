@@ -61,6 +61,7 @@ gem 'fog'
 gem 'resque'
 gem 'resque-lock-timeout'
 gem 'resque-status'
+gem 'delayed_job_active_record'
 
 # Title state machine
 gem 'aasm'
@@ -83,7 +84,7 @@ end
 gem 'whenever', :require => false
 
 # New Relic
-gem 'newrelic_rpm'
+#gem 'newrelic_rpm'
 
 # HTTP Clients
 gem 'rest-client', :require => 'rest_client'
