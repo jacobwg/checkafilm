@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1 #{title} (#{release_date.year()})
+  p= overview
+  p= release_date
+  p
+    img(src="http://cf2.imgobject.com/t/p/w342" + poster_path)
+  p
+    img(src="http://cf2.imgobject.com/t/p/w1280" + backdrop_path)
