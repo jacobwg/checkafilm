@@ -5,5 +5,11 @@ html
     link(rel='stylesheet', href='/stylesheets/bootstrap.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
+    div.navbar.navbar-fixed-top
+      div.navbar-inner
+        div.container
+          a.brand(href="/") Check a Film
+          form.navbar-search(action="/search", method="get")
+            input(type="text", name="q", placeholder="search")
     div.container
       block content
