@@ -1,15 +1,7 @@
-var config = require('../config');
-
-var moment = require('moment');
-var mdb = require('moviedb')(config.api_key);
-
-mdb.configuration(function(err, res) {
-  console.log(res);
-});
+var tmdb = require('../lib/tmdb');
 
 exports.show = function(req, res) {
-  mdb.movieInfo({id: req.params.imdbid, append_to_response:'images,casts,trailers'}, function(err, data){
-    data.release_date = moment(data.release_date);
+  tmdb.fetchTitle(req.params.imdbid, function(data){
     res.render('title', data);
   });
 };

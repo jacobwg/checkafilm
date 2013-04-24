@@ -8,3 +8,9 @@ block content
     img(src="http://cf2.imgobject.com/t/p/w342" + poster_path)
   p
     img(src="http://cf2.imgobject.com/t/p/w1280" + backdrop_path)
+
+  ul
+    each member in casts.cast
+      li
+        | #{member.name} as #{member.character}
+        img(src="http://cf2.imgobject.com/t/p/w92" + member.profile_path)
