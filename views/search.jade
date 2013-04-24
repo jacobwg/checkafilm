@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1 Hi!  Search
+
+  ul.thumbnails
+    each result in results
+      li.span2
+        a.thumbnail(href="/title/#{result.id}")
+          img(src="http://cf2.imgobject.com/t/p/w92" + result.poster_path)
+          p #{result.title}

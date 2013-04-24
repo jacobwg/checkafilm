@@ -5,3 +5,11 @@ exports.show = function(req, res) {
     res.render('title', data);
   });
 };
+
+exports.search = function(req, res) {
+  tmdb.search(req.query.q, function(data){
+    data.title = "Search Results";
+    console.log(data);
+    res.render('search', data);
+  });
+};
