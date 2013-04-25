@@ -1,7 +1,10 @@
 var tmdb = require('../lib/tmdb');
+var moment = require('moment');
 
 exports.show = function(req, res) {
   tmdb.fetchTitle(req.params.imdbid, function(data){
+    data.json = JSON.stringify(data);
+    data.release_date = moment(data.release_date);
     res.render('title', data);
   });
 };
