@@ -1,21 +1,16 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  div.row
+    div.large-12.columns
+      div.panel
+        h1 Check a Film
+        p Look up any movie by title, see a summary of content and quality.
 
-  h2 Now Playing
-  ul.thumbnails
-    each result in nowPlaying.results
-      li.span2
-        a.thumbnail(href="/title/#{result.id}")
-          img(src="http://cf2.imgobject.com/t/p/w92" + result.poster_path)
-          p #{result.title}
-
-  h2 Upcoming
-  ul.thumbnails
-    each result in upcoming.results
-      li.span2
-        a.thumbnail(href="/title/#{result.id}")
-          img(src="http://cf2.imgobject.com/t/p/w92" + result.poster_path)
-          p #{result.title}
+      h2 Now Playing
+      ul.large-block-grid-5.movie-grid
+        each result in nowPlaying.results
+          li
+            a(href="/title/#{result.id}")
+              img(src=(result.poster_path ? "http://cf2.imgobject.com/t/p/w92" + result.poster_path : "/images/movie.gif"))
+              p #{result.title}

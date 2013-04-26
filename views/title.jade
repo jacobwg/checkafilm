@@ -2,19 +2,59 @@ extends layout
 
 block content
   div.row
-    div.span12
-      h1 #{title} (#{release_date.year()})
+    div.large-3.columns
+      img(src="http://cf2.imgobject.com/t/p/w342" + poster_path)
+      dl
+        if production_companies.length === 1
+          dt Production Company
+        else
+          dt Production Companies
+        each company in production_companies
+          dd= company.name
+        dt Status
+        dd= status
+        dt Release Date
+        dd= release_date.format('MMMM Do YYYY')
+        dt Runtime
+        dd #{runtime} minutes
+        dt Genres
+        dd= genre_list
+        dt TMDb Rating
+        dd #{vote_average} (from #{vote_count} votes)
+    div.large-9.columns
+      h1
+        a(href="/title/#{id}")
+          | #{title}
+          small  (#{release_date.year()})
+      h4.subheader= tagline
       p= overview
-      p= release_date
-      p
-        img(src="http://cf2.imgobject.com/t/p/w342" + poster_path)
-      p
-        img(src="http://cf2.imgobject.com/t/p/w1280" + backdrop_path)
 
-      ul.thumbnails
+      h2 Trailers
+      ul.large-block-grid-2
+        each trailer in trailers.youtube
+          li
+            iframe(src="http://www.youtube.com/embed/#{trailer.source}", frameborder="0", allowfullscreen)
+
+      h2 Cast
+      ul.large-block-grid-5.movie-grid
         each member in casts.cast
-          li.span2
-            div.thumbnail
-              img(src="http://cf2.imgobject.com/t/p/w92" + member.profile_path)
+          li
+            div
+              img(src=(member.profile_path ? "http://cf2.imgobject.com/t/p/w92" + member.profile_path : "/images/person.gif"))
               p #{member.name} as #{member.character}
+      h2 Crew
+      ul.large-block-grid-5.movie-grid
+        each member in casts.crew
+          li
+            div
+              img(src=(member.profile_path ? "http://cf2.imgobject.com/t/p/w92" + member.profile_path : "/images/person.gif"))
+              p #{member.name} - #{member.job}
+
+      h2 Media
+      ul(data-orbit)
+        each backdrop in images.backdrops
+          li
+            img(src="http://cf2.imgobject.com/t/p/w1280" + backdrop.file_path)
+
+
       pre= json

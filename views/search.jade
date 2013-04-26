@@ -1,11 +1,13 @@
 extends layout
 
 block content
-  h1 Hi!  Search
+  div.row
+    div.large-12.columns
+      h1 Hi!  Search
 
-  ul.thumbnails
-    each result in results
-      li.span2
-        a.thumbnail(href="/title/#{result.id}")
-          img(src="http://cf2.imgobject.com/t/p/w92" + result.poster_path)
-          p #{result.title}
+      ul.large-block-grid-5.movie-grid
+        each result in results
+          li
+            a(href="/title/#{result.id}")
+              img(src=(result.poster_path ? "http://cf2.imgobject.com/t/p/w92" + result.poster_path : "/images/movie.gif"))
+              p #{result.title}

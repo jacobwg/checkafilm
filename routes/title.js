@@ -1,10 +1,12 @@
 var tmdb = require('../lib/tmdb');
 var moment = require('moment');
+var _ = require('underscore');
 
 exports.show = function(req, res) {
   tmdb.fetchTitle(req.params.imdbid, function(data){
     data.json = JSON.stringify(data);
     data.release_date = moment(data.release_date);
+    data.genre_list = _.map(data.genres, function(genre) { return genre.name; }).join(', ');
     res.render('title', data);
   });
 };
