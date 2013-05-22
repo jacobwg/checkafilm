@@ -51,40 +51,41 @@ block content
               img(src=(member.profile_path ? "http://cf2.imgobject.com/t/p/w92" + member.profile_path : "/images/person.gif"))
               p #{member.name} - #{member.job}
 
-      h2 Plugged In Review
-      | !{pluggedin.review.introduction}
+      if typeof(pluggedin.review) !== 'undefined'
+        h2 Plugged In Review
+        | !{pluggedin.review.introduction}
 
-      if pluggedin.review.positive_elements
-        h3 Positive Elements
-        | !{pluggedin.review.positive_elements}
+        if pluggedin.review.positive_elements
+          h3 Positive Elements
+          | !{pluggedin.review.positive_elements}
 
-      if pluggedin.review.spiritual_content
-        h3 Spiritual Content
-        | !{pluggedin.review.spiritual_content}
+        if pluggedin.review.spiritual_content
+          h3 Spiritual Content
+          | !{pluggedin.review.spiritual_content}
 
-      if pluggedin.review.sexual_content
-        h3 Sexual Content
-        | !{pluggedin.review.sexual_content}
+        if pluggedin.review.sexual_content
+          h3 Sexual Content
+          | !{pluggedin.review.sexual_content}
 
-      if pluggedin.review.violent_content
-        h3 Violent Content
-        | !{pluggedin.review.violent_content}
+        if pluggedin.review.violent_content
+          h3 Violent Content
+          | !{pluggedin.review.violent_content}
 
-      if pluggedin.review.crude_language
-        h3 Crude Language
-        | !{pluggedin.review.crude_language}
+        if pluggedin.review.crude_language
+          h3 Crude Language
+          | !{pluggedin.review.crude_language}
 
-      if pluggedin.review.drug_content
-        h3 Drugs and Alcohol
-        | !{pluggedin.review.drug_content}
+        if pluggedin.review.drug_content
+          h3 Drugs and Alcohol
+          | !{pluggedin.review.drug_content}
 
-      if pluggedin.review.negative_elements
-        h3 Other Negative Elements
-        | !{pluggedin.review.negative_elements}
+        if pluggedin.review.negative_elements
+          h3 Other Negative Elements
+          | !{pluggedin.review.negative_elements}
 
-      if pluggedin.review.conclusion
-        h3 Conclusion
-        | !{pluggedin.review.conclusion}
+        if pluggedin.review.conclusion
+          h3 Conclusion
+          | !{pluggedin.review.conclusion}
 
       h2 Media
       ul(data-orbit)

@@ -1,7 +1,7 @@
 {
   "name": "checkafilm",
   "description": "Movie information",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "private": true,
   "dependencies": {
     "firebase": "~0.5.1",
