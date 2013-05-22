@@ -24,6 +24,7 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 app.get('/title/:imdbid', title.show);
+app.get('/data/:imdbid', title.data);
 app.get('/search', title.search);
 
 http.createServer(app).listen(app.get('port'), function(){
