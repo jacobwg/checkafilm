@@ -4,15 +4,15 @@
   "version": "0.3.3",
   "private": true,
   "dependencies": {
-    "firebase": "~0.5.1",
-    "express": "3.2.0",
+    "firebase": "~0.6.3",
+    "express": "3.3.8",
     "jade": "*",
-    "underscore": "~1.4.4",
-    "moment": "~2.0.0",
+    "underscore": "~1.5.2",
+    "moment": "~2.1.0",
     "vidinfo": "~0.2.1",
     "moviedb": "~0.1.0",
     "nconf": "~0.6.7",
-    "jsdom": "~0.6.5"
+    "jsdom": "~0.8.4"
   },
   "scripts": {
     "start": "app.js"
